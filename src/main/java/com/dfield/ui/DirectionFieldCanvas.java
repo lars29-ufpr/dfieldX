@@ -209,6 +209,40 @@ public class DirectionFieldCanvas extends Canvas {
     }
 
     /**
+     * Exporta um snapshot do plano (t, x) nos modos Escuro, Branco ou Transparente.
+     */
+    public javafx.scene.image.WritableImage exportSnapshot(Color targetBg) {
+        double w = getWidth();
+        double h = getHeight();
+        if (w <= 0 || h <= 0) return null;
+
+        GraphicsContext gc = getGraphicsContext2D();
+
+        // 1. Limpeza conforme o fundo solicitado
+        if (targetBg == null || targetBg.equals(Color.TRANSPARENT)) {
+            gc.clearRect(0, 0, w, h);
+        } else {
+            gc.setFill(targetBg);
+            gc.fillRect(0, 0, w, h);
+        }
+
+        // 2. Renderização dos elementos gráficos
+        drawCartesianGrid(gc, w, h);
+        drawDirectionField(gc);
+        drawTrajectories(gc);
+
+        // 3. Captura do snapshot com o fundo parametrizado
+        javafx.scene.SnapshotParameters params = new javafx.scene.SnapshotParameters();
+        params.setFill(targetBg != null ? targetBg : Color.TRANSPARENT);
+        javafx.scene.image.WritableImage snapshot = snapshot(params, null);
+
+        // 4. Restaura o tema escuro nativo na tela do usuário
+        redraw();
+
+        return snapshot;
+    }
+
+    /**
      * Renderiza a grade de fundo, marcas de escala e valores numéricos dos eixos.
      */
     private void drawCartesianGrid(GraphicsContext gc, double w, double h) {

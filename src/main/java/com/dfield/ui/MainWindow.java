@@ -292,7 +292,7 @@ btnGallery.setOnAction(e -> {
             canvas.clearTrajectories();
             setStatus("Trajetórias removidas.", false);
         });
-
+btnExport.setOnAction(e -> exportFieldImage());
         // Clique interativo no canvas
         canvas.setOnInitialPointSelected((t0, x0) -> {
             txtT0.setText(String.format(Locale.US, "%.3f", t0));
@@ -498,27 +498,49 @@ double tol = 1e-6;
         }
     }
 private void exportFieldImage() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Exportar Campo de Direções");
-    fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Imagem PNG (*.png)", "*.png")
-    );
-    fileChooser.setInitialFileName("dfieldX_export.png");
+        List<String> options = List.of(
+                "1. Fundo Escuro (Tema Nativo #12161f)",
+                "2. Fundo Branco (Impressão / Artigos)",
+                "3. Fundo Transparente (LaTeX / Inserção)"
+        );
 
-    File file = fileChooser.showSaveDialog(this.getScene().getWindow());
-    if (file == null) return;
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+        dialog.setTitle("Exportar Imagem PNG");
+        dialog.setHeaderText("Configuração de Exportação Gráfica");
+        dialog.setContentText("Esquema de fundo:");
 
-    SnapshotParameters params = new SnapshotParameters();
-    params.setFill(Color.web("#12161f"));
+        var optResult = dialog.showAndWait();
+        if (optResult.isEmpty()) return;
 
-    WritableImage image = canvas.snapshot(params, null);
+        String selected = optResult.get();
+        Color bg;
+        if (selected.startsWith("1")) {
+            bg = Color.web("#12161f");
+        } else if (selected.startsWith("2")) {
+            bg = Color.WHITE;
+        } else {
+            bg = Color.TRANSPARENT;
+        }
 
-    try {
-        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-        setStatus("Imagem salva com sucesso em: " + file.getName(), false);
-    } catch (IOException ex) {
-        setStatus("Erro ao salvar imagem.", true);
-        ex.printStackTrace();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Campo de Direções (PNG)");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imagem PNG (*.png)", "*.png")
+        );
+        fileChooser.setInitialFileName("dfieldX_campo.png");
+
+        var window = btnExport.getScene() != null ? btnExport.getScene().getWindow() : null;
+        File file = fileChooser.showSaveDialog(window);
+        if (file == null) return;
+
+        WritableImage image = canvas.exportSnapshot(bg);
+        if (image == null) return;
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            setStatus("Imagem exportada com sucesso: " + file.getName(), false);
+        } catch (IOException ex) {
+            setStatus("Erro ao exportar imagem gráfica.", true);
+            ex.printStackTrace();
+        }
     }
-}
 }
