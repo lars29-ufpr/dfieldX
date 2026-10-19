@@ -211,6 +211,103 @@ public class DirectionFieldCanvas extends Canvas {
     /**
      * Exporta um snapshot do plano (t, x) nos modos Escuro, Branco ou Transparente.
      */
+    /**
+     * Exporta o gráfico vetorial completo (eixos, malha, campo e trajetórias) em formato SVG.
+     */
+    public void exportSvg(java.io.File file, Color targetBg) throws java.io.IOException {
+        double w = getWidth();
+        double h = getHeight();
+        if (w <= 0 || h <= 0) return;
+
+        boolean isLight = targetBg != null && !targetBg.equals(Color.TRANSPARENT) && targetBg.getBrightness() > 0.5;
+        String gridColor = isLight ? "#dfe4ea" : "#1c2438";
+        String axisColor = isLight ? "#2f3542" : "#00d2d3";
+        String segmentColor = isLight ? "#747d8c" : "#576574";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format(java.util.Locale.US,
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+            "<svg width=\"%.1f\" height=\"%.1f\" viewBox=\"0 0 %.1f %.1f\" " +
+            "xmlns=\"http://www.w3.org/2000/svg\">\n", w, h, w, h));
+
+        if (targetBg != null && !targetBg.equals(Color.TRANSPARENT)) {
+            String hexBg = String.format("#%02x%02x%02x",
+                (int)(targetBg.getRed() * 255),
+                (int)(targetBg.getGreen() * 255),
+                (int)(targetBg.getBlue() * 255));
+            sb.append(String.format(java.util.Locale.US,
+                "  <rect width=\"%.1f\" height=\"%.1f\" fill=\"%s\"/>\n", w, h, hexBg));
+        }
+
+        int numTicks = 6;
+        double dtTick = (tMax - tMin) / numTicks;
+        for (int i = 0; i <= numTicks; i++) {
+            double tVal = tMin + i * dtTick;
+            double cx = toCanvasX(tVal);
+            sb.append(String.format(java.util.Locale.US,
+                "  <line x1=\"%.2f\" y1=\"0\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" stroke-width=\"1\"/>\n",
+                cx, cx, h, gridColor));
+        }
+        double dxTick = (xMax - xMin) / numTicks;
+        for (int i = 0; i <= numTicks; i++) {
+            double xVal = xMin + i * dxTick;
+            double cy = toCanvasY(xVal);
+            sb.append(String.format(java.util.Locale.US,
+                "  <line x1=\"0\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" stroke-width=\"1\"/>\n",
+                cy, w, cy, gridColor));
+        }
+
+        if (tMin <= 0 && tMax >= 0) {
+            double cx0 = toCanvasX(0);
+            sb.append(String.format(java.util.Locale.US,
+                "  <line x1=\"%.2f\" y1=\"0\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" stroke-width=\"1.8\"/>\n",
+                cx0, cx0, h, axisColor));
+        }
+        if (xMin <= 0 && xMax >= 0) {
+            double cy0 = toCanvasY(0);
+            sb.append(String.format(java.util.Locale.US,
+                "  <line x1=\"0\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" stroke-width=\"1.8\"/>\n",
+                cy0, w, cy0, axisColor));
+        }
+
+        sb.append("  <g stroke=\"").append(segmentColor).append("\" stroke-width=\"1.2\" stroke-linecap=\"round\">\n");
+        for (var seg : fieldSegments) {
+            double x1 = toCanvasX(seg.t1());
+            double y1 = toCanvasY(seg.x1());
+            double x2 = toCanvasX(seg.t2());
+            double y2 = toCanvasY(seg.x2());
+            sb.append(String.format(java.util.Locale.US,
+                "    <line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\"/>\n",
+                x1, y1, x2, y2));
+        }
+        sb.append("  </g>\n");
+
+        for (int i = 0; i < trajectories.size(); i++) {
+            OrbitTrajectory traj = trajectories.get(i);
+            Color oc = ORBIT_COLORS.get(i % ORBIT_COLORS.size());
+            String hexColor = String.format("#%02x%02x%02x",
+                (int)(oc.getRed() * 255), (int)(oc.getGreen() * 255), (int)(oc.getBlue() * 255));
+
+            var pts = traj.getFullOrderedTrajectory();
+            if (pts.isEmpty()) continue;
+
+            sb.append(String.format("  <polyline fill=\"none\" stroke=\"%s\" stroke-width=\"2.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" points=\"", hexColor));
+            for (int pIdx = 0; pIdx < pts.size(); pIdx++) {
+                var pt = pts.get(pIdx);
+                double cx = toCanvasX(pt.t());
+                double cy = toCanvasY(pt.x());
+                sb.append(String.format(java.util.Locale.US, "%.2f,%.2f ", cx, cy));
+            }
+            sb.append("\"/>\n");
+        }
+
+        sb.append("</svg>\n");
+
+        try (java.io.FileWriter fw = new java.io.FileWriter(file, java.nio.charset.StandardCharsets.UTF_8)) {
+            fw.write(sb.toString());
+        }
+    }
+
     public javafx.scene.image.WritableImage exportSnapshot(Color targetBg) {
         double w = getWidth();
         double h = getHeight();

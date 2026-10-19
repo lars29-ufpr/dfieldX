@@ -66,6 +66,7 @@ public class MainWindow extends BorderPane {
     private final Button btnClear = new Button("Limpar Trajetórias");
 private final Button btnGallery = new Button("📚 Galeria de Modelos");
 private final Button btnExport = new Button("📷 Exportar PNG");
+    private final Button btnExportSvg = new Button("📐 Exportar SVG");
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -196,7 +197,8 @@ btnGallery,
                 lblOrbitTitle,
                 icBox,
                 btnClear,
-btnExport
+btnExport,
+                btnExportSvg
         );
 
         return sidebar;
@@ -293,6 +295,7 @@ btnGallery.setOnAction(e -> {
             setStatus("Trajetórias removidas.", false);
         });
 btnExport.setOnAction(e -> exportFieldImage());
+        btnExportSvg.setOnAction(e -> exportFieldSvg());
         // Clique interativo no canvas
         canvas.setOnInitialPointSelected((t0, x0) -> {
             txtT0.setText(String.format(Locale.US, "%.3f", t0));
@@ -497,7 +500,52 @@ double tol = 1e-6;
             lblStatus.setStyle("-fx-text-fill: #48dbfb;");
         }
     }
-private void exportFieldImage() {
+    private void exportFieldSvg() {
+        List<String> options = List.of(
+                "1. Fundo Escuro (Tema Nativo #12161f)",
+                "2. Fundo Branco (Impressão / Artigos)",
+                "3. Fundo Transparente (LaTeX / Vetorial)"
+        );
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+        dialog.setTitle("Exportar Gráfico SVG");
+        dialog.setHeaderText("Configuração de Exportação Vetorial");
+        dialog.setContentText("Esquema de fundo:");
+
+        var optResult = dialog.showAndWait();
+        if (optResult.isEmpty()) return;
+
+        String selected = optResult.get();
+        Color bg;
+        if (selected.startsWith("1")) {
+            bg = Color.web("#12161f");
+        } else if (selected.startsWith("2")) {
+            bg = Color.WHITE;
+        } else {
+            bg = Color.TRANSPARENT;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Campo Vetorial (SVG)");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Vetor SVG (*.svg)", "*.svg")
+        );
+        fileChooser.setInitialFileName("dfieldX_campo.svg");
+
+        var window = btnExportSvg.getScene() != null ? btnExportSvg.getScene().getWindow() : null;
+        File file = fileChooser.showSaveDialog(window);
+        if (file == null) return;
+
+        try {
+            canvas.exportSvg(file, bg);
+            setStatus("Gráfico vetorial SVG exportado: " + file.getName(), false);
+        } catch (IOException ex) {
+            setStatus("Erro ao exportar arquivo SVG.", true);
+            ex.printStackTrace();
+        }
+    }
+
+    private void exportFieldImage() {
         List<String> options = List.of(
                 "1. Fundo Escuro (Tema Nativo #12161f)",
                 "2. Fundo Branco (Impressão / Artigos)",
