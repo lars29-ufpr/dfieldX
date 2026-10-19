@@ -14,6 +14,32 @@ public final class ExampleLibrary {
     public static List<EquationExample> getPredefinedExamples() {
         List<EquationExample> list = new ArrayList<>();
 
+                // --- 0. Sistemas Não Lineares & Bifurcações 1D ---
+        list.add(new EquationExample(
+                "Bifurcação Sela-Nó (Saddle-Node / Fold)", "Sistemas Não Lineares & Bifurcações",
+                "Protótipo canônico de aniquilação e criação de equilíbrios. Para r > 0 existem dois equilíbrios (um estável e um instável); em r = 0 colidem; para r < 0 não há equilíbrios.",
+                "t", "x", "r - x^2", "r=1.0",
+                0.0, 6.0, -3.0, 3.0
+        ));
+        list.add(new EquationExample(
+                "Bifurcação Transcrítica", "Sistemas Não Lineares & Bifurcações",
+                "Troca mútua de estabilidade entre dois pontos fixos ao se cruzarem. Em r = 0, a origem e o ponto x* = r colidem e invertem seus papéis de atrator e repulsor.",
+                "t", "x", "r * x - x^2", "r=1.0",
+                0.0, 6.0, -2.0, 3.0
+        ));
+        list.add(new EquationExample(
+                "Bifurcação Forquilha Supercrítica (Pitchfork)", "Sistemas Não Lineares & Bifurcações",
+                "Quebra espontânea de simetria. Para r <= 0 a origem é o único atrator; para r > 0 a origem torna-se repulsora e bifurca em dois atratores simétricos x* = ±sqrt(r).",
+                "t", "x", "r * x - x^3", "r=1.0",
+                0.0, 6.0, -2.5, 2.5
+        ));
+        list.add(new EquationExample(
+                "Interruptor Genético / Biestabilidade", "Sistemas Não Lineares & Bifurcações",
+                "Modelo clássico de ativação biológica com comutação e histerese. Exibe simultaneamente dois estados estáveis separados por uma bacia de atração instável.",
+                "t", "x", "s - x + (x^2) / (1 + x^2)", "s=-0.1",
+                0.0, 10.0, -1.0, 3.0
+        ));
+
         // --- 1. Dinâmica Populacional e Biomatemática ---
         list.add(new EquationExample(
                 "Crescimento Logístico Clássico", "Dinâmica Populacional",

@@ -84,6 +84,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         Label lblFilter = new Label("Categoria:");
         cmbCategories.setItems(FXCollections.observableArrayList(
                 "Dinâmica Populacional",
+                "Sistemas Não Lineares & Bifurcações",
                 "Física e Circuitos",
                 "Finanças e Economia",
                 "Clima e Geociências",

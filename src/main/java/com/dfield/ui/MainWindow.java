@@ -45,7 +45,7 @@ public class MainWindow extends BorderPane {
 
     // --- Componentes do Canvas e Visualização ---
     private final DirectionFieldCanvas canvas;
-    private final Pane canvasContainer;
+        private final Pane canvasContainer;
 
     // --- Controles de Entrada (Sidebar) ---
     private final TextField txtIndependentVar = new TextField("t");
@@ -53,6 +53,10 @@ public class MainWindow extends BorderPane {
     private final TextField txtEquation = new TextField("a*x - t");
     private final TextField txtParameters = new TextField("a=1.0");
     private final Button btnSliders = new Button("🎚 Sliders");
+    private final Button btnIsoclines = new Button("📐 Isóclinas");
+    private final Button btnCriticalPoints = new Button("⚖ Equilíbrios");
+    private final Button btnPhasePlot = new Button("📈 x' vs x");
+    private boolean showEquilibria = false;
 
     private final TextField txtTMin = new TextField("-2.0");
     private final TextField txtTMax = new TextField("4.0");
@@ -152,6 +156,26 @@ private final Button btnExport = new Button("📷 Exportar PNG");
 
         // 4. Parâmetros
         btnSliders.getStyleClass().addAll("btn", "btn-secondary");
+        btnIsoclines.getStyleClass().addAll("btn", "btn-secondary");
+        btnCriticalPoints.getStyleClass().addAll("btn", "btn-secondary");
+        btnPhasePlot.getStyleClass().addAll("btn", "btn-secondary");
+
+        btnIsoclines.setMaxWidth(Double.MAX_VALUE);
+        btnCriticalPoints.setMaxWidth(Double.MAX_VALUE);
+        btnPhasePlot.setMaxWidth(Double.MAX_VALUE);
+
+        HBox.setHgrow(btnIsoclines, Priority.ALWAYS);
+        HBox.setHgrow(btnCriticalPoints, Priority.ALWAYS);
+        HBox.setHgrow(btnPhasePlot, Priority.ALWAYS);
+
+        HBox autonomousRow = new HBox(6, btnCriticalPoints, btnPhasePlot);
+        VBox analysisButtonsBox = new VBox(6, btnIsoclines, autonomousRow);
+
+        Tooltip tipAutonomous = new Tooltip("Disponível apenas para equações autônomas: dx/dt = f(x)");
+        Tooltip.install(btnCriticalPoints, tipAutonomous);
+        Tooltip.install(btnPhasePlot, tipAutonomous);
+        btnIsoclines.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(btnIsoclines, Priority.ALWAYS);
         HBox paramRow = new HBox(6, txtParameters, btnSliders);
         HBox.setHgrow(txtParameters, Priority.ALWAYS);
         VBox paramsBox = new VBox(4,
@@ -205,7 +229,7 @@ btnGallery.setMaxWidth(Double.MAX_VALUE);
                 paramsBox,
                 lblDomainTitle,
                 domainGrid,
-modelsGuideBox,
+modelsGuideBox, analysisButtonsBox,
                 btnUpdate,
                 new Separator(),
                 lblOrbitTitle,
@@ -307,7 +331,76 @@ btnGallery.setOnAction(e -> {
         btnClear.setOnAction(e -> {
             activeInitialConditions.clear();
             canvas.clearTrajectories();
-                        setStatus("Trajetórias removidas.", false);
+                                setStatus("Trajetórias removidas.", false);
+        });
+
+                        btnPhasePlot.setOnAction(e -> {
+            if (currentODE == null) {
+                setStatus("Defina uma EDO válida antes de abrir o gráfico x' vs x.", true);
+                return;
+            }
+
+            if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Equacao Nao Autonoma");
+                alert.setHeaderText("Grafico x' vs x Indefinido");
+                alert.setContentText("A equacao informada depende explicitamente de t: dx/dt = f(t, x).\n\n" +
+                                     "O grafico de fluxo x' versus x representa o espaco de estados 1D e so existe para EDOs autonomas dx/dt = f(x).\n\n" +
+                                     "Para analisar taxas de variacao nesta equacao, utilize o botao de Isoclinas.");
+                alert.initOwner((Stage) btnPhasePlot.getScene().getWindow());
+                alert.showAndWait();
+                return;
+            }
+
+            PhasePlotWindow.show(
+                (Stage) btnPhasePlot.getScene().getWindow(),
+                currentODE,
+                canvas.getXMin(),
+                canvas.getXMax()
+            );
+        });
+        btnCriticalPoints.setOnAction(e -> {
+            if (currentODE == null) {
+                setStatus("Defina uma EDO válida antes de calcular os equilíbrios.", true);
+                return;
+            }
+
+            if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
+                showEquilibria = false;
+                btnCriticalPoints.setStyle("");
+                canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Equacao Nao Autonoma");
+                alert.setHeaderText("Pontos de Equilibrio Indefinidos");
+                alert.setContentText("A equacao depende explicitamente de t: dx/dt = f(t, x).\n\n" +
+                                     "Pontos de equilibrio so existem para EDOs autonomas dx/dt = f(x).\n\n" +
+                                     "Para analisar inclinacao nula, utilize o botao Isoclinas com c = 0.");
+                alert.initOwner((Stage) btnCriticalPoints.getScene().getWindow());
+                alert.showAndWait();
+                return;
+            }
+
+            showEquilibria = !showEquilibria;
+            if (showEquilibria) {
+                btnCriticalPoints.setStyle("-fx-border-color: #10b981; -fx-text-fill: #10b981; -fx-font-weight: bold;");
+                updateAutonomousControlsState();
+        updateEquilibriaIfActive();
+                setStatus("Pontos de equilíbrio calculados e desenhados para o intervalo visível.", false);
+            } else {
+                btnCriticalPoints.setStyle("");
+                canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
+                setStatus("Exibição de pontos de equilíbrio desativada.", false);
+            }
+        });
+
+        btnIsoclines.setOnAction(e -> {
+            Stage owner = (Stage) btnIsoclines.getScene().getWindow();
+            IsoclinesWindow.show(
+                    owner, canvas, currentODE,
+                    canvas.getTMin(), canvas.getTMax(),
+                    canvas.getXMin(), canvas.getXMax()
+            );
         });
 
         btnSliders.setOnAction(e -> {
@@ -317,6 +410,9 @@ btnGallery.setOnAction(e -> {
                 txtParameters.setText(updatedStr);
                 updateDirectionField();
                 recalculateTrajectories();
+                updateEquilibriaIfActive();
+                IsoclinesWindow.updateIfOpen(currentODE, canvas.getTMin(), canvas.getTMax(), canvas.getXMin(), canvas.getXMax());
+                PhasePlotWindow.updateIfOpen(currentODE, canvas.getXMin(), canvas.getXMax());
             });
         });
         btnGuide.setOnAction(e -> GuideWindow.show((javafx.stage.Stage) btnGuide.getScene().getWindow()));
@@ -370,6 +466,8 @@ btnGallery.setOnAction(e -> {
 
             canvas.setDomain(tMin, tMax, xMin, xMax);
             calculateAndRenderField();
+            IsoclinesWindow.updateIfOpen(currentODE, canvas.getTMin(), canvas.getTMax(), canvas.getXMin(), canvas.getXMax());
+                PhasePlotWindow.updateIfOpen(currentODE, canvas.getXMin(), canvas.getXMax());
             setStatus("Campo de direções atualizado com sucesso.", false);
 
         } catch (IllegalArgumentException ex) {
@@ -409,6 +507,9 @@ btnGallery.setOnAction(e -> {
         );
 
         canvas.setFieldSegments(segments);
+        reintegrateAllTrajectories();
+        IsoclinesWindow.updateIfOpen(currentODE, canvas.getTMin(), canvas.getTMax(), canvas.getXMin(), canvas.getXMax());
+                PhasePlotWindow.updateIfOpen(currentODE, canvas.getXMin(), canvas.getXMax());
     }
 
     /**
@@ -423,6 +524,40 @@ btnGallery.setOnAction(e -> {
         for (double[] ic : ics) {
             traceOrbit(ic[0], ic[1], true);
         }
+    }
+
+            private void updateAutonomousControlsState() {
+        boolean autonomous = currentODE != null && com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE);
+        // Mantemos os botões sempre clicáveis como recurso didático ativo
+        btnCriticalPoints.setDisable(false);
+        btnPhasePlot.setDisable(false);
+
+        if (!autonomous) {
+            if (showEquilibria) {
+                showEquilibria = false;
+                btnCriticalPoints.setStyle("");
+                canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
+            }
+        }
+    }
+
+    private void updateEquilibriaIfActive() {
+        if (!showEquilibria || currentODE == null) {
+            canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
+            return;
+        }
+
+        if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
+            showEquilibria = false;
+            btnCriticalPoints.setStyle("");
+            canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
+            return;
+        }
+
+        var pts = com.dfield.numerical.CriticalPointCalculator.findEquilibria(
+                currentODE, canvas.getXMin(), canvas.getXMax()
+        );
+        canvas.setCriticalPoints(pts, true);
     }
 
     private void traceOrbit(double t0, double x0) {
@@ -525,8 +660,20 @@ double tol = 1e-6;
         OrbitTrajectory trajectory = new OrbitTrajectory(forwardBranch, backwardBranch, fReason, bReason);
         canvas.addTrajectory(trajectory);
 
+
         setStatus(String.format(Locale.US, "Solução traçada de (%.3f, %.3f) com %d pontos.",
                 t0, x0, trajectory.getFullOrderedTrajectory().size()), false);
+    }
+
+        private void reintegrateAllTrajectories() {
+        if (currentODE == null || activeInitialConditions.isEmpty()) {
+            return;
+        }
+        var ics = new java.util.ArrayList<>(activeInitialConditions);
+        canvas.clearTrajectories();
+        for (double[] ic : ics) {
+            traceOrbit(ic[0], ic[1], false);
+        }
     }
 
     private Map<String, Double> parseParameters(String raw) {
