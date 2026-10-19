@@ -1,6 +1,7 @@
 package com.dfield.ui;
 
 import com.dfield.core.DirectionFieldCalculator;
+import com.dfield.core.DormandPrince45Solver;
 import com.dfield.core.EquationExample;
 import com.dfield.core.FieldSegment;
 import com.dfield.core.ODEExpression;
@@ -368,6 +369,11 @@ btnGallery.setOnAction(e -> {
         double deltaT = tMax - tMin;
         double dt = deltaT / 600.0;
         int maxSteps = 8000;
+double tol = 1e-6;
+        double hMin = 1e-6;
+        double hMaxForward = Math.max(0.05, (tMax - t0) / 20.0);
+        double hMaxBackward = Math.max(0.05, (t0 - tMin) / 20.0);
+        double boundMargin = (xMax - xMin) * 0.3;
 
         // 1. Ramo para frente (Forward: t0 -> tMax)
         List<TrajectoryPoint> forwardBranch = new ArrayList<>();
@@ -375,25 +381,32 @@ btnGallery.setOnAction(e -> {
 
         double t = t0;
         double x = x0;
+        double h = 0.05;
         TerminationReason fReason = TerminationReason.NORMAL;
 
         for (int i = 0; i < maxSteps && t < tMax; i++) {
-            double stepSize = Math.min(dt, tMax - t);
-            double nextX = solver.step(currentODE, t, x, stepSize);
+            if (t + h > tMax) h = tMax - t;
 
-            if (!Double.isFinite(nextX)) {
+            var res = DormandPrince45Solver.adaptiveStep(
+(currT, currX) -> currentODE.eval(currT, currX),
+                    t, x, h, tol, hMin, hMaxForward
+            );
+
+            if (Double.isNaN(res.nextX()) || Double.isInfinite(res.nextX())) {
                 fReason = TerminationReason.BLOW_UP;
                 break;
             }
 
-            t += stepSize;
-            x = nextX;
-            forwardBranch.add(new TrajectoryPoint(t, x));
+            h = res.nextH();
+            if (res.accepted()) {
+                t = res.nextT();
+                x = res.nextX();
+                forwardBranch.add(new TrajectoryPoint(t, x));
 
-            // Interrupção nas bordas (com margem de 30%)
-            if (x < xMin - (xMax - xMin) * 0.3 || x > xMax + (xMax - xMin) * 0.3) {
-                fReason = TerminationReason.BOUNDS;
-                break;
+                if (x < xMin - boundMargin || x > xMax + boundMargin) {
+                    fReason = TerminationReason.BOUNDS;
+                    break;
+                }
             }
         }
 
@@ -403,27 +416,35 @@ btnGallery.setOnAction(e -> {
 
         t = t0;
         x = x0;
+        h = -0.05;
         TerminationReason bReason = TerminationReason.NORMAL;
 
         for (int i = 0; i < maxSteps && t > tMin; i++) {
-            double stepSize = Math.max(-dt, tMin - t);
-            double nextX = solver.step(currentODE, t, x, stepSize);
+            if (t + h < tMin) h = tMin - t;
 
-            if (!Double.isFinite(nextX)) {
+            var res = DormandPrince45Solver.adaptiveStep(
+(currT, currX) -> currentODE.eval(currT, currX),
+                    t, x, h, tol, hMin, hMaxBackward
+            );
+
+            if (Double.isNaN(res.nextX()) || Double.isInfinite(res.nextX())) {
                 bReason = TerminationReason.BLOW_UP;
                 break;
             }
 
-            t += stepSize;
-            x = nextX;
-            backwardBranch.add(new TrajectoryPoint(t, x));
+            h = res.nextH();
+            if (res.accepted()) {
+                t = res.nextT();
+                x = res.nextX();
+                backwardBranch.add(new TrajectoryPoint(t, x));
 
-            if (x < xMin - (xMax - xMin) * 0.3 || x > xMax + (xMax - xMin) * 0.3) {
-                bReason = TerminationReason.BOUNDS;
-                break;
+                if (x < xMin - boundMargin || x > xMax + boundMargin) {
+                    bReason = TerminationReason.BOUNDS;
+                    break;
+                }
             }
         }
-
+    
         OrbitTrajectory trajectory = new OrbitTrajectory(forwardBranch, backwardBranch, fReason, bReason);
         canvas.addTrajectory(trajectory);
 
