@@ -8,6 +8,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.text.Font;
@@ -157,6 +159,10 @@ public class DirectionFieldCanvas extends Canvas {
         redraw();
     }
 
+        public List<OrbitTrajectory> getTrajectories() {
+        return Collections.unmodifiableList(this.trajectories);
+    }
+
     public void addTrajectory(OrbitTrajectory trajectory) {
         if (trajectory != null) {
             this.trajectories.add(trajectory);
@@ -176,6 +182,21 @@ public class DirectionFieldCanvas extends Canvas {
     public void setOnInitialPointSelected(BiConsumer<Double, Double> listener) {
         this.onInitialPointSelected = listener;
     }
+
+    @FunctionalInterface
+    public interface BoundsChangeListener {
+        void onBoundsChanged(double tMin, double tMax, double xMin, double xMax);
+    }
+
+    private BoundsChangeListener onBoundsChanged;
+    private double dragAnchorX;
+    private double dragAnchorY;
+    private boolean isPanning = false;
+
+    public void setOnBoundsChanged(BoundsChangeListener listener) {
+        this.onBoundsChanged = listener;
+    }
+
 
     // =========================================================================
     // 3. PIPELINE DE RENDERIZAÇÃO
@@ -508,6 +529,94 @@ public class DirectionFieldCanvas extends Canvas {
 
         // Permite lançamento de soluções com o clique esquerdo do mouse
         setOnMouseClicked(this::handleMouseClicked);
+
+        // Pan e Zoom interativos
+        setOnMousePressed(this::handleMousePressed);
+        setOnMouseDragged(this::handleMouseDragged);
+        setOnMouseReleased(this::handleMouseReleased);
+        setOnScroll(this::handleScroll);
+    }
+
+    private void handleMousePressed(MouseEvent event) {
+        if (event.getButton() == MouseButton.SECONDARY || event.getButton() == MouseButton.MIDDLE) {
+            dragAnchorX = event.getX();
+            dragAnchorY = event.getY();
+            isPanning = true;
+            event.consume();
+        }
+    }
+
+    private void handleMouseDragged(MouseEvent event) {
+        if (!isPanning) return;
+
+        double dxPixels = event.getX() - dragAnchorX;
+        double dyPixels = event.getY() - dragAnchorY;
+
+        double w = getWidth();
+        double h = getHeight();
+        if (w <= 0 || h <= 0) return;
+
+        double dtSpan = tMax - tMin;
+        double dxSpan = xMax - xMin;
+
+        // Deslocamento no espaço matemático
+        double deltaT = -dxPixels * (dtSpan / w);
+        double deltaX = dyPixels * (dxSpan / h);
+
+        tMin += deltaT;
+        tMax += deltaT;
+        xMin += deltaX;
+        xMax += deltaX;
+
+        dragAnchorX = event.getX();
+        dragAnchorY = event.getY();
+
+        if (onBoundsChanged != null) {
+            onBoundsChanged.onBoundsChanged(tMin, tMax, xMin, xMax);
+        } else {
+            redraw();
+        }
+        event.consume();
+    }
+
+    private void handleMouseReleased(MouseEvent event) {
+        if (isPanning) {
+            isPanning = false;
+            if (onBoundsChanged != null) {
+                onBoundsChanged.onBoundsChanged(tMin, tMax, xMin, xMax);
+            } else {
+                redraw();
+            }
+            event.consume();
+        }
+    }
+
+    private void handleScroll(ScrollEvent event) {
+        double w = getWidth();
+        double h = getHeight();
+        if (w <= 0 || h <= 0) return;
+
+        // Ponto focal sob o cursor no momento do scroll
+        double cursorCanvasX = event.getX();
+        double cursorCanvasY = event.getY();
+        double focalT = toWorldT(cursorCanvasX);
+        double focalX = toWorldX(cursorCanvasY);
+
+        // Fator de escala: > 0 aproxima (zoom in), < 0 afasta (zoom out)
+        double zoomFactor = (event.getDeltaY() > 0) ? 0.85 : 1.15;
+
+        // Homotetia invariante em relação ao cursor
+        tMin = focalT + zoomFactor * (tMin - focalT);
+        tMax = focalT + zoomFactor * (tMax - focalT);
+        xMin = focalX + zoomFactor * (xMin - focalX);
+        xMax = focalX + zoomFactor * (xMax - focalX);
+
+        redraw();
+
+        if (onBoundsChanged != null) {
+            onBoundsChanged.onBoundsChanged(tMin, tMax, xMin, xMax);
+        }
+        event.consume();
     }
 
     private void handleMouseMoved(MouseEvent event) {

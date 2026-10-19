@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Guia Didático do dfieldX</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f131a;
+      color: #cbd5e1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      padding: 30px 45px 60px 45px;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .intro {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #1e293b;
+      margin: 28px 0;
+    }
+    h2 {
+      color: #38bdf8;
+      font-size: 18px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 6px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      color: #60a5fa;
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    h4 {
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    ul, ol {
+      padding-left: 22px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    b, strong {
+      color: #f1f5f9;
+    }
+    .math-block {
+      display: block;
+      margin: 18px 0;
+      padding: 10px 0;
+      text-align: center;
+      color: #f8fafc;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    mjx-container[jax="SVG"] {
+      padding: 4px 0 !important;
+      margin: 2px 0 !important;
+      outline: none !important;
+    }
+    .ref-list {
+      list-style-type: disc;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .ref-list li {
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .ref-list em {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guia Didático de Modelos Diferenciais de 1ª Ordem</h1>
+  <div class="subtitle">Direction Field Analyzer (dfieldX) — Versão 1.0</div>
+  <div class="intro">
+    Este guia reúne o catálogo canónico completo de equações diferenciais ordinárias de primeira ordem no plano \((t, x)\) implementadas no <b>dfieldX</b>. Cada modelo conta com formulação analítica, interpretação física/biológica, roteiro de experimentação no campo de direções e referências conceituais clássicas.
+  </div>
+
+  <hr>
+
+  <h2>I. Crescimento Populacional & Biomatemática</h2>
+
+  <h3>1. Modelo Malthusiano (Crescimento Exponencial)</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <p>Descreve a reprodução per capita ilimitada sem restrições de espaço ou recursos alimentares:</p>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 0.5\) (taxa intrínseca de crescimento malthusiano).</li>
+    <li><b>Equilíbrio:</b> \(x = 0\) (repulsor se \(r > 0\)).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Observe que as inclinações dependem exclusivamente de \(x\) (equação autónoma) e crescem linearmente conforme a altura no plano vertical.</li>
+    <li>Lance soluções com \(x_0 > 0\) e comprove o crescimento exponencial irrestrito \(x(t) = x_0 e^{rt}\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Malthus, T. R. (1798). <em>An Essay on the Principle of Population</em>. J. Johnson, London.</li>
+  </ul>
+
+  <h3>2. Modelo Logístico de Verhulst</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <p>Introduz a competição intraespecífica e a capacidade de suporte ambiental finito \(K\):</p>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 1.0\), \(K = 10.0\).</li>
+    <li><b>Equilíbrios:</b> \(x = 0\) (instável), \(x = K = 10.0\) (atrator assintótico global para \(x > 0\)).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Note a isóclina horizontal de inclinação nula em \(x = 10.0\).</li>
+    <li>Clique em condições iniciais \(0 < x_0 < 10\) e veja a curva sigmoide clássica com ponto de inflexão em \(x = K/2 = 5.0\).</li>
+  </ol>
+  <h4>Referências Conceituais</h4>
+  <ul class="ref-list">
+    <li>Verhulst, P. F. (1838). <em>Notice sur la loi que la population poursuit dans son accroissement</em>. Corr. Math. et Phys., 10, 113-121.</li>
+    <li>Murray, J. D. (2002). <em>Mathematical Biology: I. An Introduction</em> (3rd ed.). Springer.</li>
+  </ul>
+
+  <h3>3. Modelo Logístico com Colheita Constante</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - h \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 1.0\), \(K = 10.0\), \(h = 2.0\) (taxa de remoção constante).</li>
+    <li><b>Bifurcação:</b> O esforço máximo sustentável é \(h_c = rK/4 = 2.5\). Para \(h < h_c\), surgem dois equilíbrios.</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Experimente alterar \(h = 2.0\) para \(h = 2.6\) (sobrepesca). Observe o desaparecimento dos pontos de equilíbrio e a extinção inevitável para qualquer condição inicial.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Clark, C. W. (1990). <em>Mathematical Bioeconomics: The Optimal Management of Renewable Resources</em>. Wiley.</li>
+  </ul>
+
+  <h3>4. Modelo Logístico com Colheita Proporcional ao Esforço</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - E x = x \left[ (r - E) - \frac{r}{K} x \right] \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 1.0\), \(K = 10.0\), \(E = 0.3\) (esforço de captura).</li>
+    <li><b>Novo Equilíbrio Sustentável:</b> \(x^* = K (1 - E/r) = 7.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Verifique que o aumento contínuo de \(E\) reduz a biomassa de equilíbrio suavemente, sofrendo bifurcação transcítica quando \(E = r\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Strogatz, S. H. (2015). <em>Nonlinear Dynamics and Chaos</em> (2nd ed.). Westview Press.</li>
+  </ul>
+
+  <h3>5. Modelo Logístico com Colheita Sazonal Periódica</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - h_0 [1 + \sin(\omega t)] \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 1.0\), \(K = 10.0\), \(h_0 = 1.5\), \(\omega = 1.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Observe as isóclinas não-estacionárias ondulantes no plano \((t, x)\).</li>
+    <li>Lance soluções e identifique o ciclo limite atrator de período \(T = 2\pi/\omega\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Kot, M. (2001). <em>Elements of Mathematical Ecology</em>. Cambridge University Press.</li>
+  </ul>
+
+  <h3>6. Modelo Populacional com Efeito Allee Crítico</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = r x \left(\frac{x}{A} - 1\right)\left(1 - \frac{x}{K}\right) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 0.5\), \(A = 2.0\) (limiar crítico), \(K = 10.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Lance soluções em \(x_0 = 1.9\) e \(x_0 = 2.1\) e visualize a separatriz em \(x = 2.0\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Allee, W. C. (1938). <em>The Social Life of Animals</em>. W. W. Norton & Co.</li>
+  </ul>
+
+  <h3>7. Dinâmica de Crescimento Tumoral de Gompertz</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = -r x \ln\left(\frac{x}{K}\right) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(r = 0.4\), \(K = 8.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Compare com a logística: o modelo de Gompertz desacelera suavemente conforme \(x \to K\), capturando a desaceleração na proliferação de células neoplásicas.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Gompertz, B. (1825). <em>On the Nature of the Function Expressive of the Law of Human Mortality</em>. Phil. Trans. R. Soc., 115, 513-585.</li>
+  </ul>
+
+  <h3>8. Equação Alométrica de Von Bertalanffy</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <p>Modela o ganho de massa via assimilação superficial versus consumo metabólico volúmico:</p>
+  <div class="math-block">\[ \frac{dx}{dt} = a x^{2/3} - b x \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(a = 1.2\), \(b = 0.4\). Tamanho assintótico máximo: \(x_\infty = (a/b)^3 = 27.0\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Von Bertalanffy, L. (1957). <em>Quantitative Laws in Metabolism and Growth</em>. Q. Rev. Biol., 32(3), 217-231.</li>
+  </ul>
+
+  <hr>
+
+  <h2>II. Física, Termodinâmica & Mecânica</h2>
+
+  <h3>9. Lei de Resfriamento de Newton (Meio Isotérmico)</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dT}{dt} = -k (T - T_a) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(k = 0.3\), \(T_a = 20.0\) (temperatura ambiente).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Todas as soluções colapsam exponencialmente para a reta assintótica horizontal \(T = 20.0\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Newton, I. (1701). <em>Scala graduum Caloris</em>. Phil. Trans., 22, 824-829.</li>
+  </ul>
+
+  <h3>10. Resfriamento com Temperatura Ambiente Oscilante</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+    \[ \frac{dT}{dt} = -k \left\{ T - \left[ T_0 + A \sin(\omega t) \right] \right\} \]
+  <ul>
+    <li><b>Parâmetros:</b> \(k = 0.4\), \(T_0 = 20.0\), \(A = 8.0\), \(\omega = 0.5\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Observe o atraso de fase térmico e a atenuação na amplitude de oscilação do corpo.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Boyce, W. E., & DiPrima, R. C. (2012). <em>Elementary Differential Equations</em>. Wiley.</li>
+  </ul>
+
+  <h3>11. Queda Livre com Arrasto Linear de Stokes</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dv}{dt} = g - \gamma v \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(g = 9.8\), \(\gamma = 0.5\). Velocidade terminal: \(v_t = g/\gamma = 19.6\text{ m/s}\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Stokes, G. G. (1851). <em>On the Effect of the Internal Friction of Fluids on the Motion of Pendulums</em>. Trans. Camb. Phil. Soc., 9, 8-106.</li>
+  </ul>
+
+  <h3>12. Queda com Arrasto Aerodinâmico Quadrático</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dv}{dt} = g - k v^2 \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(g = 9.8\), \(k = 0.05\). Velocidade terminal: \(v_t = \sqrt{g/k} = 14.0\text{ m/s}\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Lance órbitas partindo do repouso (\(v_0 = 0\)) e em velocidades altas (\(v_0 = 30\)) para visualizar o atrator assintótico.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Symon, K. R. (1971). <em>Mechanics</em> (3rd ed.). Addison-Wesley.</li>
+  </ul>
+
+  <h3>13. Drenagem Torricelliana de Reservatório</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dh}{dt} = -c \sqrt{h} \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(c = 0.4\). A altura atinge zero exatamente em tempo finito \(t_{\text{fim}} = 2\sqrt{h_0}/c\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Torricelli, E. (1644). <em>De motu gravium naturaliter descendentium</em>. Florença.</li>
+  </ul>
+
+  <h3>14. Circuito Elétrico RL / RC com Excitação Senoidal</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} + a x = V_0 \cos(\omega t) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(a = 1.0\), \(V_0 = 5.0\), \(\omega = 2.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Observe a transição do regime transiente para o regime senoidal forçado permanente.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Nilsson, J. W., & Riedel, S. A. (2014). <em>Electric Circuits</em> (10th ed.). Pearson.</li>
+  </ul>
+
+  <h3>15. Cadeia de Decaimento Radioativo de Bateman</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = \lambda_1 N_0 e^{-\lambda_1 t} - \lambda_2 x \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(\lambda_1 = 0.5\), \(N_0 = 100.0\), \(\lambda_2 = 0.2\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Bateman, H. (1910). <em>The Solution of a System of Differential Equations Occurring in the Theory of Radioactive Transformations</em>. Proc. Camb. Phil. Soc., 15, 423-427.</li>
+  </ul>
+
+  <hr>
+
+  <h2>III. Química & Cinética de Reações</h2>
+
+  <h3>16. Reação Química Reversível de 1ª Ordem</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = k_1 (A_0 - x) - k_2 x \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(k_1 = 0.6\), \(k_2 = 0.3\), \(A_0 = 10.0\). Ponto de equilíbrio dinâmico: \(x^* = \frac{k_1 A_0}{k_1 + k_2} = 6.67\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Atkins, P., & de Paula, J. (2014). <em>Physical Chemistry</em> (10th ed.). Oxford University Press.</li>
+  </ul>
+
+  <h3>17. Reação Autocatalítica Isotérmica</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = k x (A_0 - x) \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(k = 0.1\), \(A_0 = 10.0\). O produto formado atua como catalisador da sua própria reação.</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Epstein, I. R., & Pojman, J. A. (1998). <em>An Introduction to Nonlinear Chemical Dynamics</em>. Oxford University Press.</li>
+  </ul>
+
+  <h3>18. Tanque de Mistura com Diluição Contínua de Soluto</h3>
+  <h4>Formulação Matemática e Parâmetros</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = c_{in} q - \frac{q}{V} x \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> \(c_{in} = 2.0\text{ g/L}\), \(q = 5.0\text{ L/min}\), \(V = 50.0\text{ L}\).</li>
+  </ul>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Zill, D. G. (2017). <em>A First Course in Differential Equations with Modeling Applications</em>. Cengage.</li>
+  </ul>
+
+  <hr>
+
+  <h2>IV. Geometria, Singularidades & Bifurcações</h2>
+
+  <h3>19. Equação Linear com Isóclinas Oblíquas e Assíntotas</h3>
+  <h4>Formulação Matemática</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = t - x \]</div>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>A isóclina \(x' = 0\) é a reta \(x = t\).</li>
+    <li>A reta \(x(t) = t - 1\) constitui uma assíntota global para a qual convergem todas as soluções.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Simmons, G. F. (2016). <em>Differential Equations with Applications and Historical Notes</em>. CRC Press.</li>
+  </ul>
+
+  <h3>20. Equação de Riccati com Transição de Regime</h3>
+  <h4>Formulação Matemática</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = x^2 - t \]</div>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>A curva de inclinação nula é a parábola \(t = x^2\).</li>
+    <li>Explore o divisor de águas entre trajetórias com explosão em tempo finito e as que convergem suavemente para \(-\sqrt{t}\).</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Polyanin, A. D., & Zaitsev, V. F. (2003). <em>Handbook of Exact Solutions for Ordinary Differential Equations</em>. CRC Press.</li>
+  </ul>
+
+  <h3>21. Forma Normal da Bifurcação Sela-Nó</h3>
+  <h4>Formulação Matemática</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = \mu - x^2 \]</div>
+  <ul>
+    <li><b>Parâmetros:</b> Experimente \(\mu = 1.0\), \(\mu = 0\) e \(\mu = -1.0\).</li>
+  </ul>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>Com \(\mu > 0\), surgem equilíbrios em \(x = \pm \sqrt{\mu}\). Em \(\mu = 0\) ocorre a fusão sela-nó, e em \(\mu < 0\) os equilíbrios aniquilam-se.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Strogatz, S. H. (2015). <em>Nonlinear Dynamics and Chaos</em> (2nd ed.). Westview Press.</li>
+  </ul>
+
+  <h3>22. Equação com Explosão em Tempo Finito (*Blow-up*)</h3>
+  <h4>Formulação Matemática</h4>
+  <div class="math-block">\[ \frac{dx}{dt} = 1 + x^2 \]</div>
+  <h4>Roteiro Prático de Exploração</h4>
+  <ol>
+    <li>A solução geral é \(x(t) = \tan(t + c)\).</li>
+    <li>Note as assíntotas verticais periódicas onde a órbita atinge o infinito em tempo finito.</li>
+  </ol>
+  <h4>Referência Conceitual</h4>
+  <ul class="ref-list">
+    <li>Hirsch, M. W., Smale, S., & Devaney, R. L. (2012). <em>Differential Equations, Dynamical Systems, and an Introduction to Chaos</em>. Academic Press.</li>
+  </ul>
+
+</body>
+</html>

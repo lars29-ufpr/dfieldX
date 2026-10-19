@@ -50,8 +50,9 @@ public class MainWindow extends BorderPane {
     // --- Controles de Entrada (Sidebar) ---
     private final TextField txtIndependentVar = new TextField("t");
     private final TextField txtDependentVar = new TextField("x");
-    private final TextField txtEquation = new TextField("x^2 - t");
+    private final TextField txtEquation = new TextField("a*x - t");
     private final TextField txtParameters = new TextField("a=1.0");
+    private final Button btnSliders = new Button("🎚 Sliders");
 
     private final TextField txtTMin = new TextField("-2.0");
     private final TextField txtTMax = new TextField("4.0");
@@ -65,6 +66,7 @@ public class MainWindow extends BorderPane {
     private final Button btnTrace = new Button("Traçar");
     private final Button btnClear = new Button("Limpar Trajetórias");
 private final Button btnGallery = new Button("📚 Galeria de Modelos");
+    private final Button btnGuide = new Button("📖 Guia Didático");
 private final Button btnExport = new Button("📷 Exportar PNG");
     private final Button btnExportSvg = new Button("📐 Exportar SVG");
 
@@ -74,6 +76,8 @@ private final Button btnExport = new Button("📷 Exportar PNG");
 
     // --- Estado do Motor Matemático ---
     private ODEExpression currentODE;
+    private final java.util.List<double[]> activeInitialConditions = new java.util.ArrayList<>();
+
     private final ODESolver solver = new RK4Solver();
 
     public MainWindow() {
@@ -147,9 +151,12 @@ private final Button btnExport = new Button("📷 Exportar PNG");
         );
 
         // 4. Parâmetros
+        btnSliders.getStyleClass().addAll("btn", "btn-secondary");
+        HBox paramRow = new HBox(6, txtParameters, btnSliders);
+        HBox.setHgrow(txtParameters, Priority.ALWAYS);
         VBox paramsBox = new VBox(4,
                 new Label("Parâmetros (ex: a=1.0, b=2.0):"),
-                txtParameters
+                paramRow
         );
 
         // 5. Limites dos Eixos
@@ -166,7 +173,14 @@ private final Button btnExport = new Button("📷 Exportar PNG");
         btnUpdate.setMaxWidth(Double.MAX_VALUE);
         btnUpdate.getStyleClass().addAll("btn", "btn-green");
 btnGallery.setMaxWidth(Double.MAX_VALUE);
-btnGallery.getStyleClass().addAll("btn", "btn-purple");
+        btnGallery.getStyleClass().addAll("btn", "btn-purple");
+        btnGuide.setMaxWidth(Double.MAX_VALUE);
+        btnGuide.getStyleClass().addAll("btn", "btn-purple");
+
+        HBox modelsGuideBox = new HBox(8);
+        modelsGuideBox.getChildren().addAll(btnGallery, btnGuide);
+        HBox.setHgrow(btnGallery, Priority.ALWAYS);
+        HBox.setHgrow(btnGuide, Priority.ALWAYS);
         // 7. Lançamento de Trajetória Manual (t0, x0)
         Label lblOrbitTitle = new Label("CONDIÇÃO INICIAL (t0, x0)");
         lblOrbitTitle.getStyleClass().add("section-subtitle");
@@ -191,7 +205,7 @@ btnGallery.getStyleClass().addAll("btn", "btn-purple");
                 paramsBox,
                 lblDomainTitle,
                 domainGrid,
-btnGallery,
+modelsGuideBox,
                 btnUpdate,
                 new Separator(),
                 lblOrbitTitle,
@@ -291,12 +305,33 @@ btnGallery.setOnAction(e -> {
 
         // Limpa trajetórias
         btnClear.setOnAction(e -> {
+            activeInitialConditions.clear();
             canvas.clearTrajectories();
-            setStatus("Trajetórias removidas.", false);
+                        setStatus("Trajetórias removidas.", false);
         });
-btnExport.setOnAction(e -> exportFieldImage());
+
+        btnSliders.setOnAction(e -> {
+            Stage owner = (Stage) btnSliders.getScene().getWindow();
+            ParameterSlidersWindow.show(owner, txtParameters.getText(), updatedStr -> {
+                
+                txtParameters.setText(updatedStr);
+                updateDirectionField();
+                recalculateTrajectories();
+            });
+        });
+        btnGuide.setOnAction(e -> GuideWindow.show((javafx.stage.Stage) btnGuide.getScene().getWindow()));
+        btnExport.setOnAction(e -> exportFieldImage());
         btnExportSvg.setOnAction(e -> exportFieldSvg());
         // Clique interativo no canvas
+                // Sincronização interativa do Pan e Zoom focal
+        canvas.setOnBoundsChanged((newTMin, newTMax, newXMin, newXMax) -> {
+            txtTMin.setText(String.format(java.util.Locale.US, "%.2f", newTMin));
+            txtTMax.setText(String.format(java.util.Locale.US, "%.2f", newTMax));
+            txtXMin.setText(String.format(java.util.Locale.US, "%.2f", newXMin));
+            txtXMax.setText(String.format(java.util.Locale.US, "%.2f", newXMax));
+            calculateAndRenderField();
+        });
+
         canvas.setOnInitialPointSelected((t0, x0) -> {
             txtT0.setText(String.format(Locale.US, "%.3f", t0));
             txtX0.setText(String.format(Locale.US, "%.3f", x0));
@@ -338,8 +373,12 @@ btnExport.setOnAction(e -> exportFieldImage());
             setStatus("Campo de direções atualizado com sucesso.", false);
 
         } catch (IllegalArgumentException ex) {
+            System.err.println("[DEBUG EDO Error] " + ex.getMessage());
+            ex.printStackTrace();
             setStatus("Erro na definição da EDO: " + ex.getMessage(), true);
         } catch (Exception ex) {
+            System.err.println("[DEBUG General Error] " + ex.getMessage());
+            ex.printStackTrace();
             setStatus("Erro ao processar entradas: " + ex.getMessage(), true);
         }
     }
@@ -375,7 +414,25 @@ btnExport.setOnAction(e -> exportFieldImage());
     /**
      * Integra a equação diferencial numericamente de forma bidirecional (forward e backward).
      */
+
+    private void recalculateTrajectories() {
+        if (currentODE == null || activeInitialConditions.isEmpty()) return;
+        java.util.List<double[]> ics = new java.util.ArrayList<>(activeInitialConditions);
+        activeInitialConditions.clear();
+        canvas.clearTrajectories();
+        for (double[] ic : ics) {
+            traceOrbit(ic[0], ic[1], true);
+        }
+    }
+
     private void traceOrbit(double t0, double x0) {
+        traceOrbit(t0, x0, true);
+    }
+
+    private void traceOrbit(double t0, double x0, boolean record) {
+        if (record) {
+            activeInitialConditions.add(new double[]{t0, x0});
+        }
         if (currentODE == null) {
             setStatus("Defina uma EDO válida antes de traçar a solução.", true);
             return;
