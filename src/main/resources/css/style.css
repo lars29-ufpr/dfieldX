@@ -1,0 +1,140 @@
+/* ==========================================================================
+   dfieldX - Dark Theme Palette (Baseada no pplaneX)
+   ========================================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+    -fx-font-size: 13px;
+    -fx-base: #12161f;
+    -fx-background: #12161f;
+    -fx-control-inner-background: #1a1e29;
+}
+
+/* Painel de Fundo e Containers */
+.dark-pane {
+    -fx-background-color: #12161f;
+}
+
+.sidebar-pane {
+    -fx-background-color: #181d28;
+    -fx-padding: 12px;
+    -fx-spacing: 10px;
+    -fx-border-color: #232b3d;
+    -fx-border-width: 0 1px 0 0;
+}
+
+.section-title {
+    -fx-text-fill: #00d2d3;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Rótulos e Textos */
+.label {
+    -fx-text-fill: #c8d6e5;
+}
+
+/* Campos de Texto (Inputs) */
+.text-field {
+    -fx-background-color: #1a1e29;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #2d3748;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 5px 8px;
+}
+
+.text-field:focused {
+    -fx-border-color: #00d2d3;
+    -fx-background-color: #1f2432;
+}
+
+/* Checkbox */
+.check-box {
+    -fx-text-fill: #c8d6e5;
+}
+
+.check-box .box {
+    -fx-background-color: #1a1e29;
+    -fx-border-color: #2d3748;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #00d2d3;
+}
+
+/* ==========================================================================
+   Botões Temáticos Semânticos
+   ========================================================================== */
+
+.button {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 7px 14px;
+    -fx-cursor: hand;
+}
+
+/* Verde: Ações Principais (Atualizar Campo / Traçar) */
+.btn-green {
+    -fx-background-color: #28a745;
+}
+.btn-green:hover {
+    -fx-background-color: #2eb85c;
+}
+
+/* Azul Claro / Ciano: Modos de Ação */
+.btn-blue {
+    -fx-background-color: #007bff;
+}
+.btn-blue:hover {
+    -fx-background-color: #00a8ff;
+}
+
+/* Roxo: Acessórios Didáticos e Galeria */
+.btn-purple {
+    -fx-background-color: #6f42c1;
+}
+.btn-purple:hover {
+    -fx-background-color: #8a4af3;
+}
+
+/* Âmbar / Amarelo: Parâmetros e Sliders */
+.btn-amber {
+    -fx-background-color: #e0a800;
+    -fx-text-fill: #000000;
+}
+.btn-amber:hover {
+    -fx-background-color: #ffc107;
+}
+
+/* Secundário / Cinzento Escuro: Utilitários e Limpar */
+.btn-secondary {
+    -fx-background-color: #2f3542;
+    -fx-border-color: #404859;
+}
+.btn-secondary:hover {
+    -fx-background-color: #404859;
+}
+
+/* Barra de Estado Inferior */
+.status-bar {
+    -fx-background-color: #0f1219;
+    -fx-padding: 5px 12px;
+    -fx-border-color: #232b3d;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.status-text {
+    -fx-text-fill: #8395a7;
+    -fx-font-size: 11px;
+}
+
+.coords-text {
+    -fx-text-fill: #00d2d3;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
