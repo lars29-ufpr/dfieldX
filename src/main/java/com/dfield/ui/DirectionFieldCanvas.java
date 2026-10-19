@@ -1,4 +1,6 @@
 package com.dfield.ui;
+import com.dfield.numerical.CriticalPointCalculator;
+import com.dfield.numerical.CriticalPointCalculator.CriticalPoint;
 
 import com.dfield.core.FieldSegment;
 import com.dfield.numerical.OrbitTrajectory;
@@ -28,6 +30,14 @@ import java.util.function.BiConsumer;
  * grelha cartesiana adaptativa, desenho vetorial com anti-aliasing e eventos de mouse.
  */
 public class DirectionFieldCanvas extends Canvas {
+    private boolean showCriticalPoints = false;
+    private java.util.List<CriticalPoint> criticalPoints = java.util.Collections.emptyList();
+
+
+    private java.util.List<com.dfield.numerical.IsoclineCalculator.Segment> isoclineSegments = java.util.Collections.emptyList();
+    private java.util.List<com.dfield.numerical.IsoclineCalculator.Segment> zeroIsoclineSegments = java.util.Collections.emptyList();
+    private boolean showIsoclines = false;
+    private boolean lockZeroIsocline = true;
 
     // --- Paleta de Cores do Tema Dark (pplaneX) ---
     private static final Color COLOR_BACKGROUND = Color.web("#12161f");
@@ -170,6 +180,23 @@ public class DirectionFieldCanvas extends Canvas {
         }
     }
 
+        
+    public void setCriticalPoints(java.util.List<CriticalPoint> points, boolean show) {
+        this.criticalPoints = (points != null) ? points : java.util.Collections.emptyList();
+        this.showCriticalPoints = show;
+        redraw();
+    }
+
+    public void setIsoclineData(java.util.List<com.dfield.numerical.IsoclineCalculator.Segment> dynamicSegments,
+                                java.util.List<com.dfield.numerical.IsoclineCalculator.Segment> zeroSegments,
+                                boolean show, boolean lockZero) {
+        this.isoclineSegments = dynamicSegments != null ? dynamicSegments : java.util.Collections.emptyList();
+        this.zeroIsoclineSegments = zeroSegments != null ? zeroSegments : java.util.Collections.emptyList();
+        this.showIsoclines = show;
+        this.lockZeroIsocline = lockZero;
+        redraw();
+    }
+
     public void clearTrajectories() {
         this.trajectories.clear();
         redraw();
@@ -224,6 +251,11 @@ public class DirectionFieldCanvas extends Canvas {
 
         // 3. Renderiza os segmentos de inclinação do campo
         drawDirectionField(gc);
+
+        // 3.5 Renderiza as Isóclinas
+        drawIsoclines(gc);
+        // 3.6 Renderiza Pontos Críticos / Equilíbrios
+        drawCriticalPoints(gc);
 
         // 4. Renderiza as órbitas/curvas solução
         drawTrajectories(gc);
@@ -460,6 +492,103 @@ public class DirectionFieldCanvas extends Canvas {
     /**
      * Renderiza todas as trajetórias e seus pontos iniciais de lançamento.
      */
+    
+    
+    private void drawCriticalPoints(GraphicsContext gc) {
+        if (!showCriticalPoints || criticalPoints == null || criticalPoints.isEmpty()) {
+            return;
+        }
+
+        gc.save();
+        double w = getWidth();
+
+        for (CriticalPoint cp : criticalPoints) {
+            double cy = toCanvasY(cp.xStar());
+
+            // Só desenha se estiver dentro dos limites verticais da tela
+            if (cy < -20 || cy > getHeight() + 20) {
+                continue;
+            }
+
+            // Define cor e estilo pelo tipo de estabilidade
+            switch (cp.stability()) {
+                case STABLE_ATTRACTOR -> {
+                    gc.setStroke(Color.web("#10b981")); // Verde
+                    gc.setFill(Color.web("#10b981"));
+                    gc.setLineWidth(2.2);
+                    gc.setLineDashes(null); // Contínua
+                }
+                case UNSTABLE_REPULSOR -> {
+                    gc.setStroke(Color.web("#ef4444")); // Vermelho
+                    gc.setFill(Color.web("#ef4444"));
+                    gc.setLineWidth(2.0);
+                    gc.setLineDashes(6.0, 5.0); // Tracejada
+                }
+                case SEMI_STABLE -> {
+                    gc.setStroke(Color.web("#94a3b8")); // Cinza azulado
+                    gc.setFill(Color.web("#94a3b8"));
+                    gc.setLineWidth(1.8);
+                    gc.setLineDashes(2.0, 4.0);
+                }
+            }
+
+            // Reta horizontal de equilíbrio ao longo de todo o plano t
+            gc.strokeLine(0, cy, w, cy);
+
+            // Marcador no centro da visualização
+            double markerX = w * 0.15;
+            gc.fillOval(markerX - 5, cy - 5, 10, 10);
+            gc.setStroke(Color.WHITE);
+            gc.setLineWidth(1.2);
+            gc.setLineDashes(null);
+            gc.strokeOval(markerX - 5, cy - 5, 10, 10);
+
+            // Rótulo com valor do equilíbrio
+            gc.setFill(Color.web("#f8fafc"));
+            gc.setFont(javafx.scene.text.Font.font("Monospaced", javafx.scene.text.FontWeight.BOLD, 12));
+            String label = String.format(java.util.Locale.US, " x* = %.3f (λ = %.2f)", cp.xStar(), cp.lambda());
+            gc.fillText(label, markerX + 8, cy - 6);
+        }
+
+        gc.restore();
+    }
+
+    private void drawIsoclines(GraphicsContext gc) {
+        if (!showIsoclines) return;
+
+        gc.save();
+
+        // Isóclina zero (c = 0) em dourado tracejado
+        if (lockZeroIsocline && zeroIsoclineSegments != null && !zeroIsoclineSegments.isEmpty()) {
+            gc.setStroke(Color.web("#fbbf24"));
+            gc.setLineWidth(2.2);
+            gc.setLineDashes(6.0, 4.0);
+            for (var seg : zeroIsoclineSegments) {
+                double p1x = toCanvasX(seg.t1());
+                double p1y = toCanvasY(seg.x1());
+                double p2x = toCanvasX(seg.t2());
+                double p2y = toCanvasY(seg.x2());
+                gc.strokeLine(p1x, p1y, p2x, p2y);
+            }
+            gc.setLineDashes(null);
+        }
+
+        // Isóclina dinâmica com valor c (magenta luminoso contínuo)
+        if (isoclineSegments != null && !isoclineSegments.isEmpty()) {
+            gc.setStroke(Color.web("#e879f9"));
+            gc.setLineWidth(2.0);
+            for (var seg : isoclineSegments) {
+                double p1x = toCanvasX(seg.t1());
+                double p1y = toCanvasY(seg.x1());
+                double p2x = toCanvasX(seg.t2());
+                double p2y = toCanvasY(seg.x2());
+                gc.strokeLine(p1x, p1y, p2x, p2y);
+            }
+        }
+
+        gc.restore();
+    }
+
     private void drawTrajectories(GraphicsContext gc) {
         if (trajectories.isEmpty()) {
             return;
