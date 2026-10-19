@@ -83,7 +83,6 @@ public class GalleryDialog extends Dialog<EquationExample> {
 
         Label lblFilter = new Label("Categoria:");
         cmbCategories.setItems(FXCollections.observableArrayList(
-                "Todas",
                 "Dinâmica Populacional",
                 "Física e Circuitos",
                 "Finanças e Economia",
@@ -91,7 +90,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
                 "Fenômenos Matemáticos",
                 "Personalizados"
         ));
-        cmbCategories.setValue("Todas");
+        cmbCategories.setValue("Dinâmica Populacional");
         cmbCategories.setPrefWidth(220);
 
         Region topSpacer = new Region();
@@ -191,7 +190,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         });
 
         // Carga inicial
-        refreshList("Todas");
+        refreshList("Dinâmica Populacional");
     }
 
     private void refreshList(String category) {

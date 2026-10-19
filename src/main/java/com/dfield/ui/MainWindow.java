@@ -1,6 +1,7 @@
 package com.dfield.ui;
 
 import com.dfield.core.DirectionFieldCalculator;
+import com.dfield.core.EquationExample;
 import com.dfield.core.FieldSegment;
 import com.dfield.core.ODEExpression;
 import com.dfield.numerical.ODESolver;
@@ -8,12 +9,13 @@ import com.dfield.numerical.OrbitTrajectory;
 import com.dfield.numerical.RK4Solver;
 import com.dfield.numerical.TerminationReason;
 import com.dfield.numerical.TrajectoryPoint;
+import com.dfield.ui.GalleryDialog;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
+import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
 
@@ -46,6 +48,7 @@ public class MainWindow extends BorderPane {
     private final Button btnUpdate = new Button("Atualizar Campo");
     private final Button btnTrace = new Button("Traçar");
     private final Button btnClear = new Button("Limpar Trajetórias");
+private final Button btnGallery = new Button("📚 Galeria de Modelos");
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -144,7 +147,8 @@ public class MainWindow extends BorderPane {
         // 6. Botão de Atualização
         btnUpdate.setMaxWidth(Double.MAX_VALUE);
         btnUpdate.getStyleClass().addAll("btn", "btn-green");
-
+btnGallery.setMaxWidth(Double.MAX_VALUE);
+btnGallery.getStyleClass().addAll("btn", "btn-purple");
         // 7. Lançamento de Trajetória Manual (t0, x0)
         Label lblOrbitTitle = new Label("CONDIÇÃO INICIAL (t0, x0)");
         lblOrbitTitle.getStyleClass().add("section-subtitle");
@@ -169,6 +173,7 @@ public class MainWindow extends BorderPane {
                 paramsBox,
                 lblDomainTitle,
                 domainGrid,
+btnGallery,
                 btnUpdate,
                 new Separator(),
                 lblOrbitTitle,
@@ -219,7 +224,40 @@ public class MainWindow extends BorderPane {
     private void initEventHandlers() {
         // Atualiza campo
         btnUpdate.setOnAction(e -> updateDirectionField());
+btnGallery.setOnAction(e -> {
+    Stage owner = (Stage) this.getScene().getWindow();
+    
+    EquationExample currentState = new EquationExample(
+            "Modelo Atual", "Personalizados", "Criado pelo usuário",
+            txtIndependentVar.getText().trim(),
+            txtDependentVar.getText().trim(),
+            txtEquation.getText().trim(),
+            txtParameters.getText().trim(),
+            Double.parseDouble(txtTMin.getText().trim()),
+            Double.parseDouble(txtTMax.getText().trim()),
+            Double.parseDouble(txtXMin.getText().trim()),
+            Double.parseDouble(txtXMax.getText().trim()),
+            Double.parseDouble(txtT0.getText().trim()),
+            Double.parseDouble(txtX0.getText().trim()),
+            true
+    );
 
+    Optional<EquationExample> selected = GalleryDialog.showGallery(owner, currentState);
+    selected.ifPresent(model -> {
+        txtIndependentVar.setText(model.independentVar());
+        txtDependentVar.setText(model.dependentVar());
+        txtEquation.setText(model.expression());
+        txtParameters.setText(model.defaultParameters() != null ? model.defaultParameters() : "");
+        txtTMin.setText(String.valueOf(model.tMin()));
+        txtTMax.setText(String.valueOf(model.tMax()));
+        txtXMin.setText(String.valueOf(model.xMin()));
+        txtXMax.setText(String.valueOf(model.xMax()));
+        txtT0.setText(String.valueOf(model.defaultT0()));
+        txtX0.setText(String.valueOf(model.defaultX0()));
+
+        btnUpdate.fire();
+    });
+});
         // Lança órbita a partir do botão
         btnTrace.setOnAction(e -> {
             try {
