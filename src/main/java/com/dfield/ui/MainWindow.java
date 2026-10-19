@@ -19,7 +19,22 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.*;
-
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 /**
  * Janela principal e controladora de layout da aplicação dfieldX.
  * <p>
@@ -50,6 +65,7 @@ public class MainWindow extends BorderPane {
     private final Button btnTrace = new Button("Traçar");
     private final Button btnClear = new Button("Limpar Trajetórias");
 private final Button btnGallery = new Button("📚 Galeria de Modelos");
+private final Button btnExport = new Button("📷 Exportar PNG");
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -179,7 +195,8 @@ btnGallery,
                 new Separator(),
                 lblOrbitTitle,
                 icBox,
-                btnClear
+                btnClear,
+btnExport
         );
 
         return sidebar;
@@ -480,4 +497,28 @@ double tol = 1e-6;
             lblStatus.setStyle("-fx-text-fill: #48dbfb;");
         }
     }
+private void exportFieldImage() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Exportar Campo de Direções");
+    fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Imagem PNG (*.png)", "*.png")
+    );
+    fileChooser.setInitialFileName("dfieldX_export.png");
+
+    File file = fileChooser.showSaveDialog(this.getScene().getWindow());
+    if (file == null) return;
+
+    SnapshotParameters params = new SnapshotParameters();
+    params.setFill(Color.web("#12161f"));
+
+    WritableImage image = canvas.snapshot(params, null);
+
+    try {
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        setStatus("Imagem salva com sucesso em: " + file.getName(), false);
+    } catch (IOException ex) {
+        setStatus("Erro ao salvar imagem.", true);
+        ex.printStackTrace();
+    }
+}
 }
