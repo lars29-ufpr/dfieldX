@@ -29,6 +29,13 @@ public final class ODEExpression implements FirstOrderODE {
     private final ThreadLocal<Expression> threadLocalExpression;
 
     // --- Funções Matemáticas Personalizadas ---
+    private static final Function CBRT_FUNCTION = new Function("cbrt", 1) {
+        @Override
+        public double apply(double... args) {
+            return Math.cbrt(args[0]);
+        }
+    };
+
     private static final Function LN_FUNCTION = new Function("ln", 1) {
         @Override
         public double apply(double... args) {
@@ -79,6 +86,7 @@ public final class ODEExpression implements FirstOrderODE {
     };
 
     private static final List<Function> CUSTOM_FUNCTIONS = List.of(
+            CBRT_FUNCTION,
             LN_FUNCTION,
             SGN_FUNCTION,
             HEAVISIDE_FUNCTION,

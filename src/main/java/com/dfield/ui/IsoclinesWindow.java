@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import com.dfield.numerical.IsoclineCalculator;
 import com.dfield.core.ODEExpression;
 import javafx.application.Platform;
@@ -46,7 +48,7 @@ public class IsoclinesWindow {
         openStage = stage;
         stage.initOwner(ownerStage);
         stage.initModality(Modality.NONE);
-        stage.setTitle("dfieldX — Método das Isóclinas");
+        stage.setTitle(I18n.get("isoclines.title"));
 
         try {
             var iconStream = IsoclinesWindow.class.getResourceAsStream("/icons/dfieldX_icon.png");
@@ -86,7 +88,7 @@ public class IsoclinesWindow {
         root.setPadding(new Insets(18));
         root.setStyle("-fx-background-color: #12161f;");
 
-        Label title = new Label("MÉTODO DAS ISÓCLINAS: f(t, x) = c");
+        Label title = new Label(I18n.get("isoclines.header"));
         title.setStyle("-fx-text-fill: #38bdf8; -fx-font-weight: bold; -fx-font-size: 13px;");
 
         // Painel Didático
@@ -94,7 +96,7 @@ public class IsoclinesWindow {
         didacticCard.setPadding(new Insets(12));
         didacticCard.setStyle("-fx-background-color: #181d28; -fx-background-radius: 6px; -fx-border-color: #1e293b; -fx-border-radius: 6px;");
 
-        Label lblIntro = new Label("Uma isóclina reúne todos os pontos do plano onde o campo possui a mesma inclinação angular constante c:");
+        Label lblIntro = new Label(I18n.get("isoclines.intro"));
         lblIntro.setWrapText(true);
         lblIntro.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 12px;");
 
@@ -115,7 +117,7 @@ public class IsoclinesWindow {
         HBox sliderRow = new HBox(10);
         sliderRow.setAlignment(Pos.CENTER_LEFT);
 
-        Label lblSliderName = new Label("Inclinação (c):");
+        Label lblSliderName = new Label(I18n.get("isoclines.slope"));
         lblSliderName.setStyle("-fx-text-fill: #e879f9; -fx-font-weight: bold;");
 
         lblValueC.setStyle("-fx-text-fill: #ffffff; -fx-font-family: monospace; -fx-font-weight: bold; -fx-font-size: 13px;");
@@ -141,7 +143,7 @@ public class IsoclinesWindow {
             recalculateAndRender();
         });
 
-        CheckBox chkShow = new CheckBox("Exibir isóclinas sobre o campo");
+        CheckBox chkShow = new CheckBox(I18n.get("isoclines.show"));
         chkShow.setSelected(true);
         chkShow.setStyle("-fx-text-fill: #cbd5e1; -fx-font-size: 12px;");
         chkShow.selectedProperty().addListener((obs, oldV, newV) -> {
@@ -149,7 +151,7 @@ public class IsoclinesWindow {
             recalculateAndRender();
         });
 
-        CheckBox chkLockZero = new CheckBox("Fixar Isóclina Zero [c = 0] (Dourado tracejado)");
+        CheckBox chkLockZero = new CheckBox(I18n.get("isoclines.lock_zero"));
         chkLockZero.setSelected(true);
         chkLockZero.setStyle("-fx-text-fill: #fbbf24; -fx-font-size: 12px;");
         chkLockZero.selectedProperty().addListener((obs, oldV, newV) -> {
@@ -171,11 +173,11 @@ public class IsoclinesWindow {
 
     private void updateExplanationText(double c) {
         if (Math.abs(c) < 1e-4) {
-            lblExplanation.setText("★ ISÓCLINA ZERO (c = 0):\nCurva onde as soluções têm tangente estritamente horizontal (x' = 0). Representa a fronteira de transição: as soluções atingem pontos de máximo, mínimo ou inflexão com derivada nula ao cruzar essa curva.");
+            lblExplanation.setText(I18n.get("isoclines.zero"));
         } else if (c > 0) {
-            lblExplanation.setText(String.format(Locale.US, "▲ ISÓCLINA POSITIVA (c = +%.2f):\nAs soluções que cruzam esta curva magenta têm inclinação angular positiva, crescendo a uma taxa instantânea de %.2f.", c, c));
+            lblExplanation.setText(I18n.format("isoclines.pos", String.format(Locale.US, "%.2f", c), String.format(Locale.US, "%.2f", c)));
         } else {
-            lblExplanation.setText(String.format(Locale.US, "▼ ISÓCLINA NEGATIVA (c = %.2f):\nAs soluções que cruzam esta curva magenta têm inclinação angular negativa, decrescendo a uma taxa instantânea de %.2f.", c, c));
+            lblExplanation.setText(I18n.format("isoclines.neg", String.format(Locale.US, "%.2f", c), String.format(Locale.US, "%.2f", c)));
         }
     }
 

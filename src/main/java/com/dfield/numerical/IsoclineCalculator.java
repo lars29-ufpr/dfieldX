@@ -29,7 +29,8 @@ public class IsoclineCalculator {
             for (int j = 0; j < gridRows; j++) {
                 double x = xMin + j * dx;
                 try {
-                    val[i][j] = ode.eval(t, x) - c;
+                    double v = ode.eval(t, x) - c;
+                    val[i][j] = Double.isFinite(v) ? v : Double.NaN;
                 } catch (Exception e) {
                     val[i][j] = Double.NaN;
                 }
@@ -53,25 +54,23 @@ public class IsoclineCalculator {
                     continue;
                 }
 
+                boolean sBL = bl > 0;
+                boolean sBR = br > 0;
+                boolean sTR = tr > 0;
+                boolean sTL = tl > 0;
+
                 int mask = 0;
-                if (bl > 0) mask |= 1;
-                if (br > 0) mask |= 2;
-                if (tr > 0) mask |= 4;
-                if (tl > 0) mask |= 8;
+                if (sBL) mask |= 1;
+                if (sBR) mask |= 2;
+                if (sTR) mask |= 4;
+                if (sTL) mask |= 8;
 
                 if (mask == 0 || mask == 15) continue;
 
-                double[] pBottom = (mask & 3) == 1 || (mask & 3) == 2 ?
-                        new double[]{tLeft + interp(bl, br) * dt, xBottom} : null;
-
-                double[] pRight = ((mask >> 1) & 3) == 1 || ((mask >> 1) & 3) == 2 ?
-                        new double[]{tRight, xBottom + interp(br, tr) * dx} : null;
-
-                double[] pTop = ((mask >> 2) & 3) == 1 || ((mask >> 2) & 3) == 2 ?
-                        new double[]{tLeft + interp(tl, tr) * dt, xTop} : null;
-
-                double[] pLeft = (mask == 1 || mask == 8 || mask == 7 || mask == 14 || mask == 6 || mask == 9) ?
-                        new double[]{tLeft, xBottom + interp(bl, tl) * dx} : null;
+                double[] pBottom = (sBL != sBR) ? new double[]{tLeft + interp(bl, br) * dt, xBottom} : null;
+                double[] pRight  = (sBR != sTR) ? new double[]{tRight, xBottom + interp(br, tr) * dx} : null;
+                double[] pTop    = (sTL != sTR) ? new double[]{tLeft + interp(tl, tr) * dt, xTop} : null;
+                double[] pLeft   = (sBL != sTL) ? new double[]{tLeft, xBottom + interp(bl, tl) * dx} : null;
 
                 switch (mask) {
                     case 1: case 14:
@@ -90,15 +89,15 @@ public class IsoclineCalculator {
                         if (pBottom != null && pRight != null) segments.add(new Segment(pBottom[0], pBottom[1], pRight[0], pRight[1]));
                         if (pTop != null && pLeft != null) segments.add(new Segment(pTop[0], pTop[1], pLeft[0], pLeft[1]));
                         break;
-                    case 10:
-                        if (pBottom != null && pLeft != null) segments.add(new Segment(pBottom[0], pBottom[1], pLeft[0], pLeft[1]));
-                        if (pTop != null && pRight != null) segments.add(new Segment(pTop[0], pTop[1], pRight[0], pRight[1]));
-                        break;
                     case 6: case 9:
                         if (pBottom != null && pTop != null) segments.add(new Segment(pBottom[0], pBottom[1], pTop[0], pTop[1]));
                         break;
                     case 7: case 8:
                         if (pTop != null && pLeft != null) segments.add(new Segment(pTop[0], pTop[1], pLeft[0], pLeft[1]));
+                        break;
+                    case 10:
+                        if (pBottom != null && pLeft != null) segments.add(new Segment(pBottom[0], pBottom[1], pLeft[0], pLeft[1]));
+                        if (pTop != null && pRight != null) segments.add(new Segment(pTop[0], pTop[1], pRight[0], pRight[1]));
                         break;
                 }
             }

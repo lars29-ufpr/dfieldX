@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guia Didático do dfieldX</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f131a;
+      color: #cbd5e1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      padding: 30px 45px 60px 45px;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .intro {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #1e293b;
+      margin: 28px 0;
+    }
+    h2 {
+      color: #38bdf8;
+      font-size: 18px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 6px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      color: #60a5fa;
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    h4 {
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    ul, ol {
+      padding-left: 22px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    b, strong {
+      color: #f1f5f9;
+    }
+    .math-block {
+      display: block;
+      margin: 18px 0;
+      padding: 10px 0;
+      text-align: center;
+      color: #f8fafc;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    mjx-container[jax="SVG"] {
+      padding: 4px 0 !important;
+      margin: 2px 0 !important;
+      outline: none !important;
+    }
+    .ref-list {
+      list-style-type: disc;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .ref-list li {
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .ref-list em {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <h1>First-Order Differential Models Tutorial Guide</h1>
+  <div class="subtitle">Direction Field Analyzer (dfieldX) — Version 1.0</div>
+  <p class="intro">
+    This guide gathers the complete canonical catalog of first-order ordinary differential equations in the plane $(t, x)$ implemented in <strong>dfieldX</strong>. Each model provides analytical formulation, physical/biological interpretation, numerical exploration guidelines on the direction field, and classic conceptual references.
+  </p>
+
+  <h2>I. Population Dynamics & Biomathematics</h2>
+
+  <h3>1. Malthusian Model (Exponential Growth)</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Describes unrestricted per capita reproduction without spatial or food limitations:</p>
+  $$\frac{dx}{dt} = rx$$
+  <ul>
+    <li><strong>Parameters:</strong> $r = 0.5$ (intrinsic Malthusian growth rate).</li>
+    <li><strong>Equilibrium:</strong> $x = 0$ (repulsor if $r > 0$).</li>
+  </ul>
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Notice slopes depend strictly on $x$ (autonomous equation) and increase linearly with vertical height.</li>
+    <li>Launch solutions with $x_0 > 0$ to verify unrestricted exponential growth $x(t) = x_0 e^{rt}$.</li>
+  </ol>
+
+  <h3>2. Verhulst Logistic Model</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Incorporates environmental carrying capacity $K$ with density-dependent self-limitation:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right)$$
+  <ul>
+    <li><strong>Parameters:</strong> $r = 0.8$, $K = 5.0$.</li>
+    <li><strong>Equilibria:</strong> $x = 0$ (unstable/repulsor), $x = K$ (asymptotically stable attractor).</li>
+  </ul>
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Launch initial conditions above and below $K$. Notice solutions smoothly converge toward $x = K$.</li>
+    <li>Observe the inflection point on the phase plot when $x = K/2$, where growth rate peaks.</li>
+  </ol>
+
+  <h3>3. Logistic Model with Constant Harvesting</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Models logistic growth subjected to constant extraction quota $h$:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - h$$
+  <ul>
+    <li><strong>Critical Threshold:</strong> Saddle-node bifurcation occurs at $h_c = \frac{rK}{4}$.</li>
+  </ul>
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Set $h < h_c$: two equilibria exist (stable node and unstable threshold).</li>
+    <li>Increase $h > h_c$ using Parameter Sliders to witness extinction collapse across all initial states.</li>
+  </ol>
+
+  <h3>4. Logistic Model with Proportional Effort Harvesting</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Harvesting rate proportional to current population density ($E x$):</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - Ex$$
+  <ul>
+    <li><strong>Effective Growth:</strong> $\frac{dx}{dt} = (r - E)x\left(1 - \frac{x}{K(1 - E/r)}\right)$.</li>
+  </ul>
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Compare the stability transition when effort $E$ exceeds intrinsic rate $r$ (transcritical bifurcation).</li>
+  </ol>
+
+  <h3>5. Logistic Model with Periodic Seasonal Harvesting</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Non-autonomous ODE representing cyclical open/closed fishing or hunting seasons:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - h_0\left(1 + A\sin(\omega t)\right)$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Notice direction field slopes now vary along time $t$, illustrating a non-autonomous regime.</li>
+    <li>Inspect entrainment and periodic limit solutions around carrying capacity.</li>
+  </ol>
+
+  <h3>6. Population Model with Critical Allee Effect</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Features an undercrowding survival threshold $a$ below which populations go extinct:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right)\left(\frac{x}{a} - 1\right)$$
+  <ul>
+    <li><strong>Equilibria:</strong> $x = 0$ (stable extinction), $x = a$ (unstable threshold), $x = K$ (stable capacity).</li>
+  </ul>
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Release trajectories starting slightly above and slightly below $x = a$ to demonstrate bi-stability.</li>
+  </ol>
+
+  <h3>7. Gompertz Tumor Growth Dynamics</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Classic model in oncology where relative growth decay follows an exponential logarithmic law:</p>
+  $$\frac{dx}{dt} = -a x \ln(b x)$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Examine asymptotic saturation at tumor carrying capacity $x^* = 1/b$.</li>
+  </ol>
+
+  <h3>8. Von Bertalanffy Allometric Growth Equation</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Models organism body mass evolution balancing anabolism (surface area) and catabolism (volume):</p>
+  $$\frac{dx}{dt} = a x^{2/3} - b x$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Trace trajectories approaching the stable adult biological size $x^* = (a/b)^3$.</li>
+  </ol>
+
+  <h2>II. Physics, Thermodynamics &amp; Mechanics</h2>
+
+  <h3>9. Newton's Law of Cooling (Isothermal Medium)</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Heat exchange rate directly proportional to temperature discrepancy with ambient $T_{amb}$:</p>
+  $$\frac{dT}{dt} = -k(T - T_{amb})$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Observe the stable horizontal asymptote at $T = T_{amb}$.</li>
+  </ol>
+
+  <h3>10. Cooling with Oscillating Ambient Temperature</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Accounts for day/night circadian temperature variations:</p>
+  $$\frac{dT}{dt} = -k(T - (T_0 + A\sin(\omega t)))$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Notice thermal lag (phase shift) and attenuation of amplitude in interior temperature response.</li>
+  </ol>
+
+  <h3>11. Free Fall with Stokes Linear Drag</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Governs laminar low-speed fluid damping on falling bodies:</p>
+  $$\frac{dv}{dt} = g - \frac{k}{m}v$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Observe global monotonic convergence toward terminal velocity $v_{term} = mg/k$.</li>
+  </ol>
+
+  <h3>12. Free Fall with Quadratic Aerodynamic Drag</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Turbulent Newtonian drag regime for macroscopic projectiles:</p>
+  $$\frac{dv}{dt} = g - \gamma v^2$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Verify asymptotic approach to terminal velocity $v_{term} = \sqrt{g/\gamma}$.</li>
+  </ol>
+
+  <h3>13. Torricellian Tank Drainage</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Efflux speed from sharp-edged orifice under gravity:</p>
+  $$\frac{dh}{dt} = -c\sqrt{h}$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Observe non-Lipschitz behavior at $h = 0$, leading to finite-time complete tank drainage.</li>
+  </ol>
+
+  <h3>14. RL / RC Electric Circuit with Sinusoidal Excitation</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Linear time-varying response of reactive electronic networks:</p>
+  $$\frac{dI}{dt} + \frac{R}{L}I = \frac{V_0}{L}\cos(\omega t)$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Notice how transient state decays exponentially, settling into sinusoidal forced response.</li>
+  </ol>
+
+  <h3>15. Bateman Radioactive Decay Chain</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Intermediate nuclide daughter kinetics with concurrent generation and disintegration:</p>
+  $$\frac{dx_2}{dt} = \lambda_1 N_0 e^{-\lambda_1 t} - \lambda_2 x_2$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Identify the peak secular/transient equilibrium moment of maximum daughter radioactivity.</li>
+  </ol>
+
+  <h2>III. Chemistry &amp; Reaction Kinetics</h2>
+
+  <h3>16. First-Order Reversible Chemical Reaction</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Dynamic forward/backward equilibrium between chemical species $A \rightleftharpoons B$:</p>
+  $$\frac{dx}{dt} = k_f (A_0 - x) - k_r x$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Verify convergence toward chemical equilibrium concentration $x^* = \frac{k_f A_0}{k_f + k_r}$.</li>
+  </ol>
+
+  <h3>17. Isothermal Autocatalytic Reaction</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Kinetics where product molecule catalyzes its own synthesis:</p>
+  $$\frac{dx}{dt} = k x (C_0 - x)$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Notice characteristic sigmoidal progression from initial seed to total reagent transformation.</li>
+  </ol>
+
+  <h3>18. Continuous Stirred Tank Dilution (CSTR)</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Solute conservation in stirred volume with inflow and outflow streams:</p>
+  $$\frac{dC}{dt} = \frac{q}{V}(C_{in} - C)$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Observe exponential wash-out or enrichment approaching steady state $C = C_{in}$.</li>
+  </ol>
+
+  <h2>IV. Geometry, Singularities &amp; Bifurcations</h2>
+
+  <h3>19. Linear Equation with Oblique Isoclines and Asymptotes</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Canonical non-autonomous benchmark equation:</p>
+  $$\frac{dx}{dt} = t - x$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Activate Isoclines tool ($c = 0$): observe line $x = t$ dividing positive/negative slopes.</li>
+    <li>Identify invariant slant asymptote $x(t) = t - 1$.</li>
+  </ol>
+
+  <h3>20. Riccati Equation with Regime Transition</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Nonlinear quadratic differential equation with variable coefficients:</p>
+  $$\frac{dx}{dt} = x^2 - t$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Examine the parabolic zero-isocline $t = x^2$ and boundary separating bounded and blow-up solutions.</li>
+  </ol>
+
+  <h3>21. Normal Form of Saddle-Node Bifurcation</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Fundamental topological mechanism creating/destroying pairs of equilibria:</p>
+  $$\frac{dx}{dt} = r + x^2$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Slide parameter $r$: for $r < 0$ there are two equilibria; for $r = 0$ they merge; for $r > 0$ flow is unobstructed.</li>
+  </ol>
+
+  <h3>22. Finite-Time Explosion Equation (Blow-up)</h3>
+  <div class="tag">MATHEMATICAL FORMULATION &amp; PARAMETERS</div>
+  <p>Super-linear growth demonstrating breakdown of global existence theorem:</p>
+  $$\frac{dx}{dt} = 1 + x^2$$
+  <div class="tag">PRACTICAL EXPLORATION GUIDELINES</div>
+  <ol>
+    <li>Verify analytical solution $x(t) = \tan(t + C)$, experiencing vertical asymptotes at $t \to \pi/2$.</li>
+  </ol>
+</body>
+</html>

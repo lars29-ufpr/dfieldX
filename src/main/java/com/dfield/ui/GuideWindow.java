@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -15,7 +17,7 @@ public class GuideWindow {
         Stage stage = new Stage();
         stage.initOwner(ownerStage);
         stage.initModality(Modality.NONE);
-        stage.setTitle("dfieldX — Guia Didático de Modelos Diferenciais");
+        stage.setTitle(I18n.get("guide.title"));
 
         try {
             var iconStream = GuideWindow.class.getResourceAsStream("/icons/dfieldX_icon.png");
@@ -25,7 +27,12 @@ public class GuideWindow {
         } catch (Exception ignored) {}
 
         WebView webView = new WebView();
-        URL guideUrl = GuideWindow.class.getResource("/guide/tutorial.html");
+        String lang = com.dfield.util.I18n.getCurrentLocale().getLanguage();
+        String guidePath = lang.equalsIgnoreCase("pt") ? "/guide/tutorial.html" : "/guide/tutorial_en.html";
+        URL guideUrl = GuideWindow.class.getResource(guidePath);
+        if (guideUrl == null) {
+            guideUrl = GuideWindow.class.getResource("/guide/tutorial.html");
+        }
         if (guideUrl != null) {
             webView.getEngine().load(guideUrl.toExternalForm());
         }

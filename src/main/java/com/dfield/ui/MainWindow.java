@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import com.dfield.core.DirectionFieldCalculator;
 import com.dfield.core.DormandPrince45Solver;
 import com.dfield.core.EquationExample;
@@ -52,10 +54,10 @@ public class MainWindow extends BorderPane {
     private final TextField txtDependentVar = new TextField("x");
     private final TextField txtEquation = new TextField("a*x - t");
     private final TextField txtParameters = new TextField("a=1.0");
-    private final Button btnSliders = new Button("Sliders");
-    private final Button btnIsoclines = new Button("Isóclinas");
-    private final Button btnCriticalPoints = new Button("Equilíbrios");
-    private final Button btnPhasePlot = new Button("x' vs x");
+    private final Button btnSliders = new Button(I18n.get("btn.sliders"));
+    private final Button btnIsoclines = new Button(I18n.get("btn.isoclines"));
+    private final Button btnCriticalPoints = new Button(I18n.get("btn.equilibria"));
+    private final Button btnPhasePlot = new Button(I18n.get("btn.phase_plot"));
     private boolean showEquilibria = false;
 
     private final TextField txtTMin = new TextField("-2.0");
@@ -66,13 +68,13 @@ public class MainWindow extends BorderPane {
     private final TextField txtT0 = new TextField("0.0");
     private final TextField txtX0 = new TextField("1.0");
 
-    private final Button btnUpdate = new Button("Atualizar Campo");
-    private final Button btnTrace = new Button("Traçar");
-    private final Button btnClear = new Button("Limpar Trajetórias");
-private final Button btnGallery = new Button("Galeria de Modelos");
-    private final Button btnGuide = new Button("Guia Didático");
-private final Button btnExport = new Button("Exportar PNG");
-    private final Button btnExportSvg = new Button("Exportar SVG");
+    private final Button btnUpdate = new Button(I18n.get("btn.update_field"));
+    private final Button btnTrace = new Button(I18n.get("btn.solve"));
+    private final Button btnClear = new Button(I18n.get("btn.clear"));
+private final Button btnGallery = new Button(I18n.get("btn.gallery"));
+    private final Button btnGuide = new Button(I18n.get("btn.guide"));
+private final Button btnExport = new Button(I18n.get("btn.export_png"));
+    private final Button btnExportSvg = new Button(I18n.get("btn.export_svg"));
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -164,7 +166,7 @@ private final Button btnExport = new Button("Exportar PNG");
         HBox.setHgrow(txtParameters, Priority.ALWAYS);
 
         VBox paramsBox = new VBox(4,
-                new Label("Parâmetros (ex: a=1.0, b=2.0):"),
+                new Label(I18n.get("label.parameters")),
                 paramRow
         );
 
@@ -176,10 +178,10 @@ private final Button btnExport = new Button("Exportar PNG");
         domainGrid.setHgap(8);
         domainGrid.setVgap(8);
 
-        Label lblTMin = new Label("t mín:");
-        Label lblTMax = new Label("t máx:");
-        Label lblXMin = new Label("x mín:");
-        Label lblXMax = new Label("x máx:");
+        Label lblTMin = new Label(I18n.get("label.tmin"));
+        Label lblTMax = new Label(I18n.get("label.tmax"));
+        Label lblXMin = new Label(I18n.get("label.xmin"));
+        Label lblXMax = new Label(I18n.get("label.xmax"));
         lblTMin.setMinWidth(42);
         lblTMax.setMinWidth(42);
         lblXMin.setMinWidth(42);
@@ -349,6 +351,8 @@ btnGallery.setOnAction(e -> {
         txtT0.setText(String.valueOf(model.defaultT0()));
         txtX0.setText(String.valueOf(model.defaultX0()));
 
+        // Limpa trajetórias e órbitas anteriores ao carregar novo modelo
+        btnClear.fire();
         btnUpdate.fire();
     });
 });
@@ -378,7 +382,7 @@ btnGallery.setOnAction(e -> {
 
             if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Equacao Nao Autonoma");
+                alert.setTitle(I18n.get("equilibria.non_autonomous.title"));
                 alert.setHeaderText("Grafico x' vs x Indefinido");
                 alert.setContentText("A equacao informada depende explicitamente de t: dx/dt = f(t, x).\n\n" +
                                      "O grafico de fluxo x' versus x representa o espaco de estados 1D e so existe para EDOs autonomas dx/dt = f(x).\n\n" +
@@ -397,7 +401,7 @@ btnGallery.setOnAction(e -> {
         });
         btnCriticalPoints.setOnAction(e -> {
             if (currentODE == null) {
-                setStatus("Defina uma EDO válida antes de calcular os equilíbrios.", true);
+                setStatus(I18n.get("status.ode_invalid_equilibria"), true);
                 return;
             }
 
@@ -407,11 +411,9 @@ btnGallery.setOnAction(e -> {
                 canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Equacao Nao Autonoma");
-                alert.setHeaderText("Pontos de Equilibrio Indefinidos");
-                alert.setContentText("A equacao depende explicitamente de t: dx/dt = f(t, x).\n\n" +
-                                     "Pontos de equilibrio so existem para EDOs autonomas dx/dt = f(x).\n\n" +
-                                     "Para analisar inclinacao nula, utilize o botao Isoclinas com c = 0.");
+                alert.setTitle(I18n.get("equilibria.non_autonomous.title"));
+                alert.setHeaderText(I18n.get("equilibria.non_autonomous.header"));
+                alert.setContentText(I18n.get("equilibria.non_autonomous.content"));
                 alert.initOwner((Stage) btnCriticalPoints.getScene().getWindow());
                 alert.showAndWait();
                 return;
@@ -422,11 +424,11 @@ btnGallery.setOnAction(e -> {
                 btnCriticalPoints.setStyle("-fx-border-color: #10b981; -fx-text-fill: #10b981; -fx-font-weight: bold;");
                 updateAutonomousControlsState();
         updateEquilibriaIfActive();
-                setStatus("Pontos de equilíbrio calculados e desenhados para o intervalo visível.", false);
+                setStatus(I18n.get("status.equilibria_calculated"), false);
             } else {
                 btnCriticalPoints.setStyle("");
                 canvas.setCriticalPoints(java.util.Collections.emptyList(), false);
-                setStatus("Exibição de pontos de equilíbrio desativada.", false);
+                setStatus(I18n.get("status.equilibria_disabled"), false);
             }
         });
 
@@ -605,7 +607,7 @@ btnGallery.setOnAction(e -> {
             activeInitialConditions.add(new double[]{t0, x0});
         }
         if (currentODE == null) {
-            setStatus("Defina uma EDO válida antes de traçar a solução.", true);
+            setStatus(I18n.get("status.ode_invalid_trace"), true);
             return;
         }
 
@@ -742,15 +744,15 @@ double tol = 1e-6;
     }
     private void exportFieldSvg() {
         List<String> options = List.of(
-                "1. Fundo Escuro (Tema Nativo #12161f)",
-                "2. Fundo Branco (Impressão / Artigos)",
+                I18n.get("dialog.export.opt1"),
+                I18n.get("dialog.export.opt2"),
                 "3. Fundo Transparente (LaTeX / Vetorial)"
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
-        dialog.setTitle("Exportar Gráfico SVG");
-        dialog.setHeaderText("Configuração de Exportação Vetorial");
-        dialog.setContentText("Esquema de fundo:");
+        dialog.setTitle(I18n.get("dialog.export_svg.title"));
+        dialog.setHeaderText(I18n.get("dialog.export_svg.header"));
+        dialog.setContentText(I18n.get("dialog.export.content"));
 
         var cssSvg = getClass().getResource("/css/style.css");
         if (cssSvg != null) {
@@ -792,15 +794,15 @@ double tol = 1e-6;
 
     private void exportFieldImage() {
         List<String> options = List.of(
-                "1. Fundo Escuro (Tema Nativo #12161f)",
-                "2. Fundo Branco (Impressão / Artigos)",
-                "3. Fundo Transparente (LaTeX / Inserção)"
+                I18n.get("dialog.export.opt1"),
+                I18n.get("dialog.export.opt2"),
+                I18n.get("dialog.export.opt3")
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
-        dialog.setTitle("Exportar Imagem PNG");
-        dialog.setHeaderText("Configuração de Exportação Gráfica");
-        dialog.setContentText("Esquema de fundo:");
+        dialog.setTitle(I18n.get("dialog.export_png.title"));
+        dialog.setHeaderText(I18n.get("dialog.export_png.header"));
+        dialog.setContentText(I18n.get("dialog.export.content"));
 
         var cssPng = getClass().getResource("/css/style.css");
         if (cssPng != null) {

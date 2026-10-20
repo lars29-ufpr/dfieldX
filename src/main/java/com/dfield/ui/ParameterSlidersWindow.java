@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,7 +30,7 @@ public class ParameterSlidersWindow {
         openStage = stage;
         stage.initOwner(ownerStage);
         stage.initModality(Modality.NONE);
-        stage.setTitle("dfieldX — Controle Interativo de Parâmetros");
+        stage.setTitle(I18n.get("sliders.title"));
 
         try {
             var iconStream = ParameterSlidersWindow.class.getResourceAsStream("/icons/dfieldX_icon.png");
@@ -43,12 +45,12 @@ public class ParameterSlidersWindow {
         contentBox.setPadding(new Insets(20));
         contentBox.setStyle("-fx-background-color: #12161f;");
 
-        Label header = new Label("EXPLORAÇÃO PARAMÉTRICA CONTÍNUA");
+        Label header = new Label(I18n.get("sliders.header"));
         header.setStyle("-fx-text-fill: #38bdf8; -fx-font-weight: bold; -fx-font-size: 13px;");
         contentBox.getChildren().add(header);
 
         if (paramMap.isEmpty()) {
-            Label lblEmpty = new Label("Nenhum parâmetro declarado.\nDefina parâmetros no formato: a=1.0, b=2.0");
+            Label lblEmpty = new Label(I18n.get("sliders.empty"));
             lblEmpty.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
             contentBox.getChildren().add(lblEmpty);
         } else {

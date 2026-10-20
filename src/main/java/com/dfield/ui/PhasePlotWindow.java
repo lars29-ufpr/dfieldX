@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import com.dfield.core.ODEExpression;
 import com.dfield.numerical.CriticalPointCalculator;
 import com.dfield.numerical.CriticalPointCalculator.CriticalPoint;
@@ -41,7 +43,7 @@ public class PhasePlotWindow extends Stage {
 
         initOwner(owner);
         initModality(Modality.NONE);
-        setTitle("dfieldX — Retrato 1D: x' vs x");
+        setTitle(I18n.get("phaseplot.title"));
         setWidth(560);
         setHeight(460);
         setMinWidth(420);
@@ -140,7 +142,7 @@ public class PhasePlotWindow extends Stage {
         fMin = -maxAbs;
         fMax = maxAbs;
 
-        lblInfo.setText(String.format(Locale.US, "x: [%.2f, %.2f] | Faixa x': [%.2f, %.2f]", xMin, xMax, fMin, fMax));
+        lblInfo.setText(I18n.format("phaseplot.info", String.format(Locale.US, "%.2f", xMin), String.format(Locale.US, "%.2f", xMax), String.format(Locale.US, "%.2f", fMin), String.format(Locale.US, "%.2f", fMax)));
 
         
         final double finalFMin = fMin;

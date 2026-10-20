@@ -1,5 +1,7 @@
 package com.dfield;
 
+import com.dfield.util.I18n;
+
 import com.dfield.ui.MainWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,7 +19,7 @@ public class MainApp extends Application {
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         }
 
-        primaryStage.setTitle("dfieldX - Campo de Direções e Análise de EDOs 1D");
+        primaryStage.setTitle(I18n.get("app.title"));
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(600);

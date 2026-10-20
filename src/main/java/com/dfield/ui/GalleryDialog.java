@@ -1,5 +1,7 @@
 package com.dfield.ui;
 
+import com.dfield.util.I18n;
+
 import com.dfield.core.EquationExample;
 import com.dfield.core.ExampleLibrary;
 import javafx.collections.FXCollections;
@@ -38,7 +40,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
 
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
-        setTitle("Galeria Didática de EDOs");
+        setTitle(I18n.get("gallery.title"));
         setResizable(true);
 
         DialogPane dialogPane = getDialogPane();
@@ -52,7 +54,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         }
 
         // Botoes do DialogPane
-        this.btnLoadType = new ButtonType("Carregar Modelo", ButtonBar.ButtonData.OK_DONE);
+        this.btnLoadType = new ButtonType(I18n.get("gallery.btn.load"), ButtonBar.ButtonData.OK_DONE);
         dialogPane.getButtonTypes().addAll(btnLoadType, ButtonType.CANCEL);
 
         initLayout(dialogPane);
@@ -75,29 +77,27 @@ public class GalleryDialog extends Dialog<EquationExample> {
         VBox topBox = new VBox(10);
         topBox.setPadding(new Insets(0, 0, 12, 0));
 
-        Label lblTitle = new Label("Galeria Didática de EDOs");
+        Label lblTitle = new Label(I18n.get("gallery.title"));
         lblTitle.getStyleClass().add("section-title");
 
         HBox filterBox = new HBox(10);
         filterBox.setAlignment(Pos.CENTER_LEFT);
 
-        Label lblFilter = new Label("Categoria:");
+        Label lblFilter = new Label(I18n.get("gallery.filter"));
         cmbCategories.setItems(FXCollections.observableArrayList(
-                "Dinâmica Populacional",
-                "Sistemas Não Lineares & Bifurcações",
-                "Física e Circuitos",
-                "Finanças e Economia",
-                "Clima e Geociências",
-                "Fenômenos Matemáticos",
-                "Personalizados"
+                I18n.get("gallery.cat.biomath"),
+                I18n.get("gallery.cat.physics"),
+                I18n.get("gallery.cat.chemistry"),
+                I18n.get("gallery.cat.math"),
+                I18n.get("gallery.cat.custom")
         ));
-        cmbCategories.setValue("Dinâmica Populacional");
+        cmbCategories.setValue(I18n.get("gallery.cat.biomath"));
         cmbCategories.setPrefWidth(220);
 
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);
 
-        Button btnSaveCurrent = new Button("Salvar Atual como Modelo...");
+        Button btnSaveCurrent = new Button(I18n.get("gallery.btn.save_current"));
         btnSaveCurrent.getStyleClass().addAll("btn", "btn-secondary");
         btnSaveCurrent.setOnAction(e -> handleSaveCurrent());
 
@@ -131,7 +131,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         btnLoad.setDisable(true);
 
         Button btnCancel = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
-        btnCancel.setText("Cancelar");
+        btnCancel.setText(I18n.get("gallery.btn.cancel"));
         btnCancel.getStyleClass().addAll("btn", "btn-secondary");
 
         // Habilita "Carregar" apenas se houver seleção
@@ -156,10 +156,10 @@ public class GalleryDialog extends Dialog<EquationExample> {
         grid.setHgap(10);
         grid.setVgap(8);
 
-        grid.addRow(0, new Label("Equação:"), lblDetailEquation);
-        grid.addRow(1, new Label("Variáveis:"), lblDetailVariables);
-        grid.addRow(2, new Label("Parâmetros:"), lblDetailParameters);
-        grid.addRow(3, new Label("Janela sugerida:"), lblDetailWindow);
+        grid.addRow(0, new Label(I18n.get("gallery.equation")), lblDetailEquation);
+        grid.addRow(1, new Label(I18n.get("gallery.variables")), lblDetailVariables);
+        grid.addRow(2, new Label(I18n.get("gallery.parameters")), lblDetailParameters);
+        grid.addRow(3, new Label(I18n.get("gallery.window")), lblDetailWindow);
 
         lblDetailEquation.getStyleClass().add("detail-highlight");
         lblDetailVariables.getStyleClass().add("detail-value");
@@ -169,7 +169,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         box.getChildren().addAll(
                 lblDetailName,
                 lblDetailCategory,
-                new Label("Descrição e Contexto Didático:"),
+                new Label(I18n.get("gallery.desc_header")),
                 txtDetailDescription,
                 new Separator(),
                 grid
@@ -191,7 +191,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
         });
 
         // Carga inicial
-        refreshList("Dinâmica Populacional");
+        refreshList(I18n.get("gallery.cat.biomath"));
     }
 
     private void refreshList(String category) {
@@ -207,7 +207,7 @@ public class GalleryDialog extends Dialog<EquationExample> {
 
     private void updateDetails(EquationExample ex) {
         if (ex == null) {
-            lblDetailName.setText("Nenhum modelo selecionado");
+            lblDetailName.setText(I18n.get("gallery.none_selected"));
             lblDetailCategory.setText("");
             txtDetailDescription.setText("");
             lblDetailEquation.setText("-");
@@ -218,13 +218,13 @@ public class GalleryDialog extends Dialog<EquationExample> {
         }
 
         lblDetailName.setText(ex.name());
-        lblDetailCategory.setText("Categoria: " + ex.category());
+        lblDetailCategory.setText(I18n.get("gallery.category_prefix") + ex.category());
         txtDetailDescription.setText(ex.description());
         lblDetailEquation.setText(String.format("d%s/d%s = %s", ex.dependentVar(), ex.independentVar(), ex.expression()));
         lblDetailVariables.setText(String.format("Indep: %s | Dep: %s", ex.independentVar(), ex.dependentVar()));
 
 if (ex.defaultParameters() == null || ex.defaultParameters().isBlank()) {
-            lblDetailParameters.setText("(Nenhum)");
+            lblDetailParameters.setText(I18n.get("gallery.none_params"));
         } else {
             lblDetailParameters.setText(ex.defaultParameters());
         }
@@ -241,7 +241,7 @@ if (ex.defaultParameters() == null || ex.defaultParameters().isBlank()) {
      */
     private void handleSaveCurrent() {
         if (currentEquationState == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Não há equação ativa para salvar.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, I18n.get("gallery.save.warning"), ButtonType.OK);
             alert.initOwner(getOwner());
             alert.showAndWait();
             return;
@@ -249,9 +249,9 @@ if (ex.defaultParameters() == null || ex.defaultParameters().isBlank()) {
 
         TextInputDialog inputDialog = new TextInputDialog(currentEquationState.name());
         inputDialog.initOwner(getOwner());
-        inputDialog.setTitle("Salvar Modelo Customizado");
-        inputDialog.setHeaderText("Salvar Equação na Biblioteca Pessoal");
-        inputDialog.setContentText("Nome do Modelo:");
+        inputDialog.setTitle(I18n.get("gallery.save.title"));
+        inputDialog.setHeaderText(I18n.get("gallery.save.header"));
+        inputDialog.setContentText(I18n.get("gallery.save.content"));
 
         inputDialog.showAndWait().ifPresent(name -> {
             String trimmedName = name.trim();
@@ -260,7 +260,7 @@ if (ex.defaultParameters() == null || ex.defaultParameters().isBlank()) {
             EquationExample customExample = new EquationExample(
                     trimmedName,
                     "Personalizados",
-                    "Modelo customizado adicionado pelo usuário.",
+                    I18n.get("gallery.save.default_desc"),
                     currentEquationState.expression(),
                     currentEquationState.independentVar(),
                     currentEquationState.dependentVar(),
