@@ -1,40 +1,44 @@
-# dfieldX — Análise Numérica e Qualitativa de EDOs 1D
+> **Language / Idioma:** **English** | [Português](README.pt-BR.md)
 
-**dfieldX** é uma aplicação gráfica interativa moderna desenvolvida em Java 21 e JavaFX para a simulação numérica, traçado de campos de direções e análise qualitativa de Equações Diferenciais Ordinárias (EDOs) escalares de primeira ordem:
+---
+
+# dfieldX — Numerical and Qualitative Analysis of 1D ODEs
+
+**dfieldX** is a modern, interactive desktop application built with Java 21 and JavaFX for numerical simulation, direction field visualization, and qualitative analysis of first-order scalar Ordinary Differential Equations (ODEs):
 
 $$x' = \frac{dx}{dt} = f(t, x)$$
 
-Inspirado na clássica ferramenta pedagógica `dfield` desenvolvida originalmente por **John C. Polking** (Rice University) para o ambiente MATLAB, o **dfieldX** foi reconstruído do zero para oferecer alto desempenho computacional, interface moderna com aceleração gráfica nativa e portabilidade universal multiplataforma (Linux, Windows e macOS).
+Inspired by the classic educational software `dfield` originally developed by **John C. Polking** (Rice University) for MATLAB, **dfieldX** was rebuilt from scratch to deliver high computational performance, a modern GPU-accelerated interface, and universal cross-platform portability (Linux, Windows, and macOS).
 
 ---
 
-## 🚀 Destaques e Funcionalidades
+## 🚀 Key Features
 
-* **Campos de Direções em Alta Definição:** Renderização vetorial fluida de vetores tangentes com opções de normalização de comprimento e gradiente de intensidade de inclinação.
-* **Integração Numérica Adaptativa de Alta Precisão:**
-  * Métodos clássicos e de passo adaptativo (Dormand-Prince / Runge-Kutta 4ª e 5ª ordem, Euler e RK4 padrão).
-  * Suporte computacional nativo à função raiz cúbica real ($\text{cbrt}$) em todo o domínio real $\mathbb{R}$, evitando descontinuidades de fase.
-* **Análise Qualitativa Automatizada:**
-  * Localização numérica de equilíbrios locais ($f(t, x^*) = 0$).
-  * Classificação de estabilidade linear (atratores, repulsores e pontos de sela/semi-estáveis).
-  * Traçado automático de isóclinas via algoritmo *Marching Squares*.
-  * Diagrama de linha de fase auxiliar ($x' \text{ vs } x$) para equações autônomas.
-* **Galeria Didática Integrada:** Coleção de 22 modelos pré-configurados abrangendo:
-  * Biomatemática e Dinâmica Populacional (Logístico, Allee, Gompertz, Colheita com esforço constante e quota fixa).
-  * Física e Mecânica Clássica (Queda livre com resistência linear e quadrática, Circuito RC, Resfriamento de Newton).
-  * Cinética Química e Modelagem Geral.
-* **Exploração Paramétrica Contínua:** Janela dedicada de controles deslizantes (*sliders*) para ajuste em tempo real de coeficientes e parâmetros livres da equação.
-* **Exportação Vetorial e Raster de Alta Resolução:**
-  * Exportação gráfica para formatos **SVG** (vetorial puro escalável para artigos e LaTeX).
-  * Exportação raster em **PNG** em alta definição com suporte a fundo transparente (canal alfa RGBA).
-* **Binário Universal Cross-Platform:** Empacotamento em um único executável *fat JAR* contendo bibliotecas nativas de aceleração gráfica para **Linux (x86_64)**, **Windows (x86_64)** e **macOS (Apple Silicon M-Series e Intel x86_64)**.
+* **High-Definition Direction Fields:** Smooth vector rendering of slope segments with options for length normalization and slope-intensity coloring.
+* **High-Precision Adaptive Numerical Integration:**
+  * Standard and adaptive step-size solvers (Dormand-Prince / Runge-Kutta 4th and 5th order, standard RK4, and Euler).
+  * Native real-domain evaluation of the real cube root function ($\text{cbrt}$) across all $\mathbb{R}$, eliminating branch-cut phase artifacts.
+* **Automated Qualitative Analysis:**
+  * Numerical equilibrium solving ($f(t, x^*) = 0$).
+  * Linear stability classification (attractors, repellers, and semi-stable/saddle points).
+  * Automatic isocline tracing via the *Marching Squares* contouring algorithm.
+  * Auxiliary phase-line diagram ($x' \text{ vs } x$) for autonomous equations.
+* **Curated Built-in Model Gallery:** A collection of 22 preconfigured models spanning:
+  * Biomathematics and Population Dynamics (Logistic growth, Allee effect, Gompertz, constant-effort and fixed-quota harvesting).
+  * Classical Mechanics and Physics (Free fall with linear and quadratic drag, RC circuits, Newton's law of cooling).
+  * Chemical kinetics and foundational ODE benchmarks.
+* **Real-Time Parameter Sliders:** Interactive slider controls for dynamic parameter tuning and continuous bifurcation exploration.
+* **Vector and High-Resolution Raster Export:**
+  * Pure scalable vector graphics (**SVG**) for publication-grade figures and LaTeX integration.
+  * High-DPI raster export (**PNG**) with transparent background (RGBA alpha channel) support.
+* **Universal Cross-Platform Fat JAR:** Self-contained executable bundling native platform graphics binaries for **Linux (x86_64)**, **Windows (x86_64)**, and **macOS (Apple Silicon M-Series and Intel x86_64)**.
 
 ---
 
-## 📋 Pré-requisitos
+## 📋 Prerequisites
 
-Para executar o binário pré-compilado, é necessário apenas ter o **Java Runtime Environment (JRE) ou JDK versão 21 ou superior** instalado no sistema operacional.
+To run the pre-built binary, only a **Java Runtime Environment (JRE) or JDK version 21 or higher** is required.
 
-Para verificar a instalação do Java, execute no terminal:
+Verify your local Java installation by running:
 ```bash
 java -version
