@@ -52,10 +52,10 @@ public class MainWindow extends BorderPane {
     private final TextField txtDependentVar = new TextField("x");
     private final TextField txtEquation = new TextField("a*x - t");
     private final TextField txtParameters = new TextField("a=1.0");
-    private final Button btnSliders = new Button("🎚 Sliders");
-    private final Button btnIsoclines = new Button("📐 Isóclinas");
-    private final Button btnCriticalPoints = new Button("⚖ Equilíbrios");
-    private final Button btnPhasePlot = new Button("📈 x' vs x");
+    private final Button btnSliders = new Button("Sliders");
+    private final Button btnIsoclines = new Button("Isóclinas");
+    private final Button btnCriticalPoints = new Button("Equilíbrios");
+    private final Button btnPhasePlot = new Button("x' vs x");
     private boolean showEquilibria = false;
 
     private final TextField txtTMin = new TextField("-2.0");
@@ -69,10 +69,10 @@ public class MainWindow extends BorderPane {
     private final Button btnUpdate = new Button("Atualizar Campo");
     private final Button btnTrace = new Button("Traçar");
     private final Button btnClear = new Button("Limpar Trajetórias");
-private final Button btnGallery = new Button("📚 Galeria de Modelos");
-    private final Button btnGuide = new Button("📖 Guia Didático");
-private final Button btnExport = new Button("📷 Exportar PNG");
-    private final Button btnExportSvg = new Button("📐 Exportar SVG");
+private final Button btnGallery = new Button("Galeria de Modelos");
+    private final Button btnGuide = new Button("Guia Didático");
+private final Button btnExport = new Button("Exportar PNG");
+    private final Button btnExportSvg = new Button("Exportar SVG");
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -132,20 +132,21 @@ private final Button btnExport = new Button("📷 Exportar PNG");
     }
 
     private VBox buildSidebar() {
-        VBox sidebar = new VBox(12);
+        VBox sidebar = new VBox(14);
         sidebar.setPadding(new Insets(16));
-        sidebar.setPrefWidth(300);
+        sidebar.setMinWidth(330);
+        sidebar.setPrefWidth(340);
         sidebar.getStyleClass().add("sidebar-pane");
 
         // 1. Cabeçalho de Seção
         Label lblTitle = new Label("EDO ESCALAR 1D");
         lblTitle.getStyleClass().add("section-title");
 
-        // 2. Variáveis
+        // 2. Variáveis com nomes completos
         HBox varsBox = new HBox(10);
         varsBox.getChildren().addAll(
-                createLabeledField("Indep. (t):", txtIndependentVar),
-                createLabeledField("Dep. (x):", txtDependentVar)
+                createLabeledField("Independente:", txtIndependentVar),
+                createLabeledField("Dependente:", txtDependentVar)
         );
 
         // 3. Equação Diferencial dx/dt
@@ -154,15 +155,56 @@ private final Button btnExport = new Button("📷 Exportar PNG");
                 txtEquation
         );
 
-        // 4. Parâmetros
+        // 4. Parâmetros e Sliders
         btnSliders.getStyleClass().addAll("btn", "btn-secondary");
-        btnIsoclines.getStyleClass().addAll("btn", "btn-secondary");
-        btnCriticalPoints.getStyleClass().addAll("btn", "btn-secondary");
-        btnPhasePlot.getStyleClass().addAll("btn", "btn-secondary");
+        btnSliders.setAlignment(Pos.CENTER);
+        btnSliders.setMinWidth(80);
 
+        HBox paramRow = new HBox(8, txtParameters, btnSliders);
+        HBox.setHgrow(txtParameters, Priority.ALWAYS);
+
+        VBox paramsBox = new VBox(4,
+                new Label("Parâmetros (ex: a=1.0, b=2.0):"),
+                paramRow
+        );
+
+        // 5. Limites dos Eixos (Grid com colunas proporcionais e labels sem reticências)
+        Label lblDomainTitle = new Label("LIMITES DO DOMÍNIO");
+        lblDomainTitle.getStyleClass().add("section-subtitle");
+
+        GridPane domainGrid = new GridPane();
+        domainGrid.setHgap(8);
+        domainGrid.setVgap(8);
+
+        Label lblTMin = new Label("t mín:");
+        Label lblTMax = new Label("t máx:");
+        Label lblXMin = new Label("x mín:");
+        Label lblXMax = new Label("x máx:");
+        lblTMin.setMinWidth(42);
+        lblTMax.setMinWidth(42);
+        lblXMin.setMinWidth(42);
+        lblXMax.setMinWidth(42);
+
+        domainGrid.addRow(0, lblTMin, txtTMin, lblTMax, txtTMax);
+        domainGrid.addRow(1, lblXMin, txtXMin, lblXMax, txtXMax);
+
+        // 6. Galeria de Modelos e Guia Didático
+        btnGallery.setMaxWidth(Double.MAX_VALUE);
+        btnGallery.getStyleClass().addAll("btn", "btn-purple");
+        btnGuide.setMaxWidth(Double.MAX_VALUE);
+        btnGuide.getStyleClass().addAll("btn", "btn-purple");
+        HBox.setHgrow(btnGallery, Priority.ALWAYS);
+        HBox.setHgrow(btnGuide, Priority.ALWAYS);
+
+        HBox modelsGuideBox = new HBox(8, btnGallery, btnGuide);
+
+        // 7. Análise de EDO (Isóclinas, Equilíbrios e x' vs x)
         btnIsoclines.setMaxWidth(Double.MAX_VALUE);
         btnCriticalPoints.setMaxWidth(Double.MAX_VALUE);
         btnPhasePlot.setMaxWidth(Double.MAX_VALUE);
+        btnIsoclines.getStyleClass().addAll("btn", "btn-secondary");
+        btnCriticalPoints.getStyleClass().addAll("btn", "btn-secondary");
+        btnPhasePlot.getStyleClass().addAll("btn", "btn-secondary");
 
         HBox.setHgrow(btnIsoclines, Priority.ALWAYS);
         HBox.setHgrow(btnCriticalPoints, Priority.ALWAYS);
@@ -174,53 +216,47 @@ private final Button btnExport = new Button("📷 Exportar PNG");
         Tooltip tipAutonomous = new Tooltip("Disponível apenas para equações autônomas: dx/dt = f(x)");
         Tooltip.install(btnCriticalPoints, tipAutonomous);
         Tooltip.install(btnPhasePlot, tipAutonomous);
-        btnIsoclines.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(btnIsoclines, Priority.ALWAYS);
-        HBox paramRow = new HBox(6, txtParameters, btnSliders);
-        HBox.setHgrow(txtParameters, Priority.ALWAYS);
-        VBox paramsBox = new VBox(4,
-                new Label("Parâmetros (ex: a=1.0, b=2.0):"),
-                paramRow
-        );
 
-        // 5. Limites dos Eixos
-        Label lblDomainTitle = new Label("LIMITES DO DOMÍNIO");
-        lblDomainTitle.getStyleClass().add("section-subtitle");
-
-        GridPane domainGrid = new GridPane();
-        domainGrid.setHgap(8);
-        domainGrid.setVgap(8);
-        domainGrid.addRow(0, new Label("tMin:"), txtTMin, new Label("tMax:"), txtTMax);
-        domainGrid.addRow(1, new Label("xMin:"), txtXMin, new Label("xMax:"), txtXMax);
-
-        // 6. Botão de Atualização
+        // 8. Botão Principal de Atualização
         btnUpdate.setMaxWidth(Double.MAX_VALUE);
         btnUpdate.getStyleClass().addAll("btn", "btn-green");
-btnGallery.setMaxWidth(Double.MAX_VALUE);
-        btnGallery.getStyleClass().addAll("btn", "btn-purple");
-        btnGuide.setMaxWidth(Double.MAX_VALUE);
-        btnGuide.getStyleClass().addAll("btn", "btn-purple");
 
-        HBox modelsGuideBox = new HBox(8);
-        modelsGuideBox.getChildren().addAll(btnGallery, btnGuide);
-        HBox.setHgrow(btnGallery, Priority.ALWAYS);
-        HBox.setHgrow(btnGuide, Priority.ALWAYS);
-        // 7. Lançamento de Trajetória Manual (t0, x0)
+        // 9. Condição Inicial (t0, x0)
         Label lblOrbitTitle = new Label("CONDIÇÃO INICIAL (t0, x0)");
         lblOrbitTitle.getStyleClass().add("section-subtitle");
 
-        HBox icBox = new HBox(8);
-        icBox.setAlignment(Pos.CENTER_LEFT);
-        icBox.getChildren().addAll(
-                new Label("t0:"), txtT0,
-                new Label("x0:"), txtX0,
-                btnTrace
-        );
-        btnTrace.getStyleClass().addAll("btn", "btn-green");
+        Label lblT0 = new Label("t₀:");
+        Label lblX0 = new Label("x₀:");
+        lblT0.setMinWidth(20);
+        lblX0.setMinWidth(20);
 
-        // 8. Botão de Limpeza
+        txtT0.setPrefWidth(75);
+        txtX0.setPrefWidth(75);
+        txtT0.setMinWidth(60);
+        txtX0.setMinWidth(60);
+
+        btnTrace.getStyleClass().addAll("btn", "btn-green");
+        btnTrace.setMinWidth(80);
+        btnTrace.setPrefWidth(85);
+
+        HBox icBox = new HBox(6, lblT0, txtT0, lblX0, txtX0, btnTrace);
+        icBox.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(txtT0, Priority.ALWAYS);
+        HBox.setHgrow(txtX0, Priority.ALWAYS);
+
+        // 10. Botão Limpar
         btnClear.setMaxWidth(Double.MAX_VALUE);
         btnClear.getStyleClass().addAll("btn", "btn-secondary");
+
+        // 11. Botões de Exportação lado a lado
+        btnExport.setMaxWidth(Double.MAX_VALUE);
+        btnExportSvg.setMaxWidth(Double.MAX_VALUE);
+        btnExport.getStyleClass().addAll("btn", "btn-secondary");
+        btnExportSvg.getStyleClass().addAll("btn", "btn-secondary");
+        HBox.setHgrow(btnExport, Priority.ALWAYS);
+        HBox.setHgrow(btnExportSvg, Priority.ALWAYS);
+
+        HBox exportBox = new HBox(8, btnExport, btnExportSvg);
 
         sidebar.getChildren().addAll(
                 lblTitle,
@@ -229,14 +265,14 @@ btnGallery.setMaxWidth(Double.MAX_VALUE);
                 paramsBox,
                 lblDomainTitle,
                 domainGrid,
-modelsGuideBox, analysisButtonsBox,
+                modelsGuideBox,
+                analysisButtonsBox,
                 btnUpdate,
                 new Separator(),
                 lblOrbitTitle,
                 icBox,
                 btnClear,
-btnExport,
-                btnExportSvg
+                exportBox
         );
 
         return sidebar;
@@ -716,6 +752,11 @@ double tol = 1e-6;
         dialog.setHeaderText("Configuração de Exportação Vetorial");
         dialog.setContentText("Esquema de fundo:");
 
+        var cssSvg = getClass().getResource("/css/style.css");
+        if (cssSvg != null) {
+            dialog.getDialogPane().getStylesheets().add(cssSvg.toExternalForm());
+        }
+
         var optResult = dialog.showAndWait();
         if (optResult.isEmpty()) return;
 
@@ -760,6 +801,11 @@ double tol = 1e-6;
         dialog.setTitle("Exportar Imagem PNG");
         dialog.setHeaderText("Configuração de Exportação Gráfica");
         dialog.setContentText("Esquema de fundo:");
+
+        var cssPng = getClass().getResource("/css/style.css");
+        if (cssPng != null) {
+            dialog.getDialogPane().getStylesheets().add(cssPng.toExternalForm());
+        }
 
         var optResult = dialog.showAndWait();
         if (optResult.isEmpty()) return;

@@ -138,3 +138,63 @@
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
+
+/* --- Tema Escuro para Diálogos (ChoiceDialog / Alert) --- */
+.dialog-pane {
+    -fx-background-color: #1a1e29;
+    -fx-border-color: #2f3542;
+    -fx-border-width: 1px;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: #12161f;
+    -fx-border-color: transparent transparent #2f3542 transparent;
+    -fx-border-width: 1px;
+}
+
+.dialog-pane > .header-panel > .label {
+    -fx-text-fill: #e1e7f0;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane > .content.label,
+.dialog-pane:header .header-panel .label,
+.dialog-pane > .content {
+    -fx-text-fill: #c8d1de;
+    -fx-font-size: 12px;
+}
+
+.dialog-pane .combo-box {
+    -fx-background-color: #242936;
+    -fx-border-color: #404859;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.dialog-pane .combo-box .list-cell {
+    -fx-text-fill: #e1e7f0;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #2f3542;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #404859;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-padding: 6px 14px;
+}
+
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #404859;
+}
+
+.dialog-pane .button-bar .button:default {
+    -fx-background-color: #28a745;
+    -fx-border-color: #28a745;
+}
+
+.dialog-pane .button-bar .button:default:hover {
+    -fx-background-color: #2eb85c;
+}
