@@ -92,7 +92,8 @@ public class GalleryDialog extends Dialog<EquationExample> {
                 I18n.get("gallery.cat.custom")
         ));
         cmbCategories.setValue(I18n.get("gallery.cat.biomath"));
-        cmbCategories.setPrefWidth(220);
+        cmbCategories.setPrefWidth(320);
+        cmbCategories.setMinWidth(300);
 
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);

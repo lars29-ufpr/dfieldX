@@ -31,6 +31,8 @@ public class ParameterSlidersWindow {
         stage.initOwner(ownerStage);
         stage.initModality(Modality.NONE);
         stage.setTitle(I18n.get("sliders.title"));
+        stage.setMinWidth(580);
+        stage.setWidth(580);
 
         try {
             var iconStream = ParameterSlidersWindow.class.getResourceAsStream("/icons/dfieldX_icon.png");
@@ -113,9 +115,9 @@ public class ParameterSlidersWindow {
         scroll.setFitToWidth(true);
         scroll.setStyle("-fx-background: #12161f; -fx-background-color: transparent;");
 
-        Scene scene = new Scene(scroll, 380, 480);
+        Scene scene = new Scene(scroll, 480.0, 480);
         stage.setScene(scene);
-        stage.setMinWidth(320);
+        stage.setMinWidth(480);
         stage.setMinHeight(300);
         stage.setOnHidden(e -> openStage = null);
         stage.show();

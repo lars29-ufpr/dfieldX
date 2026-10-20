@@ -13,6 +13,7 @@ import com.dfield.numerical.RK4Solver;
 import com.dfield.numerical.TerminationReason;
 import com.dfield.numerical.TrajectoryPoint;
 import com.dfield.ui.GalleryDialog;
+import com.dfield.ui.AboutDialog;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -75,6 +76,7 @@ private final Button btnGallery = new Button(I18n.get("btn.gallery"));
     private final Button btnGuide = new Button(I18n.get("btn.guide"));
 private final Button btnExport = new Button(I18n.get("btn.export_png"));
     private final Button btnExportSvg = new Button(I18n.get("btn.export_svg"));
+    private final Button btnAbout = new Button(I18n.get("btn.about"));
 
     // --- Barra de Status ---
     private final Label lblStatus = new Label("Pronto.");
@@ -137,7 +139,7 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         VBox sidebar = new VBox(14);
         sidebar.setPadding(new Insets(16));
         sidebar.setMinWidth(330);
-        sidebar.setPrefWidth(340);
+        sidebar.setPrefWidth(370.0);
         sidebar.getStyleClass().add("sidebar-pane");
 
         // 1. Cabeçalho de Seção
@@ -258,7 +260,18 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         HBox.setHgrow(btnExport, Priority.ALWAYS);
         HBox.setHgrow(btnExportSvg, Priority.ALWAYS);
 
+        btnExport.setMinHeight(32);
+        btnExportSvg.setMinHeight(32);
+        btnAbout.setMinHeight(32);
+        btnAbout.setMaxWidth(Double.MAX_VALUE);
+        btnAbout.getStyleClass().addAll("btn", "btn-secondary");
+        HBox.setHgrow(btnAbout, Priority.ALWAYS);
         HBox exportBox = new HBox(8, btnExport, btnExportSvg);
+        btnExport.setMinHeight(32);
+        btnExportSvg.setMinHeight(32);
+        btnAbout.setMinHeight(32);
+        btnAbout.setMaxWidth(Double.MAX_VALUE);
+        btnAbout.getStyleClass().addAll("btn", "btn-secondary");
 
         sidebar.getChildren().addAll(
                 lblTitle,
@@ -274,7 +287,8 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
                 lblOrbitTitle,
                 icBox,
                 btnClear,
-                exportBox
+                exportBox,
+                btnAbout
         );
 
         return sidebar;
@@ -456,6 +470,7 @@ btnGallery.setOnAction(e -> {
         btnGuide.setOnAction(e -> GuideWindow.show((javafx.stage.Stage) btnGuide.getScene().getWindow()));
         btnExport.setOnAction(e -> exportFieldImage());
         btnExportSvg.setOnAction(e -> exportFieldSvg());
+        btnAbout.setOnAction(e -> AboutDialog.show((javafx.stage.Stage) btnAbout.getScene().getWindow()));
         // Clique interativo no canvas
                 // Sincronização interativa do Pan e Zoom focal
         canvas.setOnBoundsChanged((newTMin, newTMax, newXMin, newXMax) -> {
