@@ -79,7 +79,7 @@ Open Terminal and run:
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ## If macOS Blocks the Application
 
@@ -106,7 +106,7 @@ Run:
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ---
 
@@ -126,7 +126,7 @@ Run:
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ---
 
@@ -146,7 +146,7 @@ Run:
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ---
 
@@ -160,7 +160,7 @@ Run the application from a terminal:
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ## Unsupported Class Version Error
 
