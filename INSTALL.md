@@ -48,7 +48,7 @@ Any version 21 or newer is supported.
 
 or
 
-    java -jar pplaneX.jar
+    java -jar phase-plane-analyzer-1.0.0.jar
 
 ---
 
