@@ -17,7 +17,7 @@ No previous Java installation is required. This guide assumes Java is not yet in
 Download the latest release from GitHub:
 
 - dfieldX: https://tinyurl.com/difieldx-ufpr
-- pplaneX: https://github.com/luiz-santana/pplane-java
+- pplaneX: https://tinyurl.com/pplanex-ufpr
 
 Save the downloaded JAR file in a location you can easily find later, such as your Desktop or Downloads folder.
 
