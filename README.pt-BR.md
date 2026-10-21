@@ -11,6 +11,25 @@ Inspirado na clássica ferramenta pedagógica `dfield` desenvolvida originalment
 
 ---
 
+## 📥 Instalação e Execução
+
+O **dfieldX** é distribuído como um arquivo JAR executável e requer **Java 21 (LTS) ou superior**.
+
+Caso você não tenha o Java instalado ou deseje instruções detalhadas para o seu sistema operacional (Windows, macOS ou Linux), consulte os guias de instalação:
+
+- 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
+- 📖 **[Installation Guide (English)](INSTALL.md)**
+
+### Executando o Programa
+
+Com o Java 21+ instalado, execute pelo terminal:
+
+```bash
+java -jar dfieldX.jar
+```
+
+---
+
 ## 🚀 Destaques e Funcionalidades
 
 * **Campos de Direções em Alta Definição:** Renderização vetorial fluida de vetores tangentes com opções de normalização de comprimento e gradiente de intensidade de inclinação.
