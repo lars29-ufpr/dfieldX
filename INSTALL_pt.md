@@ -185,3 +185,26 @@ Após instalar o Java 21 ou superior, nenhuma instalação adicional é necessá
 Basta manter o arquivo JAR em uma pasta de sua preferência e executá-lo sempre que desejar.
 
 Aproveite a exploração de equações diferenciais e sistemas dinâmicos!
+
+---
+
+## 🍎 Aviso de Segurança no macOS (Apple Gatekeeper)
+
+Se ao abrir o arquivo `.jar` surgir um aviso informando que **"a Apple não pôde verificar se o arquivo está livre de malware"**, isso ocorre porque o software é livre e não possui uma assinatura comercial paga da Apple.
+
+### Método 1: Ajustes do Sistema (Interface Gráfica)
+1. Clique em **Concluído** (Done) na janela de aviso.
+2. Abra **Ajustes do Sistema** (System Settings) → **Privacidade e Segurança** (Privacy & Security).
+3. Role até a seção **Segurança** (Security).
+4. Localize o aviso sobre o bloqueio do arquivo `.jar` e clique em **Abrir Mesmo Assim** (Open Anyway).
+5. Confirme com sua senha/Touch ID e clique em **Abrir**.
+
+### Método 2: Terminal
+Remova o atributo de quarentena do macOS executando:
+```bash
+xattr -d com.apple.quarantine *.jar
+```
+Ou execute o programa diretamente pelo terminal:
+```bash
+java -jar *.jar
+```

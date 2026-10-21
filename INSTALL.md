@@ -173,3 +173,26 @@ Check:
     java -version
 
 and report any error messages to the developer.
+
+---
+
+## 🍎 macOS Gatekeeper Warning
+
+If you see a prompt stating that the application **"cannot be opened because Apple cannot verify it is free of malware"**, this occurs because the open-source `.jar` file is not signed with an Apple Developer certificate.
+
+### Method 1: System Settings (GUI)
+1. Click **Done** on the alert prompt.
+2. Open **System Settings** → **Privacy & Security**.
+3. Scroll down to the **Security** section.
+4. Locate the message indicating the `.jar` was blocked and click **Open Anyway**.
+5. Confirm with your password/Touch ID and click **Open**.
+
+### Method 2: Terminal
+Remove the quarantine flag manually:
+```bash
+xattr -d com.apple.quarantine *.jar
+```
+Or run directly from the command line:
+```bash
+java -jar *.jar
+```
