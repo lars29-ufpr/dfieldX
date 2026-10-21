@@ -16,7 +16,7 @@ No previous Java installation is required. This guide assumes Java is not yet in
 
 Download the latest release from GitHub:
 
-- dfieldX: https://github.com/luiz-santana/dfieldX
+- dfieldX: https://tinyurl.com/difieldx-ufpr
 - pplaneX: https://github.com/luiz-santana/pplane-java
 
 Save the downloaded JAR file in a location you can easily find later, such as your Desktop or Downloads folder.
@@ -44,7 +44,7 @@ Any version 21 or newer is supported.
 
 ## Run the Application
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
@@ -75,7 +75,7 @@ Open Terminal and run:
 
 ## Run the Application
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
@@ -102,7 +102,7 @@ Verify:
 
 Run:
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
@@ -122,7 +122,7 @@ Verify:
 
 Run:
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
@@ -142,7 +142,7 @@ Verify:
 
 Run:
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
@@ -156,7 +156,7 @@ or
 
 Run the application from a terminal:
 
-    java -jar dfieldX.jar
+    java -jar dfieldX-1.0.0.jar
 
 or
 
