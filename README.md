@@ -12,6 +12,25 @@ Inspired by the classic educational software `dfield` originally developed by **
 
 ---
 
+## 📥 Installation & Quick Start
+
+**dfieldX** is distributed as a self-contained executable JAR and requires **Java 21 (LTS) or newer**.
+
+If you do not have Java installed or need step-by-step guidance for your operating system (Windows, macOS, or Linux), see our installation guides:
+
+- 📖 **[Installation Guide (English)](INSTALL.md)**
+- 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
+
+### Running the Application
+
+Once Java 21+ is installed, run from your terminal:
+
+```bash
+java -jar dfieldX.jar
+```
+
+---
+
 ## 🚀 Key Features
 
 * **High-Definition Direction Fields:** Smooth vector rendering of slope segments with options for length normalization and slope-intensity coloring.
