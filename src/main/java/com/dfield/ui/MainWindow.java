@@ -377,7 +377,7 @@ btnGallery.setOnAction(e -> {
                 double x0 = Double.parseDouble(txtX0.getText().trim());
                 traceOrbit(t0, x0);
             } catch (NumberFormatException ex) {
-                setStatus("Valores inválidos para (t0, x0).", true);
+setStatus(I18n.get("status.invalid_coords"), true);
             }
         });
 
@@ -385,12 +385,12 @@ btnGallery.setOnAction(e -> {
         btnClear.setOnAction(e -> {
             activeInitialConditions.clear();
             canvas.clearTrajectories();
-                                setStatus("Trajetórias removidas.", false);
+setStatus(I18n.get("status.trajectories_cleared"), false);
         });
 
                         btnPhasePlot.setOnAction(e -> {
             if (currentODE == null) {
-                setStatus("Defina uma EDO válida antes de abrir o gráfico x' vs x.", true);
+setStatus(I18n.get("status.define_valid_ode_phase"), true);
                 return;
             }
 
@@ -504,7 +504,7 @@ btnGallery.setOnAction(e -> {
             double xMax = Double.parseDouble(txtXMax.getText().trim());
 
             if (tMax <= tMin || xMax <= xMin) {
-                setStatus("Limites inválidos: o valor máximo deve superar o mínimo.", true);
+setStatus(I18n.get("status.invalid_bounds"), true);
                 return;
             }
 
@@ -521,16 +521,16 @@ btnGallery.setOnAction(e -> {
             calculateAndRenderField();
             IsoclinesWindow.updateIfOpen(currentODE, canvas.getTMin(), canvas.getTMax(), canvas.getXMin(), canvas.getXMax());
                 PhasePlotWindow.updateIfOpen(currentODE, canvas.getXMin(), canvas.getXMax());
-            setStatus("Campo de direções atualizado com sucesso.", false);
+setStatus(I18n.get("status.field_updated_success"), false);
 
         } catch (IllegalArgumentException ex) {
             System.err.println("[DEBUG EDO Error] " + ex.getMessage());
             ex.printStackTrace();
-            setStatus("Erro na definição da EDO: " + ex.getMessage(), true);
+setStatus(I18n.format("status.ode_error_prefix", ex.getMessage()), true);
         } catch (Exception ex) {
             System.err.println("[DEBUG General Error] " + ex.getMessage());
             ex.printStackTrace();
-            setStatus("Erro ao processar entradas: " + ex.getMessage(), true);
+setStatus(I18n.format("status.input_error_prefix", ex.getMessage()), true);
         }
     }
 
@@ -713,9 +713,7 @@ double tol = 1e-6;
         OrbitTrajectory trajectory = new OrbitTrajectory(forwardBranch, backwardBranch, fReason, bReason);
         canvas.addTrajectory(trajectory);
 
-
-        setStatus(String.format(Locale.US, "Solução traçada de (%.3f, %.3f) com %d pontos.",
-                t0, x0, trajectory.getFullOrderedTrajectory().size()), false);
+setStatus(I18n.format("status.solution_traced", t0, x0, trajectory.getFullOrderedTrajectory().size()), false);
     }
 
         private void reintegrateAllTrajectories() {
@@ -800,9 +798,9 @@ double tol = 1e-6;
 
         try {
             canvas.exportSvg(file, bg);
-            setStatus("Gráfico vetorial SVG exportado: " + file.getName(), false);
+setStatus(I18n.format("status.svg_exported", file.getName()), false);
         } catch (IOException ex) {
-            setStatus("Erro ao exportar arquivo SVG.", true);
+setStatus(I18n.get("status.svg_export_error"), true);
             ex.printStackTrace();
         }
     }
@@ -852,9 +850,9 @@ double tol = 1e-6;
         if (image == null) return;
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-            setStatus("Imagem exportada com sucesso: " + file.getName(), false);
+setStatus(I18n.format("status.png_exported", file.getName()), false);
         } catch (IOException ex) {
-            setStatus("Erro ao exportar imagem gráfica.", true);
+setStatus(I18n.get("status.png_export_error"), true);
             ex.printStackTrace();
         }
     }
