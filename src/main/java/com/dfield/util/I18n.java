@@ -33,7 +33,11 @@ public class I18n {
 
     public static String format(String key, Object... args) {
         try {
-            return MessageFormat.format(bundle.getString(key), args);
+            String pattern = bundle.getString(key);
+            if (pattern.contains("%")) {
+                return String.format(currentLocale, pattern, args);
+            }
+            return MessageFormat.format(pattern, args);
         } catch (Exception e) {
             return "!" + key + "!";
         }
