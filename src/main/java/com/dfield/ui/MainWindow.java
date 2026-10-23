@@ -143,14 +143,14 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         sidebar.getStyleClass().add("sidebar-pane");
 
         // 1. Cabeçalho de Seção
-        Label lblTitle = new Label("EDO ESCALAR 1D");
+        Label lblTitle = new Label(I18n.get("section.ode"));
         lblTitle.getStyleClass().add("section-title");
 
         // 2. Variáveis com nomes completos
         HBox varsBox = new HBox(10);
         varsBox.getChildren().addAll(
-                createLabeledField("Independente:", txtIndependentVar),
-                createLabeledField("Dependente:", txtDependentVar)
+                createLabeledField(I18n.get("label.independent"), txtIndependentVar),
+                createLabeledField(I18n.get("label.dependent"), txtDependentVar)
         );
 
         // 3. Equação Diferencial dx/dt
@@ -173,7 +173,7 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         );
 
         // 5. Limites dos Eixos (Grid com colunas proporcionais e labels sem reticências)
-        Label lblDomainTitle = new Label("LIMITES DO DOMÍNIO");
+        Label lblDomainTitle = new Label(I18n.get("section.domain"));
         lblDomainTitle.getStyleClass().add("section-subtitle");
 
         GridPane domainGrid = new GridPane();
@@ -226,7 +226,7 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         btnUpdate.getStyleClass().addAll("btn", "btn-green");
 
         // 9. Condição Inicial (t0, x0)
-        Label lblOrbitTitle = new Label("CONDIÇÃO INICIAL (t0, x0)");
+        Label lblOrbitTitle = new Label(I18n.get("section.initial_condition"));
         lblOrbitTitle.getStyleClass().add("section-subtitle");
 
         Label lblT0 = new Label("t₀:");
