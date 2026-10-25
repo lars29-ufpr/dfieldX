@@ -1,4 +1,4 @@
-> **Language / Idioma:** **English** | [Português](README.pt-BR.md) | [Español](README_es.md) | [Français](README_fr.md)
+> **Language / Idioma:** **English** | [Português](README_pt_BR.md) | [Español](README_es.md) | [Français](README_fr.md)
 
 ---
 
