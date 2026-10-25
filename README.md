@@ -1,4 +1,4 @@
-> **Language / Idioma:** **English** | [Português](README.pt-BR.md)
+> **Language / Idioma:** **English** | [Português](README.pt-BR.md) | [Español](README_es.md)
 
 ---
 
@@ -20,6 +20,7 @@ If you do not have Java installed or need step-by-step guidance for your operati
 
 - 📖 **[Installation Guide (English)](INSTALL.md)**
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
+- 📖 [Guía de Instalación (Español)](INSTALL_es.md)
 
 ### Running the Application
 

@@ -1,4 +1,4 @@
-> **Language / Idioma:** [English](README.md) | **Português**
+> **Language / Idioma:** [English](README.md) | **Português** | [Español](README_es.md)
 
 ---
 # dfieldX — Análise Numérica e Qualitativa de EDOs 1D
@@ -18,6 +18,7 @@ O **dfieldX** é distribuído como um arquivo JAR executável e requer **Java 21
 Caso você não tenha o Java instalado ou deseje instruções detalhadas para o seu sistema operacional (Windows, macOS ou Linux), consulte os guias de instalação:
 
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
+- 📖 [Guía de Instalación (Español)](INSTALL_es.md)
 - 📖 **[Installation Guide (English)](INSTALL.md)**
 
 ### Executando o Programa
