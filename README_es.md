@@ -1,4 +1,4 @@
-> **Idioma / Language:** **Español** | [English](README.md) | [Português](README.pt-BR.md)
+> **Idioma / Language:** **Español** | [Français](README_fr.md) | [English](README.md) | [Português](README.pt-BR.md)
 
 ---
 
@@ -21,6 +21,7 @@ Si no tiene Java instalado o necesita una guía paso a paso para su sistema oper
 - 📖 **[Installation Guide (English)](INSTALL.md)**
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
 - 📖 **[Guía de Instalación (Español)](INSTALL_es.md)**
+- 📖 [Guide d'Installation (Français)](INSTALL_fr.md)
 
 ### Ejecutar la Aplicación
 

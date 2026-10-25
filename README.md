@@ -1,4 +1,4 @@
-> **Language / Idioma:** **English** | [Português](README.pt-BR.md) | [Español](README_es.md)
+> **Language / Idioma:** **English** | [Português](README.pt-BR.md) | [Español](README_es.md) | [Français](README_fr.md)
 
 ---
 
@@ -21,6 +21,7 @@ If you do not have Java installed or need step-by-step guidance for your operati
 - 📖 **[Installation Guide (English)](INSTALL.md)**
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
 - 📖 [Guía de Instalación (Español)](INSTALL_es.md)
+- 📖 [Guide d'Installation (Français)](INSTALL_fr.md)
 
 ### Running the Application
 
@@ -64,6 +65,6 @@ Verify your local Java installation by running:
 java -version
 
 ## 🆕 What's New in Version 1.1.0
-- **Internationalization (i18n):** Full dynamic support added for Spanish (es).
+- **Internationalization (i18n):** Full dynamic support added for Spanish (es) and French (fr).
 - **UI:** Removed academic titles for a cleaner, universal design.
 - **JavaFX Engine:** Window resizing tweaks and dynamic model guide loading.

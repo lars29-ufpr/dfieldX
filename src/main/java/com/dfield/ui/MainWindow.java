@@ -397,10 +397,8 @@ setStatus(I18n.get("status.define_valid_ode_phase"), true);
             if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(I18n.get("equilibria.non_autonomous.title"));
-                alert.setHeaderText("Grafico x' vs x Indefinido");
-                alert.setContentText("A equacao informada depende explicitamente de t: dx/dt = f(t, x).\n\n" +
-                                     "O grafico de fluxo x' versus x representa o espaco de estados 1D e so existe para EDOs autonomas dx/dt = f(x).\n\n" +
-                                     "Para analisar taxas de variacao nesta equacao, utilize o botao de Isoclinas.");
+                alert.setHeaderText(I18n.get("phaseplot.non_autonomous.header"));
+alert.setContentText(I18n.get("phaseplot.non_autonomous.content"));
                 alert.initOwner((Stage) btnPhasePlot.getScene().getWindow());
                 alert.showAndWait();
                 return;
@@ -668,11 +666,15 @@ double tol = 1e-6;
                 x = res.nextX();
                 forwardBranch.add(new TrajectoryPoint(t, x));
 
-                if (x < xMin - boundMargin || x > xMax + boundMargin) {
-                    fReason = TerminationReason.BOUNDS;
-                    break;
-                }
-            }
+           //     if (x < xMin - boundMargin || x > xMax + boundMargin) {
+           //         fReason = TerminationReason.BOUNDS;
+           //         break;
+           //     }
+if (Math.abs(x) > 10000 || Math.abs(t) > 10000) {
+    fReason = TerminationReason.BOUNDS;
+    break;
+}        
+    }
         }
 
         // 2. Ramo para trás (Backward: t0 -> tMin)
@@ -764,6 +766,8 @@ setStatus(I18n.format("status.solution_traced", t0, x0, trajectory.getFullOrdere
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
         dialog.setTitle(I18n.get("dialog.export_svg.title"));
+        dialog.initStyle(javafx.stage.StageStyle.UTILITY);
+        dialog.setResizable(false);
         dialog.setHeaderText(I18n.get("dialog.export_svg.header"));
         dialog.setContentText(I18n.get("dialog.export.content"));
 
@@ -814,6 +818,8 @@ setStatus(I18n.get("status.svg_export_error"), true);
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
         dialog.setTitle(I18n.get("dialog.export_png.title"));
+        dialog.initStyle(javafx.stage.StageStyle.UTILITY);
+        dialog.setResizable(false);
         dialog.setHeaderText(I18n.get("dialog.export_png.header"));
         dialog.setContentText(I18n.get("dialog.export.content"));
 
