@@ -61,3 +61,8 @@ To run the pre-built binary, only a **Java Runtime Environment (JRE) or JDK vers
 Verify your local Java installation by running:
 ```bash
 java -version
+
+## 🆕 What's New in Version 1.1.0
+- **Internationalization (i18n):** Full dynamic support added for Spanish (es).
+- **UI:** Removed academic titles for a cleaner, universal design.
+- **JavaFX Engine:** Window resizing tweaks and dynamic model guide loading.

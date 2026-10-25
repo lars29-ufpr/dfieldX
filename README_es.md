@@ -63,3 +63,8 @@ Verifique su instalación local de Java ejecutando:
 ```bash
 java -version
 ```
+
+## 🆕 Novedades de la Versión 1.1.0
+- **Internacionalización (i18n):** Soporte completo y dinámico añadido para Español (es).
+- **Interfaz:** Eliminación de títulos académicos para un diseño más universal.
+- **Motor JavaFX:** Ajustes en el redimensionamiento de ventanas y carga dinámica de la guía de modelos.

@@ -60,3 +60,8 @@ Para executar o binário pré-compilado, é necessário apenas ter o **Java Runt
 Para verificar a instalação do Java, execute no terminal:
 ```bash
 java -version
+
+## 🆕 Novidades da Versão 1.1.0
+- **Internacionalização (i18n):** Suporte completo e dinâmico adicionado para Espanhol (es).
+- **Interface:** Remoção de títulos acadêmicos para um design mais universal.
+- **Motor JavaFX:** Ajuste no redimensionamento de janelas e carregamento dinâmico do guia de modelos.
