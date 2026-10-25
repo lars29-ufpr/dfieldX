@@ -41,7 +41,3 @@ Vérifiez votre installation Java locale :
     java -version
 ```
 
-## 🆕 Nouveautés de la Version 1.1.0
-- **Internationalisation (i18n) :** Prise en charge dynamique complète ajoutée pour l'espagnol (es) et le français (fr).
-- **Interface Utilisateur :** Suppression des titres académiques pour un design universel et plus épuré.
-- **Moteur JavaFX :** Ajustements du redimensionnement des fenêtres et chargement dynamique du guide des modèles.

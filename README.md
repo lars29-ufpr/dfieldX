@@ -62,7 +62,3 @@ Verify your local Java installation by running:
 java -version
 ```
 
-## 🆕 What's New in Version 1.1.0
-- **Internationalization (i18n):** Full dynamic support added for Spanish (es) and French (fr).
-- **UI:** Removed academic titles for a cleaner, universal design.
-- **JavaFX Engine:** Window resizing tweaks and dynamic model guide loading.
