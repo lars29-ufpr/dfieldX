@@ -19,9 +19,6 @@ Inspired by the classic educational software `dfield` originally developed by **
 If you do not have Java installed or need step-by-step guidance for your operating system (Windows, macOS, or Linux), see our installation guides:
 
 - 📖 **[Installation Guide (English)](INSTALL.md)**
-- 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
-- 📖 [Guía de Instalación (Español)](INSTALL_es.md)
-- 📖 [Guide d'Installation (Français)](INSTALL_fr.md)
 
 ### Running the Application
 
@@ -63,6 +60,7 @@ To run the pre-built binary, only a **Java Runtime Environment (JRE) or JDK vers
 Verify your local Java installation by running:
 ```bash
 java -version
+```
 
 ## 🆕 What's New in Version 1.1.0
 - **Internationalization (i18n):** Full dynamic support added for Spanish (es) and French (fr).

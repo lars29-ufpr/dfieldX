@@ -15,9 +15,6 @@ Inspiré par le logiciel éducatif classique `dfield` développé à l'origine p
 **dfieldX** est distribué sous forme d'exécutable JAR autonome et nécessite **Java 21 (LTS) ou une version ultérieure**.
 
 - 📖 **[Guide d'Installation (Français)](INSTALL_fr.md)**
-- 📖 [Installation Guide (English)](INSTALL.md)
-- 📖 [Guia de Instalação (Português)](INSTALL_pt.md)
-- 📖 [Guía de Instalación (Español)](INSTALL_es.md)
 
 ### Exécuter l'Application
 Une fois Java 21+ installé, exécutez depuis votre terminal :
@@ -42,6 +39,7 @@ Une fois Java 21+ installé, exécutez depuis votre terminal :
 Seul un **Environnement d'Exécution Java (JRE) ou JDK version 21 ou supérieure** est requis.
 Vérifiez votre installation Java locale :
     java -version
+```
 
 ## 🆕 Nouveautés de la Version 1.1.0
 - **Internationalisation (i18n) :** Prise en charge dynamique complète ajoutée pour l'espagnol (es) et le français (fr).

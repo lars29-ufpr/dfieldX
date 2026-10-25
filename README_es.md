@@ -18,10 +18,7 @@ Inspirado en el clásico software educativo `dfield` desarrollado originalmente 
 
 Si no tiene Java instalado o necesita una guía paso a paso para su sistema operativo (Windows, macOS o Linux), consulte nuestras guías de instalación:
 
-- 📖 **[Installation Guide (English)](INSTALL.md)**
-- 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
 - 📖 **[Guía de Instalación (Español)](INSTALL_es.md)**
-- 📖 [Guide d'Installation (Français)](INSTALL_fr.md)
 
 ### Ejecutar la Aplicación
 
@@ -63,6 +60,7 @@ Para ejecutar el binario precompilado, solo se requiere un **Entorno de Ejecuci�
 Verifique su instalación local de Java ejecutando:
 ```bash
 java -version
+```
 ```
 
 ## 🆕 Novedades de la Versión 1.1.0

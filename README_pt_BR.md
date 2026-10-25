@@ -18,8 +18,6 @@ O **dfieldX** é distribuído como um arquivo JAR executável e requer **Java 21
 Caso você não tenha o Java instalado ou deseje instruções detalhadas para o seu sistema operacional (Windows, macOS ou Linux), consulte os guias de instalação:
 
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
-- 📖 [Guía de Instalación (Español)](INSTALL_es.md)
-- 📖 **[Installation Guide (English)](INSTALL.md)**
 
 ### Executando o Programa
 
@@ -61,6 +59,7 @@ Para executar o binário pré-compilado, é necessário apenas ter o **Java Runt
 Para verificar a instalação do Java, execute no terminal:
 ```bash
 java -version
+```
 
 ## 🆕 Novidades da Versão 1.1.0
 - **Internacionalização (i18n):** Suporte completo e dinâmico adicionado para Espanhol (es).
