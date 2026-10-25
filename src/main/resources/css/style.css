@@ -31,6 +31,7 @@
 
 /* Rótulos e Textos */
 .label {
+    -fx-min-width: USE_PREF_SIZE;
     -fx-text-fill: #c8d6e5;
 }
 
@@ -75,6 +76,7 @@
     -fx-border-radius: 5px;
     -fx-padding: 7px 14px;
     -fx-cursor: hand;
+    -fx-min-width: USE_PREF_SIZE;
 }
 
 /* Verde: Ações Principais (Atualizar Campo / Traçar) */
@@ -153,6 +155,7 @@
 }
 
 .dialog-pane > .header-panel > .label {
+    -fx-min-width: USE_PREF_SIZE;
     -fx-text-fill: #e1e7f0;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -183,6 +186,7 @@
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
     -fx-cursor: hand;
+    -fx-min-width: USE_PREF_SIZE;
     -fx-padding: 6px 14px;
 }
 

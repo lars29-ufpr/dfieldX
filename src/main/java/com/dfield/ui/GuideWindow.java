@@ -36,6 +36,8 @@ public class GuideWindow {
             guidePath = "/guide/tutorial_es.html";
         } else if (lang.equalsIgnoreCase("fr")) {
             guidePath = "/guide/tutorial_fr.html"; // Rota para o pplaneX
+        } else if (lang.equalsIgnoreCase("ru")) {
+            guidePath = "/guide/tutorial_ru.html";
         } else {
             guidePath = "/guide/tutorial_en.html"; // Fallback padrão
         }

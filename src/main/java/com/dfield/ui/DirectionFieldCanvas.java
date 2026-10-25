@@ -611,14 +611,23 @@ public class DirectionFieldCanvas extends Canvas {
             gc.setStroke(orbitColor);
             gc.beginPath();
 
-            boolean first = true;
+            double hCanvas = getHeight();
+            double yLimitMin = -hCanvas * 4.0;
+            double yLimitMax = hCanvas * 5.0;
+            boolean penDown = false;
+
             for (TrajectoryPoint pt : points) {
                 double cx = toCanvasX(pt.t());
                 double cy = toCanvasY(pt.x());
 
-                if (first) {
+                if (!Double.isFinite(cx) || !Double.isFinite(cy) || cy < yLimitMin || cy > yLimitMax) {
+                    penDown = false;
+                    continue;
+                }
+
+                if (!penDown) {
                     gc.moveTo(cx, cy);
-                    first = false;
+                    penDown = true;
                 } else {
                     gc.lineTo(cx, cy);
                 }

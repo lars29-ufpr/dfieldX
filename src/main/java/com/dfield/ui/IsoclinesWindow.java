@@ -163,9 +163,9 @@ public class IsoclinesWindow {
 
         root.getChildren().addAll(title, didacticCard, controlCard);
 
-        Scene scene = new Scene(root, 420, 480);
+        Scene scene = new Scene(root, 540, 480);
         stage.setScene(scene);
-        stage.setMinWidth(360);
+        stage.setMinWidth(480);
         stage.setMinHeight(440);
 
         recalculateAndRender();

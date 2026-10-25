@@ -184,10 +184,10 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         Label lblTMax = new Label(I18n.get("label.tmax"));
         Label lblXMin = new Label(I18n.get("label.xmin"));
         Label lblXMax = new Label(I18n.get("label.xmax"));
-        lblTMin.setMinWidth(42);
-        lblTMax.setMinWidth(42);
-        lblXMin.setMinWidth(42);
-        lblXMax.setMinWidth(42);
+        lblTMin.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
+        lblTMax.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
+        lblXMin.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
+        lblXMax.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
 
         domainGrid.addRow(0, lblTMin, txtTMin, lblTMax, txtTMax);
         domainGrid.addRow(1, lblXMin, txtXMin, lblXMax, txtXMax);
@@ -240,8 +240,8 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         txtX0.setMinWidth(60);
 
         btnTrace.getStyleClass().addAll("btn", "btn-green");
-        btnTrace.setMinWidth(80);
-        btnTrace.setPrefWidth(85);
+        btnTrace.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
+        btnTrace.setPrefWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
 
         HBox icBox = new HBox(6, lblT0, txtT0, lblX0, txtX0, btnTrace);
         icBox.setAlignment(Pos.CENTER_LEFT);
@@ -397,6 +397,8 @@ setStatus(I18n.get("status.define_valid_ode_phase"), true);
             if (!com.dfield.numerical.CriticalPointCalculator.isAutonomous(currentODE)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(I18n.get("equilibria.non_autonomous.title"));
+                alert.getDialogPane().setMinWidth(550);
+                alert.setResizable(true);
                 alert.setHeaderText(I18n.get("phaseplot.non_autonomous.header"));
 alert.setContentText(I18n.get("phaseplot.non_autonomous.content"));
                 alert.initOwner((Stage) btnPhasePlot.getScene().getWindow());
@@ -424,6 +426,8 @@ alert.setContentText(I18n.get("phaseplot.non_autonomous.content"));
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(I18n.get("equilibria.non_autonomous.title"));
+                alert.getDialogPane().setMinWidth(550);
+                alert.setResizable(true);
                 alert.setHeaderText(I18n.get("equilibria.non_autonomous.header"));
                 alert.setContentText(I18n.get("equilibria.non_autonomous.content"));
                 alert.initOwner((Stage) btnCriticalPoints.getScene().getWindow());
@@ -644,18 +648,23 @@ double tol = 1e-6;
 
         double t = t0;
         double x = x0;
-        double h = 0.05;
+        double h = Math.min(0.05, hMaxForward);
         TerminationReason fReason = TerminationReason.NORMAL;
+        double blowUpLimit = Math.max(1e5, (xMax - xMin) * 500.0);
 
         for (int i = 0; i < maxSteps && t < tMax; i++) {
             if (t + h > tMax) h = tMax - t;
 
             var res = DormandPrince45Solver.adaptiveStep(
-(currT, currX) -> currentODE.eval(currT, currX),
+                    (currT, currX) -> currentODE.eval(currT, currX),
                     t, x, h, tol, hMin, hMaxForward
             );
 
-            if (Double.isNaN(res.nextX()) || Double.isInfinite(res.nextX())) {
+            if (!Double.isFinite(res.nextX()) || Math.abs(res.nextX()) > blowUpLimit) {
+                if (Math.abs(h) > hMin * 2.0) {
+                    h *= 0.5;
+                    continue;
+                }
                 fReason = TerminationReason.BLOW_UP;
                 break;
             }
@@ -665,16 +674,7 @@ double tol = 1e-6;
                 t = res.nextT();
                 x = res.nextX();
                 forwardBranch.add(new TrajectoryPoint(t, x));
-
-           //     if (x < xMin - boundMargin || x > xMax + boundMargin) {
-           //         fReason = TerminationReason.BOUNDS;
-           //         break;
-           //     }
-if (Math.abs(x) > 10000 || Math.abs(t) > 10000) {
-    fReason = TerminationReason.BOUNDS;
-    break;
-}        
-    }
+            }
         }
 
         // 2. Ramo para trás (Backward: t0 -> tMin)
@@ -683,18 +683,22 @@ if (Math.abs(x) > 10000 || Math.abs(t) > 10000) {
 
         t = t0;
         x = x0;
-        h = -0.05;
+        h = -Math.min(0.05, hMaxBackward);
         TerminationReason bReason = TerminationReason.NORMAL;
 
         for (int i = 0; i < maxSteps && t > tMin; i++) {
             if (t + h < tMin) h = tMin - t;
 
             var res = DormandPrince45Solver.adaptiveStep(
-(currT, currX) -> currentODE.eval(currT, currX),
+                    (currT, currX) -> currentODE.eval(currT, currX),
                     t, x, h, tol, hMin, hMaxBackward
             );
 
-            if (Double.isNaN(res.nextX()) || Double.isInfinite(res.nextX())) {
+            if (!Double.isFinite(res.nextX()) || Math.abs(res.nextX()) > blowUpLimit) {
+                if (Math.abs(h) > hMin * 2.0) {
+                    h *= 0.5;
+                    continue;
+                }
                 bReason = TerminationReason.BLOW_UP;
                 break;
             }
@@ -704,14 +708,9 @@ if (Math.abs(x) > 10000 || Math.abs(t) > 10000) {
                 t = res.nextT();
                 x = res.nextX();
                 backwardBranch.add(new TrajectoryPoint(t, x));
-
-                if (x < xMin - boundMargin || x > xMax + boundMargin) {
-                    bReason = TerminationReason.BOUNDS;
-                    break;
-                }
             }
         }
-    
+
         OrbitTrajectory trajectory = new OrbitTrajectory(forwardBranch, backwardBranch, fReason, bReason);
         canvas.addTrajectory(trajectory);
 
@@ -761,10 +760,17 @@ setStatus(I18n.format("status.solution_traced", t0, x0, trajectory.getFullOrdere
         List<String> options = List.of(
                 I18n.get("dialog.export.opt1"),
                 I18n.get("dialog.export.opt2"),
-                "3. Fundo Transparente (LaTeX / Vetorial)"
+                I18n.get("dialog.export.opt3")
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+            javafx.scene.control.Button okBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+
+            if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
+
+            javafx.scene.control.Button cancelBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
+
+            if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
         dialog.setTitle(I18n.get("dialog.export_svg.title"));
         dialog.initStyle(javafx.stage.StageStyle.UTILITY);
         dialog.setResizable(false);
@@ -817,6 +823,13 @@ setStatus(I18n.get("status.svg_export_error"), true);
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
+            javafx.scene.control.Button okBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+
+            if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
+
+            javafx.scene.control.Button cancelBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
+
+            if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
         dialog.setTitle(I18n.get("dialog.export_png.title"));
         dialog.initStyle(javafx.stage.StageStyle.UTILITY);
         dialog.setResizable(false);

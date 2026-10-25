@@ -9,8 +9,9 @@ public class I18n {
     private static Locale currentLocale;
 
     static {
+        String propLang = System.getProperty("user.language");
         Locale sys = Locale.getDefault();
-        String lang = sys.getLanguage().toLowerCase();
+        String lang = (propLang != null && !propLang.isBlank()) ? propLang.toLowerCase() : sys.getLanguage().toLowerCase();
         
         // Mapeamento dinâmico de idiomas suportados
         if (lang.equals("pt")) {
@@ -19,6 +20,8 @@ public class I18n {
             setLocale(new Locale("es", "ES"));
         } else if (lang.equals("fr")) {
             setLocale(new Locale("fr", "FR")); // Preparando terreno para o pplaneX
+        } else if (lang.equals("ru")) {
+            setLocale(new Locale("ru", "RU")); // Suporte inicial para idiomas Cirílicos
         } else {
             setLocale(Locale.ENGLISH); // Fallback padrão
         }
@@ -26,6 +29,7 @@ public class I18n {
 
     public static void setLocale(Locale locale) {
         currentLocale = locale;
+        Locale.setDefault(locale);
         bundle = ResourceBundle.getBundle("i18n.messages", currentLocale);
     }
 
