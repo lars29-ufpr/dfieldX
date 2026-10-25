@@ -44,11 +44,11 @@ Qualquer versão 21 ou superior é suportada.
 
 ## Executar o Programa
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ---
 
@@ -75,11 +75,11 @@ Abra o Terminal e execute:
 
 ## Executar o Programa
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ## Se o macOS Bloquear a Aplicação
 
@@ -102,11 +102,11 @@ Verificar:
 
 Executar:
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ---
 
@@ -122,11 +122,11 @@ Verificar:
 
 Executar:
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ---
 
@@ -142,11 +142,11 @@ Verificar:
 
 Executar:
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ---
 
@@ -156,11 +156,11 @@ ou
 
 Execute o programa pelo terminal:
 
-    java -jar dfieldX-1.0.0.jar
+    java -jar dfieldX.jar
 
 ou
 
-    java -jar phase-plane-analyzer-1.0.0.jar
+    java -jar pplaneX.jar
 
 ## Erro de Versão da Classe (Unsupported Class Version)
 

@@ -4,9 +4,10 @@
   <groupId>com.dfield</groupId>
   <artifactId>dfieldX</artifactId>
   <name>dfieldX</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>Direcoes de Campo e Analise Grafica de EDOs 1D em JavaFX</description>
   <build>
+    <finalName>dfieldX</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

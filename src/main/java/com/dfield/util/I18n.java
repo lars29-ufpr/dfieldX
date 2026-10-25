@@ -10,11 +10,17 @@ public class I18n {
 
     static {
         Locale sys = Locale.getDefault();
-        // Se o sistema estiver em Português (pt, pt_BR, pt_PT), usa pt_BR. Caso contrário, inglês.
-        if (sys.getLanguage().equalsIgnoreCase("pt")) {
+        String lang = sys.getLanguage().toLowerCase();
+        
+        // Mapeamento dinâmico de idiomas suportados
+        if (lang.equals("pt")) {
             setLocale(new Locale("pt", "BR"));
+        } else if (lang.equals("es")) {
+            setLocale(new Locale("es", "ES"));
+        } else if (lang.equals("fr")) {
+            setLocale(new Locale("fr", "FR")); // Preparando terreno para o pplaneX
         } else {
-            setLocale(Locale.ENGLISH);
+            setLocale(Locale.ENGLISH); // Fallback padrão
         }
     }
 

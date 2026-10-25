@@ -47,7 +47,7 @@ public class AboutDialog {
         lblDevBy.setFont(Font.font("System", FontWeight.BOLD, 13));
         lblDevBy.setTextFill(Color.web("#54a0ff"));
 
-        Label lblAuthor = new Label("Prof. Dr. Luiz Antonio Ribeiro de Santana");
+        Label lblAuthor = new Label("Luiz Antonio Ribeiro de Santana");
         lblAuthor.setFont(Font.font("System", FontWeight.BOLD, 14));
         lblAuthor.setTextFill(Color.web("#54a0ff"));
 
