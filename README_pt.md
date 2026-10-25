@@ -16,5 +16,5 @@ O dfieldX possui suporte nativo completo para 5 idiomas:
 
 ---
 
-## Início Rápido
-Para instruções de instalação e execução, consulte o ficheiro [INSTALL_pt.md](INSTALL_pt.md).
+## Instalação e Execução
+Para instruções detalhadas de instalação e execução multiplataforma (Windows, Linux e macOS), consulte o ficheiro [INSTALL_pt.md](INSTALL_pt.md).
