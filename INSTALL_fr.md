@@ -1,4 +1,4 @@
-[Version Française](INSTALL_fr.md) | [English](INSTALL.md) | [Português](INSTALL_pt.md) | [Español](INSTALL_es.md)
+[Version Française](INSTALL_fr.md) | [English](INSTALL.md) | [Português](INSTALL_pt_BR.md) | [Español](INSTALL_es.md)
 
 # Guide d'Installation
 # dfieldX et pplaneX

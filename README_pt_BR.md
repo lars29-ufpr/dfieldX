@@ -17,7 +17,7 @@ O **dfieldX** é distribuído como um arquivo JAR executável e requer **Java 21
 
 Caso você não tenha o Java instalado ou deseje instruções detalhadas para o seu sistema operacional (Windows, macOS ou Linux), consulte os guias de instalação:
 
-- 📖 **[Guia de Instalação (Português)](INSTALL_pt.md)**
+- 📖 **[Guia de Instalação (Português)](INSTALL_pt_BR.md)**
 
 ### Executando o Programa
 

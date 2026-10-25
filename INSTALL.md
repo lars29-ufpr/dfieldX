@@ -1,4 +1,4 @@
-[Versão em Português](INSTALL_pt.md)
+[Versão em Português](INSTALL_pt_BR.md)
 
 # Installation Guide
 

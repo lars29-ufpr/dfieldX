@@ -1,4 +1,4 @@
-[English](INSTALL.md) | [Versão em Português](INSTALL_pt.md)
+[English](INSTALL.md) | [Versão em Português](INSTALL_pt_BR.md)
 
 # Guía de Instalación
 
