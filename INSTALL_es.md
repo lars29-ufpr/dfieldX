@@ -1,36 +1,200 @@
-# Guía de Instalación y Ejecución
+[English](INSTALL.md) | [Versão em Português](INSTALL_pt_BR.md)
 
-## Requisitos del Sistema
-- Entorno de Ejecución Java (JRE) versión 17 o superior (Java 21 recomendado).
-- Sistemas Operativos Soportados:
-  - Linux (Ubuntu, Fedora, Arch Linux, Mint, etc.)
-  - Windows 10 / 11
-  - macOS (Intel & Apple Silicon)
+# Guía de Instalación
 
-## Cómo Ejecutar la Aplicación Empaquetada (.jar)
-Para ejecutar la aplicación directamente sin compilar desde el código fuente, asegúrese de que Java esté instalado y ejecute en su terminal o consola:
+# dfieldX y pplaneX
 
-java -jar target/dfieldX.jar
+Esta guía explica cómo instalar y ejecutar dfieldX y pplaneX en Windows, macOS y Linux.
 
-### Notas Específicas por Sistema Operativo:
-- Linux: Asegúrese de que su entorno de escritorio soporte el renderizado gráfico de JavaFX (bibliotecas GTK3 instaladas). Abra una terminal en el directorio de la aplicación y ejecute el comando.
-- Windows: Abra el Símbolo del sistema (cmd) o PowerShell en la carpeta de la aplicación y ejecute el comando. Asegúrese de que Java esté configurado en el PATH.
-- macOS: Abra Terminal, navegue hasta la carpeta de la aplicación usando el comando cd y ejecute el comando. Verifique que su entorno Java esté configurado correctamente.
+Estas aplicaciones requieren Java 21 o superior.
 
-## Forzando un Idioma Específico mediante Línea de Comandos
-Puede sobrescribir el idioma predeterminado del sistema operativo utilizando propiedades del sistema:
+No se requiere una instalación previa de Java. Esta guía asume que Java aún no está instalado en su computadora.
 
-- Español:
-  java -Duser.language=es -Duser.country=ES -jar target/dfieldX.jar
-- Inglés:
-  java -Duser.language=en -Duser.country=US -jar target/dfieldX.jar
-- Portugués:
-  java -Duser.language=pt -Duser.country=BR -jar target/dfieldX.jar
-- Francés:
-  java -Duser.language=fr -Duser.country=FR -jar target/dfieldX.jar
-- Ruso:
-  java -Duser.language=ru -Duser.country=RU -jar target/dfieldX.jar
+---
 
-## Desarrollo y Compilación desde el Código Fuente
-Si desea compilar y empaquetar la aplicación desde el código fuente utilizando Maven:
-mvn clean package
+# 1. Descargar la Aplicación
+
+Descargue la última versión desde GitHub:
+
+- dfieldX: https://tinyurl.com/difieldx-ufpr
+
+- pplaneX: https://tinyurl.com/pplanex-ufpr
+
+
+Guarde el archivo JAR descargado en una ubicación que pueda encontrar fácilmente más tarde, como su Escritorio o la carpeta de Descargas.
+
+---
+
+# 2. Windows
+
+## Instalar Java
+
+1. Abra su navegador web.
+2. Visite: https://adoptium.net/
+3. Descargue Eclipse Temurin Java 21 LTS para Windows x64.
+4. Ejecute el instalador descargado.
+5. En "Custom Setup" (Instalación Personalizada), asegúrese de que "Add to PATH" y "Associate .jar files" estén habilitados.
+6. Finalice la instalación.
+
+## Verificar la Instalación
+
+Abra el Símbolo del sistema (Command Prompt) y ejecute:
+
+    java -version
+
+Cualquier versión 21 o superior es compatible.
+
+## Ejecutar la Aplicación
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+---
+
+# 3. macOS
+
+## Determine el Tipo de su Mac
+
+Abra 'Acerca de esta Mac'.
+
+Elija las versiones de Apple Silicon para Macs con M1/M2/M3/M4 y las versiones de Intel para Macs con procesador Intel.
+
+## Instalar Java
+
+1. Visite https://adoptium.net/
+2. Descargue Java 21 LTS para macOS.
+3. Ejecute el instalador.
+4. Siga las instrucciones de instalación.
+
+## Verificar la Instalación
+
+Abra la Terminal y ejecute:
+
+    java -version
+
+## Ejecutar la Aplicación
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+## Si macOS Bloquea la Aplicación
+
+Abra:
+
+Configuración del Sistema → Privacidad y Seguridad → Abrir de todos modos
+
+---
+
+# 4. Linux (Ubuntu, Debian, Linux Mint)
+
+Instalar Java:
+
+    sudo apt update
+    sudo apt install openjdk-21-jre
+
+Verificar:
+
+    java -version
+
+Ejecutar:
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+---
+
+# 5. Linux (Fedora, Rocky Linux, AlmaLinux)
+
+Instalar Java:
+
+    sudo dnf install java-21-openjdk
+
+Verificar:
+
+    java -version
+
+Ejecutar:
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+---
+
+# 6. Linux (Arch Linux, Manjaro)
+
+Instalar Java:
+
+    sudo pacman -S jre21-openjdk
+
+Verificar:
+
+    java -version
+
+Ejecutar:
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+---
+
+# Solución de Problemas
+
+## No Ocurre Nada al Hacer Doble Clic en el Archivo JAR
+
+Ejecute la aplicación desde una terminal:
+
+    java -jar dfieldX.jar
+
+o
+
+    java -jar pplaneX.jar
+
+## Error de Versión de Clase no Soportada (Unsupported Class Version Error)
+
+Instale Java 21 o superior.
+
+## La Aplicación No Inicia
+
+Compruebe:
+
+    java -version
+
+y reporte cualquier mensaje de error al desarrollador.
+
+---
+
+## 🍎 Advertencia de Gatekeeper en macOS
+
+Si ve un mensaje indicando que la aplicación **"no se puede abrir porque Apple no puede verificar que esté libre de malware"**, esto ocurre porque el archivo `.jar` de código abierto no está firmado con un certificado de desarrollador de Apple.
+
+### Método 1: Configuración del Sistema (GUI)
+1. Haga clic en **Aceptar** (Done) en la ventana de alerta.
+2. Abra **Configuración del Sistema** → **Privacidad y Seguridad**.
+3. Desplácese hacia abajo hasta la sección de **Seguridad**.
+4. Localice el mensaje indicando que el archivo `.jar` fue bloqueado y haga clic en **Abrir de todos modos** (Open Anyway).
+5. Confirme con su contraseña/Touch ID y haga clic en **Abrir** (Open).
+
+### Método 2: Terminal
+Elimine la bandera de cuarentena manualmente:
+```bash
+xattr -d com.apple.quarantine *.jar
+```
+O ejecute directamente desde la línea de comandos:
+```bash
+java -jar *.jar
+```
