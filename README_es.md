@@ -61,5 +61,4 @@ Verifique su instalación local de Java ejecutando:
 ```bash
 java -version
 ```
-```
 
