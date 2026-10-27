@@ -61,5 +61,6 @@ Para verificar a instalação do Java, execute no terminal:
 java -version
 ```
 
-Créditos e Licença
+## Créditos e Licença
+
 Este projeto é uma expansão educacional baseada nos softwares originais dfield e pplane (copyright de John C. Polking, Rice University) e suas respectivas versões em Java (Joel Castellanos). Distribuído para uso em instituições de ensino, sem fins lucrativos, respeitando o trabalho dos autores originais.
