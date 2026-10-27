@@ -1,4 +1,4 @@
-> **Language / Idioma:** [English](README.md) | **Português** | [Español](README_es.md)
+> **Language / Idioma:** [English](README.md) | **Português** | [Español](README_es.md) | [Русский](README_ru.md)
 
 ---
 # dfieldX — Análise Numérica e Qualitativa de EDOs 1D
