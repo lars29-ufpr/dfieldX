@@ -62,3 +62,5 @@ Verify your local Java installation by running:
 java -version
 ```
 
+Credits and License
+This project is an educational expansion based on the original dfield and pplane software (copyright John C. Polking, Rice University) and their respective Java versions (Joel Castellanos). Distributed for use in educational institutions, without profit, respecting the original authors' work.

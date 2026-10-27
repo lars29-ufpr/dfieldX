@@ -62,3 +62,6 @@ Vérifiez votre installation Java locale en exécutant :
 ```bash
 java -version
 ```
+
+Crédits et Licence
+Ce projet est une expansion éducative basée sur les logiciels originaux dfield et pplane (copyright de John C. Polking, Rice University) et leurs versions Java respectives (Joel Castellanos). Distribué pour une utilisation dans les établissements d'enseignement, à but non lucratif, en respectant le travail des auteurs originaux.
