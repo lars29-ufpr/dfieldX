@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Guida Didattica ai Modelli Differenziali</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f131a;
+      color: #cbd5e1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      padding: 30px 45px 60px 45px;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .intro {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #1e293b;
+      margin: 28px 0;
+    }
+    h2 {
+      color: #38bdf8;
+      font-size: 18px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 6px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      color: #60a5fa;
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    h4, .tag {
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    ul, ol {
+      padding-left: 22px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    b, strong {
+      color: #f1f5f9;
+    }
+    .math-block {
+      display: block;
+      margin: 18px 0;
+      padding: 10px 0;
+      text-align: center;
+      color: #f8fafc;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    mjx-container[jax="SVG"] {
+      padding: 4px 0 !important;
+      margin: 2px 0 !important;
+      outline: none !important;
+    }
+    .ref-list {
+      list-style-type: disc;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .ref-list li {
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .ref-list em {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Guida Didattica ai Modelli Differenziali del Primo Ordine</h1>
+  <div class="subtitle">Analizzatore di Campi di Direzioni (dfieldX) — Versione 1.1</div>
+  <p class="intro">
+    Questa guida raccoglie il catalogo canonico completo delle equazioni differenziali ordinarie del primo ordine nel piano $(t, x)$ implementate in <strong>dfieldX</strong>. Ogni modello fornisce la formulazione analitica, l'interpretazione fisico-biologica, le linee guida per l'esplorazione numerica sul campo di direzioni e i classici riferimenti concettuali.
+  </p>
+
+  <h2>I. Dinamica delle Popolazioni & Biomatematica</h2>
+
+  <h3>1. Modello Malthusiano (Crescita Esponenziale)</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Descrive la riproduzione pro capite illimitata senza vincoli spaziali o alimentari:</p>
+  $$\frac{dx}{dt} = rx$$
+  <ul>
+    <li><strong>Parametri:</strong> $r = 0.5$ (tasso di crescita malthusiano intrinseco).</li>
+    <li><strong>Equilibrio:</strong> $x = 0$ (repulsore se $r > 0$).</li>
+  </ul>
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Notare che le pendenze dipendono strettamente da $x$ (equazione autonoma) e aumentano linearmente con l'altezza verticale.</li>
+    <li>Avviare le soluzioni con $x_0 > 0$ per verificare la crescita esponenziale illimitata $x(t) = x_0 e^{rt}$.</li>
+  </ol>
+
+  <h3>2. Modello Logistico di Verhulst</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Incorpora la capacità portante ambientale $K$ con autolimitazione dipendente dalla densità:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right)$$
+  <ul>
+    <li><strong>Parametri:</strong> $r = 0.8$, $K = 5.0$.</li>
+    <li><strong>Equilibri:</strong> $x = 0$ (instabile/repulsore), $x = K$ (attrattore asintoticamente stabile).</li>
+  </ul>
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Avviare condizioni iniziali sopra e sotto $K$. Notare come le soluzioni convergano fluidamente verso $x = K$.</li>
+    <li>Osservare il punto di flesso nel ritratto di fase a $x = K/2$, dove il tasso di crescita raggiunge il picco.</li>
+  </ol>
+
+  <h3>3. Modello Logistico con Raccolto Costante</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Modella la crescita logistica soggetta a una quota di estrazione costante $h$:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - h$$
+  <ul>
+    <li><strong>Soglia Critica:</strong> La biforcazione sella-nodo si verifica a $h_c = \frac{rK}{4}$.</li>
+  </ul>
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Impostare $h < h_c$: esistono due equilibri (nodo stabile e soglia instabile).</li>
+    <li>Aumentare $h > h_c$ usando i Cursori dei Parametri per assistere al collasso (estinzione) attraverso tutti gli stati iniziali.</li>
+  </ol>
+
+  <h3>4. Modello Logistico con Raccolto Proporzionale allo Sforzo</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Tasso di raccolta proporzionale all'attuale densità di popolazione ($E x$):</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - Ex$$
+  <ul>
+    <li><strong>Crescita Effettiva:</strong> $\frac{dx}{dt} = (r - E)x\left(1 - \frac{x}{K(1 - E/r)}\right)$.</li>
+  </ul>
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Confrontare la transizione di stabilità quando lo sforzo $E$ supera il tasso intrinseco $r$ (biforcazione transcrittica).</li>
+  </ol>
+
+  <h3>5. Modello Logistico con Raccolto Stagionale Periodico</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>ODE non autonoma che rappresenta stagioni di caccia o pesca ciclicamente aperte/chiuse:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right) - h_0\left(1 + A\sin(\omega t)\right)$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Notare come le pendenze del campo di direzioni varino ora lungo il tempo $t$, illustrando un regime non autonomo.</li>
+    <li>Ispezionare il trascinamento e le soluzioni limite periodiche attorno alla capacità portante.</li>
+  </ol>
+
+  <h3>6. Modello di Popolazione con Effetto Allee Critico</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Presenta una soglia minima di sopravvivenza $a$ al di sotto della quale la popolazione si estingue:</p>
+  $$\frac{dx}{dt} = rx\left(1 - \frac{x}{K}\right)\left(\frac{x}{a} - 1\right)$$
+  <ul>
+    <li><strong>Equilibri:</strong> $x = 0$ (estinzione stabile), $x = a$ (soglia instabile), $x = K$ (capacità stabile).</li>
+  </ul>
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Avviare traiettorie partendo leggermente sopra e sotto $x = a$ per dimostrare la bistabilità.</li>
+  </ol>
+
+  <h3>7. Dinamica di Crescita Tumorale di Gompertz</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Modello classico in oncologia dove il decadimento della crescita relativa segue una legge logaritmica esponenziale:</p>
+  $$\frac{dx}{dt} = -a x \ln(b x)$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Esaminare la saturazione asintotica alla capacità portante del tumore $x^* = 1/b$.</li>
+  </ol>
+
+  <h3>8. Equazione di Crescita Allometrica di Von Bertalanffy</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Modella l'evoluzione della massa corporea dell'organismo bilanciando anabolismo (superficie) e catabolismo (volume):</p>
+  $$\frac{dx}{dt} = a x^{2/3} - b x$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Tracciare le traiettorie che si avvicinano alla dimensione biologica adulta stabile $x^* = (a/b)^3$.</li>
+  </ol>
+
+  <h2>II. Fisica, Termodinamica & Meccanica</h2>
+
+  <h3>9. Legge di Raffreddamento di Newton (Mezzo Isotermo)</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Tasso di scambio termico direttamente proporzionale alla discrepanza di temperatura con l'ambiente $T_{amb}$:</p>
+  $$\frac{dT}{dt} = -k(T - T_{amb})$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Osservare l'asintoto orizzontale stabile a $T = T_{amb}$.</li>
+  </ol>
+
+  <h3>10. Raffreddamento con Temperatura Ambiente Oscillante</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Tiene conto delle variazioni di temperatura circadiane giorno/notte:</p>
+  $$\frac{dT}{dt} = -k(T - (T_0 + A\sin(\omega t)))$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Notare il ritardo termico (sfasamento) e l'attenuazione dell'ampiezza nella risposta della temperatura interna.</li>
+  </ol>
+
+  <h3>11. Caduta Libera con Attrito Lineare di Stokes</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Governa lo smorzamento laminare a bassa velocità del fluido sui corpi in caduta:</p>
+  $$\frac{dv}{dt} = g - \frac{k}{m}v$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Osservare la convergenza monotona globale verso la velocità terminale $v_{term} = mg/k$.</li>
+  </ol>
+<h3>12. Caduta Libera con Attrito Aerodinamico Quadratico</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Regime di resistenza turbolenta newtoniana per proiettili macroscopici:</p>
+  $$\frac{dv}{dt} = g - \gamma v^2$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Verificare l'avvicinamento asintotico alla velocità terminale $v_{term} = \sqrt{g/\gamma}$.</li>
+  </ol>
+
+  <h3>13. Svuotamento del Serbatoio di Torricelli</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Velocità di efflusso da un orifizio a spigolo vivo sotto gravità:</p>
+  $$\frac{dh}{dt} = -c\sqrt{h}$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Osservare il comportamento non-Lipschitz a $h = 0$, che porta allo svuotamento completo del serbatoio in tempo finito.</li>
+  </ol>
+
+  <h3>14. Circuito Elettrico RL / RC con Eccitazione Sinusoidale</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Risposta lineare tempo-variante di reti elettroniche reattive:</p>
+  $$\frac{dI}{dt} + \frac{R}{L}I = \frac{V_0}{L}\cos(\omega t)$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Notare come lo stato transitorio decada esponenzialmente, assestandosi in una risposta forzata sinusoidale.</li>
+  </ol>
+
+  <h3>15. Catena di Decadimento Radioattivo di Bateman</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Cinetica del nuclide figlio intermedio con generazione e disintegrazione concomitanti:</p>
+  $$\frac{dx_2}{dt} = \lambda_1 N_0 e^{-\lambda_1 t} - \lambda_2 x_2$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Identificare il momento di picco di equilibrio secolare/transitorio di massima radioattività del figlio.</li>
+  </ol>
+
+  <h2>III. Chimica & Cinetica delle Reazioni</h2>
+
+  <h3>16. Reazione Chimica Reversibile di Primo Ordine</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Equilibrio dinamico diretto/inverso tra le specie chimiche $A \rightleftharpoons B$:</p>
+  $$\frac{dx}{dt} = k_f (A_0 - x) - k_r x$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Verificare la convergenza verso la concentrazione di equilibrio chimico $x^* = \frac{k_f A_0}{k_f + k_r}$.</li>
+  </ol>
+
+  <h3>17. Reazione Autocatalitica Isoterma</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Cinetica in cui le molecole di prodotto catalizzano la propria sintesi:</p>
+  $$\frac{dx}{dt} = k x (C_0 - x)$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Notare la caratteristica progressione sigmoidale dal seme iniziale alla trasformazione totale del reagente.</li>
+  </ol>
+
+  <h3>18. Reattore a Serbatoio Agitato Continuo (CSTR)</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Conservazione del soluto in un volume agitato con flussi di ingresso e uscita:</p>
+  $$\frac{dC}{dt} = \frac{q}{V}(C_{in} - C)$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Osservare il dilavamento esponenziale o l'arricchimento avvicinandosi allo stato stazionario $C = C_{in}$.</li>
+  </ol>
+
+  <h2>IV. Geometria, Singolarità & Biforcazioni</h2>
+
+  <h3>19. Equazione Lineare con Isocline Oblique e Asintoti</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Equazione canonica non autonoma di riferimento:</p>
+  $$\frac{dx}{dt} = t - x$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Attivare lo strumento Isocline ($c = 0$): osservare la linea $x = t$ che divide le pendenze positive/negative.</li>
+    <li>Identificare l'asintoto obliquo invariante $x(t) = t - 1$.</li>
+  </ol>
+
+  <h3>20. Equazione di Riccati con Transizione di Regime</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Equazione differenziale quadratica non lineare con coefficienti variabili:</p>
+  $$\frac{dx}{dt} = x^2 - t$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Esaminare l'isoclina nulla parabolica $t = x^2$ e il confine che separa le soluzioni limitate da quelle che esplodono.</li>
+  </ol>
+
+  <h3>21. Forma Normale della Biforcazione Sella-Nodo</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Meccanismo topologico fondamentale che crea o distrugge coppie di equilibri:</p>
+  $$\frac{dx}{dt} = r + x^2$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Scorrere il parametro $r$: per $r < 0$ ci sono due equilibri; per $r = 0$ si fondono; per $r > 0$ il flusso non è ostacolato.</li>
+  </ol>
+
+  <h3>22. Esplosione in Tempo Finito (Blow-up)</h3>
+  <div class="tag">FORMULAZIONE MATEMATICA & PARAMETRI</div>
+  <p>Crescita superlineare che dimostra il collasso del teorema di esistenza globale:</p>
+  $$\frac{dx}{dt} = 1 + x^2$$
+  <div class="tag">LINEE GUIDA PER L'ESPLORAZIONE PRATICA</div>
+  <ol>
+    <li>Verificare la soluzione analitica $x(t) = \tan(t + C)$, che sperimenta asintoti verticali per $t \to \pi/2$.</li>
+  </ol>
+</body>
+</html>

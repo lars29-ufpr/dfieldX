@@ -28,20 +28,25 @@ public class GuideWindow {
 
         WebView webView = new WebView();
         String lang = com.dfield.util.I18n.getCurrentLocale().getLanguage();
+      String guidePath = "/guide/tutorial_en.html"; // Inicialização garantida (fallback)
         
-        String guidePath;
         if (lang.equalsIgnoreCase("pt")) {
             guidePath = "/guide/tutorial.html";
         } else if (lang.equalsIgnoreCase("es")) {
             guidePath = "/guide/tutorial_es.html";
         } else if (lang.equalsIgnoreCase("fr")) {
-            guidePath = "/guide/tutorial_fr.html"; // Rota para o pplaneX
+            guidePath = "/guide/tutorial_fr.html";
         } else if (lang.equalsIgnoreCase("ru")) {
             guidePath = "/guide/tutorial_ru.html";
-        } else {
-            guidePath = "/guide/tutorial_en.html"; // Fallback padrão
+        } else if (lang.equalsIgnoreCase("bg")) {
+            guidePath = "/guide/tutorial_bg.html";
+        } else if (lang.equalsIgnoreCase("uk")) {
+            guidePath = "/guide/tutorial_uk.html";
+        } else if (lang.equalsIgnoreCase("de")) {
+            guidePath = "/guide/tutorial_de.html";
+        } else if (lang.equalsIgnoreCase("it")) {
+            guidePath = "/guide/tutorial_it.html";
         }
-
         URL guideUrl = GuideWindow.class.getResource(guidePath);
         if (guideUrl == null) {
             guideUrl = GuideWindow.class.getResource("/guide/tutorial.html");
