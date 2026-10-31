@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Учебно ръководство на dfieldX</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['[', ']'], ['$$', '$$']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f131a;
+      color: #cbd5e1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.8;
+      padding: 30px 45px 60px 45px;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .intro {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #1e293b;
+      margin: 28px 0;
+    }
+    h2 {
+      color: #38bdf8;
+      font-size: 18px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 6px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+    }
+    h3 {
+      color: #60a5fa;
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    h4 {
+      color: #a78bfa;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    ul, ol {
+      padding-left: 22px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    b, strong {
+      color: #f1f5f9;
+    }
+    .math-block {
+      display: block;
+      margin: 18px 0;
+      padding: 10px 0;
+      text-align: center;
+      color: #f8fafc;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    mjx-container[jax="SVG"] {
+      padding: 4px 0 !important;
+      margin: 2px 0 !important;
+      outline: none !important;
+    }
+    .ref-list {
+      list-style-type: disc;
+      color: #64748b;
+      font-size: 13px;
+    }
+    .ref-list li {
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .ref-list em {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Учебно ръководство за диференциални модели от 1-ви ред</h1>
+  <div class="subtitle">Direction Field Analyzer (dfieldX) — Версия 1.1</div>
+  <div class="intro">
+    Това ръководство събира пълния каноничен каталог от обикновени диференциални уравнения от първи ред в равнината \((t, x)\), реализирани в <b>dfieldX</b>. Всеки модел включва аналитична формулировка, физическа/биологична интерпретация, ръководство за експериментиране в полето на посоките и класически концептуални препратки.
+  </div>
+
+  <hr>
+
+  <h2>I. Популационна динамика и Биоматематика</h2>
+
+  <h3>1. Малтусиански модел (Експоненциален растеж)</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <p>Описва неограничено възпроизводство на глава от населението без пространствени или хранителни ограничения:</p>
+  <div class="math-block">\[\frac{dx}{dt} = r x\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 0.5\) (вътрешна скорост на малтусиански растеж).</li>
+    <li><b>Равновесие:</b> \(x = 0\) (репулсор, ако \(r > 0\)).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Обърнете внимание, че наклоните зависят изключително от \(x\) (автономно уравнение) и нарастват линейно с височината във вертикалната равнина.</li>
+    <li>Стартирайте решения с \(x_0 > 0\) и проверете неограничения експоненциален растеж \(x(t) = x_0 e^{rt}\).</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Malthus, T. R. (1798). <em>An Essay on the Principle of Population</em>. J. Johnson, London.</li>
+  </ul>
+
+  <h3>2. Логистичен модел на Verhulst</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <p>Въвежда вътрешновидова конкуренция и капацитет на средата \(K\):</p>
+  <div class="math-block">\[\frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right)\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 1.0\), \(K = 10.0\).</li>
+    <li><b>Равновесия:</b> \(x = 0\) (нестабилно), \(x = K = 10.0\) (глобален асимптотичен атрактор за \(x > 0\)).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Забележете хоризонталната изоклина с нулев наклон при \(x = 10.0\).</li>
+    <li>Кликнете върху начални условия \(0 < x_0 < 10\) и вижте класическата сигмоидна крива с инфлексна точка при \(x = K/2 = 5.0\).</li>
+  </ol>
+  <h4>Концептуални препратки</h4>
+  <ul class="ref-list">
+    <li>Verhulst, P. F. (1838). <em>Notice sur la loi que la population poursuit dans son accroissement</em>. Corr. Math. et Phys., 10, 113-121.</li>
+    <li>Murray, J. D. (2002). <em>Mathematical Biology: I. An Introduction</em> (3rd ed.). Springer.</li>
+  </ul>
+
+  <h3>3. Логистичен модел с постоянен улов</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - h\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 1.0\), \(K = 10.0\), \(h = 2.0\) (постоянна скорост на извличане).</li>
+    <li><b>Бифуркация:</b> Максималното устойчиво усилие е \(h_c = rK/4 = 2.5\). За \(h < h_c\) възникват две равновесия.</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Опитайте да промените \(h = 2.0\) на \(h = 2.6\) (свръхулов). Наблюдавайте изчезването на равновесните точки и неизбежното изчезване за всяко начално условие.</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Clark, C. W. (1990). <em>Mathematical Bioeconomics: The Optimal Management of Renewable Resources</em>. Wiley.</li>
+  </ul>
+
+  <h3>4. Логистичен модел с улов пропорционален на усилието</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - E x = x \left[ (r - E) - \frac{r}{K} x \right]\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 1.0\), \(K = 10.0\), \(E = 0.3\) (усилие за улов).</li>
+    <li><b>Ново устойчиво равновесие:</b> \(x^* = K (1 - E/r) = 7.0\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Проверете, че непрекъснатото увеличаване на \(E\) плавно намалява равновесната биомаса, претърпявайки транскритична бифуркация при \(E = r\).</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Strogatz, S. H. (2015). <em>Nonlinear Dynamics and Chaos</em> (2nd ed.). Westview Press.</li>
+  </ul>
+
+  <h3>5. Логистичен модел с периодичен сезонен улов</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dx}{dt} = r x \left(1 - \frac{x}{K}\right) - h_0 [1 + \sin(\omega t)]\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 1.0\), \(K = 10.0\), \(h_0 = 1.5\), \(\omega = 1.0\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Наблюдавайте вълнообразните нестационарни изоклини в равнината \((t, x)\).</li>
+    <li>Стартирайте решения и идентифицирайте атракторния граничен цикъл с период \(T = 2\pi/\omega\).</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Kot, M. (2001). <em>Elements of Mathematical Ecology</em>. Cambridge University Press.</li>
+  </ul>
+
+  <h3>6. Популационен модел с критичен ефект на Allee</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dx}{dt} = r x \left(\frac{x}{A} - 1\right)\left(1 - \frac{x}{K}\right)\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 0.5\), \(A = 2.0\) (критичен праг), \(K = 10.0\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Стартирайте решения при \(x_0 = 1.9\) и \(x_0 = 2.1\) и визуализирайте сепаратрисата при \(x = 2.0\).</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Allee, W. C. (1938). <em>The Social Life of Animals</em>. W. W. Norton & Co.</li>
+  </ul>
+
+  <h3>7. Динамика на туморен растеж на Gompertz</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dx}{dt} = -r x \ln\left(\frac{x}{K}\right)\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(r = 0.4\), \(K = 8.0\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Сравнете с логистичния модел: моделът на Gompertz се забавя плавно, тъй като \(x \to K\), улавяйки забавянето в пролиферацията на неопластичните клетки.</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Gompertz, B. (1825). <em>On the Nature of the Function Expressive of the Law of Human Mortality</em>. Phil. Trans. R. Soc., 115, 513-585.</li>
+  </ul>
+
+  <h3>8. Алометрично уравнение на Von Bertalanffy</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <p>Моделира наддаването на маса чрез повърхностна асимилация срещу обемна метаболитна консумация:</p>
+  <div class="math-block">\[\frac{dx}{dt} = a x^{2/3} - b x\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(a = 1.2\), \(b = 0.4\). Максимален асимптотичен размер: \(x_\infty = (a/b)^3 = 27.0\).</li>
+  </ul>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Von Bertalanffy, L. (1957). <em>Quantitative Laws in Metabolism and Growth</em>. Q. Rev. Biol., 32(3), 217-231.</li>
+  </ul>
+
+  <hr>
+
+  <h2>II. Физика, Термодинамика и Механика</h2>
+
+  <h3>9. Закон за охлаждане на Newton (Изотермична среда)</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dT}{dt} = -k (T - T_a)\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(k = 0.3\), \(T_a = 20.0\) (околна температура).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Всички решения колапсират експоненциално към хоризонталната асимптотична права \(T = 20.0\).</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Newton, I. (1701). <em>Scala graduum Caloris</em>. Phil. Trans., 22, 824-829.</li>
+  </ul>
+
+  <h3>10. Охлаждане с осцилираща околна температура</h3>
+  <h4>Математическа формулировка и параметри</h4>
+    \[\frac{dT}{dt} = -k \left\{ T - \left[ T_0 + A \sin(\omega t) \right] \right\}\]
+  <ul>
+    <li><b>Параметри:</b> \(k = 0.4\), \(T_0 = 20.0\), \(A = 8.0\), \(\omega = 0.5\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Наблюдавайте топлинното фазово закъснение и затихването в амплитудата на осцилация на тялото.</li>
+  </ol>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Boyce, W. E., & DiPrima, R. C. (2012). <em>Elementary Differential Equations</em>. Wiley.</li>
+  </ul>
+
+  <h3>11. Свободно падане с линейно съпротивление на Stokes</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dv}{dt} = g - \gamma v\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(g = 9.8\), \(\gamma = 0.5\). Терминална скорост: \(v_t = g/\gamma = 19.6\text{ m/s}\).</li>
+  </ul>
+  <h4>Концептуална препратка</h4>
+  <ul class="ref-list">
+    <li>Stokes, G. G. (1851). <em>On the Effect of the Internal Friction of Fluids on the Motion of Pendulums</em>. Trans. Camb. Phil. Soc., 9, 8-106.</li>
+  </ul>
+
+  <h3>12. Падане с квадратично аеродинамично съпротивление</h3>
+  <h4>Математическа формулировка и параметри</h4>
+  <div class="math-block">\[\frac{dv}{dt} = g - k v^2\]</div>
+  <ul>
+    <li><b>Параметри:</b> \(g = 9.8\), \(k = 0.05\). Терминална скорост: \(v_t = \sqrt{g/k} = 14.0\text{ m/s}\).</li>
+  </ul>
+  <h4>Практическо ръководство за изследване</h4>
+  <ol>
+    <li>Стартирайте орбити от покой (\(v_0 = 0\)) и при високи скорости (\(v_0 =

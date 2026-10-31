@@ -12,16 +12,24 @@ public class I18n {
         String propLang = System.getProperty("user.language");
         Locale sys = Locale.getDefault();
         String lang = (propLang != null && !propLang.isBlank()) ? propLang.toLowerCase() : sys.getLanguage().toLowerCase();
-        
+         
         // Mapeamento dinâmico de idiomas suportados
         if (lang.equals("pt")) {
             setLocale(new Locale("pt", "BR"));
         } else if (lang.equals("es")) {
             setLocale(new Locale("es", "ES"));
         } else if (lang.equals("fr")) {
-            setLocale(new Locale("fr", "FR")); // Preparando terreno para o pplaneX
+            setLocale(new Locale("fr", "FR"));
         } else if (lang.equals("ru")) {
-            setLocale(new Locale("ru", "RU")); // Suporte inicial para idiomas Cirílicos
+            setLocale(new Locale("ru", "RU"));
+        } else if (lang.equals("bg")) {
+            setLocale(new Locale("bg", "BG")); // Búlgaro
+} else if (lang.equals("uk")) {
+            setLocale(new Locale("uk", "UA")); // Ucraniano
+        } else if (lang.equals("de")) {
+            setLocale(new Locale("de", "DE")); // Alemão
+        } else if (lang.equals("it")) {
+            setLocale(new Locale("it", "IT")); // Italiano
         } else {
             setLocale(Locale.ENGLISH); // Fallback padrão
         }

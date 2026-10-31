@@ -183,6 +183,10 @@ public class GalleryDialog extends Dialog<EquationExample> {
 
     private void initStyles() {
         lblDetailName.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #f5f6fa;");
+        // Permite que títulos muito grandes (como em ucraniano ou alemão) quebrem para a linha de baixo
+        lblDetailName.setWrapText(true);
+        lblDetailName.setMinHeight(javafx.scene.layout.Region.USE_PREF_SIZE);
+        
         lblDetailCategory.setStyle("-fx-font-size: 12px; -fx-text-fill: #718093;");
     }
 

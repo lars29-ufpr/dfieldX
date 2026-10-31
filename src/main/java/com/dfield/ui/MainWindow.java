@@ -764,24 +764,25 @@ setStatus(I18n.format("status.solution_traced", t0, x0, trajectory.getFullOrdere
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
-            javafx.scene.control.Button okBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        
+        Button okBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
 
-            if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
+        Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
 
-            javafx.scene.control.Button cancelBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
-
-            if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
         dialog.setTitle(I18n.get("dialog.export_svg.title"));
-        dialog.initStyle(javafx.stage.StageStyle.UTILITY);
-        dialog.setResizable(false);
         dialog.setHeaderText(I18n.get("dialog.export_svg.header"));
         dialog.setContentText(I18n.get("dialog.export.content"));
-
+        dialog.setResizable(false);
         var cssSvg = getClass().getResource("/css/style.css");
         if (cssSvg != null) {
             dialog.getDialogPane().getStylesheets().add(cssSvg.toExternalForm());
         }
-
+// Copia o ícone da janela principal para o diálogo de exportação
+        javafx.stage.Stage dialogStage = (javafx.stage.Stage) dialog.getDialogPane().getScene().getWindow();
+        javafx.stage.Stage mainStage = (javafx.stage.Stage) this.getScene().getWindow();
+        dialogStage.getIcons().addAll(mainStage.getIcons());
         var optResult = dialog.showAndWait();
         if (optResult.isEmpty()) return;
 
@@ -801,16 +802,16 @@ setStatus(I18n.format("status.solution_traced", t0, x0, trajectory.getFullOrdere
                 new FileChooser.ExtensionFilter("Vetor SVG (*.svg)", "*.svg")
         );
         fileChooser.setInitialFileName("dfieldX_campo.svg");
-
-        var window = btnExportSvg.getScene() != null ? btnExportSvg.getScene().getWindow() : null;
+// Força a referência à Stage principal diretamente pelo node root para garantir hierarquia
+        javafx.stage.Window window = this.getScene().getWindow();
         File file = fileChooser.showSaveDialog(window);
         if (file == null) return;
 
         try {
             canvas.exportSvg(file, bg);
-setStatus(I18n.format("status.svg_exported", file.getName()), false);
+            setStatus(I18n.format("status.svg_exported", file.getName()), false);
         } catch (IOException ex) {
-setStatus(I18n.get("status.svg_export_error"), true);
+            setStatus(I18n.get("status.svg_export_error"), true);
             ex.printStackTrace();
         }
     }
@@ -823,24 +824,24 @@ setStatus(I18n.get("status.svg_export_error"), true);
         );
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(options.get(0), options);
-            javafx.scene.control.Button okBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.OK);
+        Button okBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
 
-            if (okBtn != null) okBtn.setText(I18n.get("dialog.ok"));
+        Button cancelBtn = (Button) dialog.getDialogPane().lookupButton(ButtonType.CANCEL);
+        if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
 
-            javafx.scene.control.Button cancelBtn = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(javafx.scene.control.ButtonType.CANCEL);
-
-            if (cancelBtn != null) cancelBtn.setText(I18n.get("dialog.cancel"));
         dialog.setTitle(I18n.get("dialog.export_png.title"));
-        dialog.initStyle(javafx.stage.StageStyle.UTILITY);
-        dialog.setResizable(false);
         dialog.setHeaderText(I18n.get("dialog.export_png.header"));
         dialog.setContentText(I18n.get("dialog.export.content"));
-
+        dialog.setResizable(false);
         var cssPng = getClass().getResource("/css/style.css");
         if (cssPng != null) {
             dialog.getDialogPane().getStylesheets().add(cssPng.toExternalForm());
         }
-
+// Copia o ícone da janela principal para o diálogo de exportação
+        javafx.stage.Stage dialogStage = (javafx.stage.Stage) dialog.getDialogPane().getScene().getWindow();
+        javafx.stage.Stage mainStage = (javafx.stage.Stage) this.getScene().getWindow();
+        dialogStage.getIcons().addAll(mainStage.getIcons());
         var optResult = dialog.showAndWait();
         if (optResult.isEmpty()) return;
 
@@ -860,8 +861,8 @@ setStatus(I18n.get("status.svg_export_error"), true);
                 new FileChooser.ExtensionFilter("Imagem PNG (*.png)", "*.png")
         );
         fileChooser.setInitialFileName("dfieldX_campo.png");
-
-        var window = btnExport.getScene() != null ? btnExport.getScene().getWindow() : null;
+// Força a referência à Stage principal diretamente pelo node root para garantir hierarquia
+        javafx.stage.Window window = this.getScene().getWindow();
         File file = fileChooser.showSaveDialog(window);
         if (file == null) return;
 
@@ -869,9 +870,9 @@ setStatus(I18n.get("status.svg_export_error"), true);
         if (image == null) return;
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-setStatus(I18n.format("status.png_exported", file.getName()), false);
+            setStatus(I18n.format("status.png_exported", file.getName()), false);
         } catch (IOException ex) {
-setStatus(I18n.get("status.png_export_error"), true);
+            setStatus(I18n.get("status.png_export_error"), true);
             ex.printStackTrace();
         }
     }
