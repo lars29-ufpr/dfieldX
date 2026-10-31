@@ -1,27 +1,28 @@
-> **Language / Idioma:** [English](README.md) | **Português** | [Español](README_es.md) | [Français](README_fr.md) | [Русский](README_ru.md)
+> **Language / Idioma:** [English](README.md) | **Português** | [Español](README_es.md) | [Français](README_fr.md) | [Русский](README_ru.md) | [Български](README_bg.md) | [Українська](README_uk.md) | [Deutsch](README_de.md) | [Italiano](README_it.md)
 
 ---
+
 # dfieldX — Análise Numérica e Qualitativa de EDOs 1D
 
-**dfieldX** é uma aplicação gráfica interativa moderna desenvolvida em Java 21 e JavaFX para a simulação numérica, traçado de campos de direções e análise qualitativa de Equações Diferenciais Ordinárias (EDOs) escalares de primeira ordem:
+O **dfieldX** é um aplicativo desktop moderno e interativo construído com Java 21 e JavaFX para simulação numérica, visualização de campos de direções e análise qualitativa de Equações Diferenciais Ordinárias (EDOs) escalares de primeira ordem:
 
 $$x' = \frac{dx}{dt} = f(t, x)$$
 
-Inspirado na clássica ferramenta pedagógica `dfield` desenvolvida originalmente por **John C. Polking** (Rice University) para o ambiente MATLAB, o **dfieldX** foi reconstruído do zero para oferecer alto desempenho computacional, interface moderna com aceleração gráfica nativa e portabilidade universal multiplataforma (Linux, Windows e macOS).
+Inspirado no clássico software educacional `dfield` originalmente desenvolvido por **John C. Polking** (Rice University) para MATLAB, o **dfieldX** foi reconstruído do zero para oferecer alto desempenho computacional, uma interface moderna acelerada por GPU e portabilidade universal entre plataformas (Linux, Windows e macOS).
 
 ---
 
-## 📥 Instalação e Execução
+## 📥 Instalação e Início Rápido
 
-O **dfieldX** é distribuído como um arquivo JAR executável e requer **Java 21 (LTS) ou superior**.
+O **dfieldX** é distribuído como um JAR executável autossuficiente e requer o **Java 21 (LTS) ou mais recente**.
 
-Caso você não tenha o Java instalado ou deseje instruções detalhadas para o seu sistema operacional (Windows, macOS ou Linux), consulte os guias de instalação:
+Se você não tem o Java instalado ou precisa de um guia passo a passo para o seu sistema operacional (Windows, macOS ou Linux), consulte nossos guias de instalação:
 
 - 📖 **[Guia de Instalação (Português)](INSTALL_pt_BR.md)**
 
-### Executando o Programa
+### Executando o Aplicativo
 
-Com o Java 21+ instalado, execute pelo terminal:
+Uma vez que o Java 21+ esteja instalado, execute a partir do seu terminal:
 
 ```bash
 java -jar dfieldX.jar
@@ -29,38 +30,38 @@ java -jar dfieldX.jar
 
 ---
 
-## 🚀 Destaques e Funcionalidades
+## 🚀 Principais Recursos
 
-* **Campos de Direções em Alta Definição:** Renderização vetorial fluida de vetores tangentes com opções de normalização de comprimento e gradiente de intensidade de inclinação.
-* **Integração Numérica Adaptativa de Alta Precisão:**
-  * Métodos clássicos e de passo adaptativo (Dormand-Prince / Runge-Kutta 4ª e 5ª ordem, Euler e RK4 padrão).
-  * Suporte computacional nativo à função raiz cúbica real ($\text{cbrt}$) em todo o domínio real $\mathbb{R}$, evitando descontinuidades de fase.
-* **Análise Qualitativa Automatizada:**
-  * Localização numérica de equilíbrios locais ($f(t, x^*) = 0$).
-  * Classificação de estabilidade linear (atratores, repulsores e pontos de sela/semi-estáveis).
-  * Traçado automático de isóclinas via algoritmo *Marching Squares*.
-  * Diagrama de linha de fase auxiliar ($x' \text{ vs } x$) para equações autônomas.
-* **Galeria Didática Integrada:** Coleção de 22 modelos pré-configurados abrangendo:
-  * Biomatemática e Dinâmica Populacional (Logístico, Allee, Gompertz, Colheita com esforço constante e quota fixa).
-  * Física e Mecânica Clássica (Queda livre com resistência linear e quadrática, Circuito RC, Resfriamento de Newton).
-  * Cinética Química e Modelagem Geral.
-* **Exploração Paramétrica Contínua:** Janela dedicada de controles deslizantes (*sliders*) para ajuste em tempo real de coeficientes e parâmetros livres da equação.
-* **Exportação Vetorial e Raster de Alta Resolução:**
-  * Exportação gráfica para formatos **SVG** (vetorial puro escalável para artigos e LaTeX).
-  * Exportação raster em **PNG** em alta definição com suporte a fundo transparente (canal alfa RGBA).
-* **Binário Universal Cross-Platform:** Empacotamento em um único executável *fat JAR* contendo bibliotecas nativas de aceleração gráfica para **Linux (x86_64)**, **Windows (x86_64)** e **macOS (Apple Silicon M-Series e Intel x86_64)**.
+- **Campos de Direções em Alta Definição:** Renderização vetorial suave de segmentos de inclinação com opções para normalização de comprimento e coloração por intensidade de inclinação.
+- **Integração Numérica Adaptativa de Alta Precisão:**
+  * Solucionadores de passo padrão e adaptativo (Dormand-Prince / Runge-Kutta de 4ª e 5ª ordem, RK4 padrão e Euler).
+  * Avaliação nativa no domínio real da função de raiz cúbica real ($\text{cbrt}$) em todo $\mathbb{R}$, eliminando artefatos de fase por quebra de ramo (branch-cut).
+- **Análise Qualitativa Automatizada:**
+  * Resolução numérica de pontos de equilíbrio ($f(t, x^*) = 0$).
+  * Classificação de estabilidade linear (atratores, repulsores e pontos semi-estáveis/sela).
+  * Traçado automático de isóclinas através do algoritmo de contorno *Marching Squares*.
+  * Diagrama auxiliar de linha de fase ($x' \text{ vs } x$) para equações autônomas.
+- **Galeria Integrada de Modelos Selecionados:** Uma coleção de 22 modelos pré-configurados abrangendo:
+  * Biomatemática e Dinâmica Populacional (Crescimento logístico, efeito Allee, Gompertz, colheita com esforço constante e cota fixa).
+  * Mecânica Clássica e Física (Queda livre com arrasto linear e quadrático, circuitos RC, lei do resfriamento de Newton).
+  * Cinética química e EDOs fundamentais de referência.
+- **Controles Deslizantes de Parâmetros em Tempo Real:** Controles interativos para ajuste dinâmico de parâmetros e exploração contínua de bifurcações.
+- **Exportação Vetorial e Raster de Alta Resolução:**
+  * Gráficos vetoriais escaláveis puros (**SVG**) para figuras com qualidade de publicação e integração com LaTeX.
+  * Exportação raster de alto DPI (**PNG**) com suporte a fundo transparente (canal alfa RGBA).
+- **Fat JAR Universal Multiplataforma:** Executável autossuficiente empacotando binários gráficos nativos da plataforma para **Linux (x86_64)**, **Windows (x86_64)** e **macOS (Apple Silicon M-Series e Intel x86_64)**.
 
 ---
 
 ## 📋 Pré-requisitos
 
-Para executar o binário pré-compilado, é necessário apenas ter o **Java Runtime Environment (JRE) ou JDK versão 21 ou superior** instalado no sistema operacional.
+Para executar o binário pré-compilado, apenas um **Java Runtime Environment (JRE) ou JDK versão 21 ou superior** é necessário.
 
-Para verificar a instalação do Java, execute no terminal:
+Verifique sua instalação local do Java executando:
 ```bash
 java -version
 ```
 
 ## Créditos e Licença
 
-Este projeto é uma expansão educacional baseada nos softwares originais dfield e pplane (copyright de John C. Polking, Rice University) e suas respectivas versões em Java (Joel Castellanos). Distribuído para uso em instituições de ensino, sem fins lucrativos, respeitando o trabalho dos autores originais.
+Este projeto é uma expansão educacional baseada nos softwares originais dfield e pplane (copyright John C. Polking, Rice University) e suas respectivas versões em Java (Joel Castellanos). Distribuído para uso em instituições educacionais, sem fins lucrativos, respeitando o trabalho dos autores originais.

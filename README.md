@@ -1,4 +1,4 @@
-> **Language / Idioma:** **English** | [Português](README_pt_BR.md) | [Español](README_es.md) | [Français](README_fr.md) | [Русский](README_ru.md)
+> **Language / Idioma:** **English** | [Português](README_pt_BR.md) | [Español](README_es.md) | [Français](README_fr.md) | [Русский](README_ru.md) | [Български](README_bg.md) | [Українська](README_uk.md) | [Deutsch](README_de.md) | [Italiano](README_it.md)
 
 ---
 
@@ -32,24 +32,24 @@ java -jar dfieldX.jar
 
 ## 🚀 Key Features
 
-* **High-Definition Direction Fields:** Smooth vector rendering of slope segments with options for length normalization and slope-intensity coloring.
-* **High-Precision Adaptive Numerical Integration:**
+- **High-Definition Direction Fields:** Smooth vector rendering of slope segments with options for length normalization and slope-intensity coloring.
+- **High-Precision Adaptive Numerical Integration:**
   * Standard and adaptive step-size solvers (Dormand-Prince / Runge-Kutta 4th and 5th order, standard RK4, and Euler).
   * Native real-domain evaluation of the real cube root function ($\text{cbrt}$) across all $\mathbb{R}$, eliminating branch-cut phase artifacts.
-* **Automated Qualitative Analysis:**
+- **Automated Qualitative Analysis:**
   * Numerical equilibrium solving ($f(t, x^*) = 0$).
   * Linear stability classification (attractors, repellers, and semi-stable/saddle points).
   * Automatic isocline tracing via the *Marching Squares* contouring algorithm.
   * Auxiliary phase-line diagram ($x' \text{ vs } x$) for autonomous equations.
-* **Curated Built-in Model Gallery:** A collection of 22 preconfigured models spanning:
+- **Curated Built-in Model Gallery:** A collection of 22 preconfigured models spanning:
   * Biomathematics and Population Dynamics (Logistic growth, Allee effect, Gompertz, constant-effort and fixed-quota harvesting).
   * Classical Mechanics and Physics (Free fall with linear and quadratic drag, RC circuits, Newton's law of cooling).
   * Chemical kinetics and foundational ODE benchmarks.
-* **Real-Time Parameter Sliders:** Interactive slider controls for dynamic parameter tuning and continuous bifurcation exploration.
-* **Vector and High-Resolution Raster Export:**
+- **Real-Time Parameter Sliders:** Interactive slider controls for dynamic parameter tuning and continuous bifurcation exploration.
+- **Vector and High-Resolution Raster Export:**
   * Pure scalable vector graphics (**SVG**) for publication-grade figures and LaTeX integration.
   * High-DPI raster export (**PNG**) with transparent background (RGBA alpha channel) support.
-* **Universal Cross-Platform Fat JAR:** Self-contained executable bundling native platform graphics binaries for **Linux (x86_64)**, **Windows (x86_64)**, and **macOS (Apple Silicon M-Series and Intel x86_64)**.
+- **Universal Cross-Platform Fat JAR:** Self-contained executable bundling native platform graphics binaries for **Linux (x86_64)**, **Windows (x86_64)**, and **macOS (Apple Silicon M-Series and Intel x86_64)**.
 
 ---
 

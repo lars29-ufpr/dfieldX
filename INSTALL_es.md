@@ -1,4 +1,4 @@
-[English](INSTALL.md) | [Versão em Português](INSTALL_pt_BR.md)
+> **Language / Idioma:** [English](INSTALL.md) | [Português](INSTALL_pt_BR.md) | **Español** | [Français](INSTALL_fr.md) | [Русский](INSTALL_ru.md) | [Български](INSTALL_bg.md) | [Українська](INSTALL_uk.md) | [Deutsch](INSTALL_de.md) | [Italiano](INSTALL_it.md)
 
 # Guía de Instalación
 
@@ -6,7 +6,7 @@
 
 Esta guía explica cómo instalar y ejecutar dfieldX y pplaneX en Windows, macOS y Linux.
 
-Estas aplicaciones requieren Java 21 o superior.
+Estas aplicaciones requieren Java 21 o una versión más reciente.
 
 No se requiere una instalación previa de Java. Esta guía asume que Java aún no está instalado en su computadora.
 
@@ -21,7 +21,7 @@ Descargue la última versión desde GitHub:
 - pplaneX: https://tinyurl.com/pplanex-ufpr
 
 
-Guarde el archivo JAR descargado en una ubicación que pueda encontrar fácilmente más tarde, como su Escritorio o la carpeta de Descargas.
+Guarde el archivo JAR descargado en una ubicación donde pueda encontrarlo fácilmente más tarde, como su Escritorio (Desktop) o la carpeta Descargas (Downloads).
 
 ---
 
@@ -33,7 +33,7 @@ Guarde el archivo JAR descargado en una ubicación que pueda encontrar fácilmen
 2. Visite: https://adoptium.net/
 3. Descargue Eclipse Temurin Java 21 LTS para Windows x64.
 4. Ejecute el instalador descargado.
-5. En "Custom Setup" (Instalación Personalizada), asegúrese de que "Add to PATH" y "Associate .jar files" estén habilitados.
+5. En "Custom Setup" (Instalación Personalizada), asegúrese de que "Add to PATH" y "Associate .jar files" estén habilitadas.
 6. Finalice la instalación.
 
 ## Verificar la Instalación
@@ -42,7 +42,7 @@ Abra el Símbolo del sistema (Command Prompt) y ejecute:
 
     java -version
 
-Cualquier versión 21 o superior es compatible.
+Cualquier versión 21 o más reciente es compatible.
 
 ## Ejecutar la Aplicación
 
@@ -56,38 +56,28 @@ o
 
 # 3. macOS
 
-## Determine el Tipo de su Mac
-
-Abra 'Acerca de esta Mac'.
-
-Elija las versiones de Apple Silicon para Macs con M1/M2/M3/M4 y las versiones de Intel para Macs con procesador Intel.
-
 ## Instalar Java
-
 1. Visite https://adoptium.net/
-2. Descargue Java 21 LTS para macOS.
-3. Ejecute el instalador.
-4. Siga las instrucciones de instalación.
+2. Descargue el Java LTS más reciente (21 o superior) para macOS.  
+   * *Consejo:* Elija el instalador `.dmg` (ej. `jdk-21_macos-x64_bin.dmg` para Macs con Intel, o el equivalente `aarch64` para Apple Silicon M1/M2/M3/M4).
+3. Ejecute el instalador y siga las instrucciones en la pantalla.
 
-## Verificar la Instalación
+## Organizar la Aplicación
+Para una mejor organización, recomendamos mover los archivos descargados `dfieldX.jar` y `pplaneX.jar` a su carpeta de **Aplicaciones** (Applications).
 
-Abra la Terminal y ejecute:
+## Primera Ejecución (Evitando Gatekeeper)
+macOS incluye una función de seguridad que bloquea aplicaciones de desarrolladores no identificados. Si simplemente hace doble clic en el archivo `.jar` por primera vez, macOS mostrará una advertencia y evitará que se abra.
 
-    java -version
+1. **No haga doble clic** en el archivo la primera vez.
+2. En su lugar, haga **clic derecho** (o Control-clic) en el archivo `.jar` y seleccione **Abrir** (Open) en el menú contextual.
+3. Aparecerá un cuadro de diálogo pidiendo confirmación. Haga clic en **Abrir** nuevamente.
+4. **Uso Normal:** Solo necesita hacer esto una vez. Para todos los usos posteriores, simplemente haga doble clic en el archivo `.jar` para iniciar la aplicación normalmente.
 
-## Ejecutar la Aplicación
-
+## Ejecutar a través del Terminal (Alternativa)
+Si prefiere la línea de comandos, abra el Terminal y ejecute:
     java -jar dfieldX.jar
-
 o
-
     java -jar pplaneX.jar
-
-## Si macOS Bloquea la Aplicación
-
-Abra:
-
-Configuración del Sistema → Privacidad y Seguridad → Abrir de todos modos
 
 ---
 
@@ -154,9 +144,9 @@ o
 
 # Solución de Problemas
 
-## No Ocurre Nada al Hacer Doble Clic en el Archivo JAR
+## No sucede nada al hacer doble clic en el archivo JAR
 
-Ejecute la aplicación desde una terminal:
+Ejecute la aplicación desde un terminal:
 
     java -jar dfieldX.jar
 
@@ -164,37 +154,14 @@ o
 
     java -jar pplaneX.jar
 
-## Error de Versión de Clase no Soportada (Unsupported Class Version Error)
+## Error "Unsupported Class Version"
 
-Instale Java 21 o superior.
+Instale Java 21 o una versión más reciente.
 
 ## La Aplicación No Inicia
 
-Compruebe:
+Verifique:
 
     java -version
 
 y reporte cualquier mensaje de error al desarrollador.
-
----
-
-## 🍎 Advertencia de Gatekeeper en macOS
-
-Si ve un mensaje indicando que la aplicación **"no se puede abrir porque Apple no puede verificar que esté libre de malware"**, esto ocurre porque el archivo `.jar` de código abierto no está firmado con un certificado de desarrollador de Apple.
-
-### Método 1: Configuración del Sistema (GUI)
-1. Haga clic en **Aceptar** (Done) en la ventana de alerta.
-2. Abra **Configuración del Sistema** → **Privacidad y Seguridad**.
-3. Desplácese hacia abajo hasta la sección de **Seguridad**.
-4. Localice el mensaje indicando que el archivo `.jar` fue bloqueado y haga clic en **Abrir de todos modos** (Open Anyway).
-5. Confirme con su contraseña/Touch ID y haga clic en **Abrir** (Open).
-
-### Método 2: Terminal
-Elimine la bandera de cuarentena manualmente:
-```bash
-xattr -d com.apple.quarantine *.jar
-```
-O ejecute directamente desde la línea de comandos:
-```bash
-java -jar *.jar
-```

@@ -1,4 +1,4 @@
-[Versão em Português](INSTALL_pt_BR.md)
+> **Language / Idioma:** **English** | [Português](INSTALL_pt_BR.md) | [Español](INSTALL_es.md) | [Français](INSTALL_fr.md) | [Русский](INSTALL_ru.md) | [Български](INSTALL_bg.md) | [Українська](INSTALL_uk.md) | [Deutsch](INSTALL_de.md) | [Italiano](INSTALL_it.md)
 
 # Installation Guide
 
@@ -17,7 +17,9 @@ No previous Java installation is required. This guide assumes Java is not yet in
 Download the latest release from GitHub:
 
 - dfieldX: https://tinyurl.com/difieldx-ufpr
+
 - pplaneX: https://tinyurl.com/pplanex-ufpr
+
 
 Save the downloaded JAR file in a location you can easily find later, such as your Desktop or Downloads folder.
 
@@ -54,38 +56,28 @@ or
 
 # 3. macOS
 
-## Determine Your Mac Type
-
-Open 'About This Mac'.
-
-Choose Apple Silicon builds for M1/M2/M3/M4 Macs and Intel builds for Intel Macs.
-
 ## Install Java
-
 1. Visit https://adoptium.net/
-2. Download Java 21 LTS for macOS.
-3. Run the installer.
-4. Follow the installation instructions.
+2. Download the latest Java LTS (21 or newer) for macOS.  
+   * *Tip:* Choose the `.dmg` installer (e.g., `jdk-21_macos-x64_bin.dmg` for Intel Macs, or the `aarch64` equivalent for Apple Silicon M1/M2/M3/M4).
+3. Run the installer and follow the on-screen instructions.
 
-## Verify the Installation
+## Organize the Application
+For better organization, we recommend moving the downloaded `dfieldX.jar` and `pplaneX.jar` files to your **Applications** folder.
 
-Open Terminal and run:
+## First-Time Execution (Bypassing Gatekeeper)
+macOS includes a security feature that blocks applications from unidentified developers. If you simply double-click the `.jar` file for the first time, macOS will display a warning and prevent it from opening.
 
-    java -version
+1. **Do not double-click** the file the first time.
+2. Instead, **Right-click** (or Control-click) the `.jar` file and select **Open** from the context menu.
+3. A dialogue box will appear asking to confirm. Click **Open** again.
+4. **Normal Use:** You only need to do this once. For all subsequent uses, you can simply double-click the `.jar` file to launch the application normally.
 
-## Run the Application
-
+## Run via Terminal (Alternative)
+If you prefer the command line, open Terminal and run:
     java -jar dfieldX.jar
-
 or
-
     java -jar pplaneX.jar
-
-## If macOS Blocks the Application
-
-Open:
-
-System Settings → Privacy & Security → Open Anyway
 
 ---
 
@@ -173,26 +165,3 @@ Check:
     java -version
 
 and report any error messages to the developer.
-
----
-
-## 🍎 macOS Gatekeeper Warning
-
-If you see a prompt stating that the application **"cannot be opened because Apple cannot verify it is free of malware"**, this occurs because the open-source `.jar` file is not signed with an Apple Developer certificate.
-
-### Method 1: System Settings (GUI)
-1. Click **Done** on the alert prompt.
-2. Open **System Settings** → **Privacy & Security**.
-3. Scroll down to the **Security** section.
-4. Locate the message indicating the `.jar` was blocked and click **Open Anyway**.
-5. Confirm with your password/Touch ID and click **Open**.
-
-### Method 2: Terminal
-Remove the quarantine flag manually:
-```bash
-xattr -d com.apple.quarantine *.jar
-```
-Or run directly from the command line:
-```bash
-java -jar *.jar
-```
