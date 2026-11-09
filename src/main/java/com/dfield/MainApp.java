@@ -13,7 +13,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         MainWindow mainWindow = new MainWindow();
-        Scene scene = new Scene(mainWindow, 1100, 750);
+        Scene scene = new Scene(mainWindow, 1100, 810);
 
         if (getClass().getResource("/css/style.css") != null) {
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -22,7 +22,7 @@ public class MainApp extends Application {
         primaryStage.setTitle(I18n.get("app.title"));
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinHeight(660);
 
         var iconStream = getClass().getResourceAsStream("/icons/dfieldX_icon.png");
         if (iconStream != null) {

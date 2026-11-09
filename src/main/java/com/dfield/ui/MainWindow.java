@@ -206,9 +206,9 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         btnIsoclines.setMaxWidth(Double.MAX_VALUE);
         btnCriticalPoints.setMaxWidth(Double.MAX_VALUE);
         btnPhasePlot.setMaxWidth(Double.MAX_VALUE);
-        btnIsoclines.getStyleClass().addAll("btn", "btn-secondary");
-        btnCriticalPoints.getStyleClass().addAll("btn", "btn-secondary");
-        btnPhasePlot.getStyleClass().addAll("btn", "btn-secondary");
+        btnIsoclines.getStyleClass().addAll("btn", "btn-blue");
+        btnCriticalPoints.getStyleClass().addAll("btn", "btn-blue");
+        btnPhasePlot.getStyleClass().addAll("btn", "btn-blue");
 
         HBox.setHgrow(btnIsoclines, Priority.ALWAYS);
         HBox.setHgrow(btnCriticalPoints, Priority.ALWAYS);
@@ -225,32 +225,38 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
         btnUpdate.setMaxWidth(Double.MAX_VALUE);
         btnUpdate.getStyleClass().addAll("btn", "btn-green");
 
-        // 9. Condição Inicial (t0, x0)
+// 9. Condição Inicial (t0, x0)
         Label lblOrbitTitle = new Label(I18n.get("section.initial_condition"));
         lblOrbitTitle.getStyleClass().add("section-subtitle");
+
+        GridPane icGrid = new GridPane();
+        icGrid.setHgap(8);
+        icGrid.setVgap(8);
 
         Label lblT0 = new Label("t₀:");
         Label lblX0 = new Label("x₀:");
         lblT0.setMinWidth(20);
         lblX0.setMinWidth(20);
 
-        txtT0.setPrefWidth(75);
-        txtX0.setPrefWidth(75);
-        txtT0.setMinWidth(60);
-        txtX0.setMinWidth(60);
+        icGrid.addRow(0, lblT0, txtT0, lblX0, txtX0);
+        
+        // Ajusta as larguras para o GridPane
+        ColumnConstraints ccLabel = new ColumnConstraints();
+        ColumnConstraints ccField = new ColumnConstraints();
+        ccField.setHgrow(Priority.ALWAYS);
+        ccField.setFillWidth(true);
+        icGrid.getColumnConstraints().addAll(ccLabel, ccField, ccLabel, ccField);
 
+        // O botão Trace agora ocupa a largura total, abaixo dos campos
+        btnTrace.setMaxWidth(Double.MAX_VALUE);
         btnTrace.getStyleClass().addAll("btn", "btn-green");
-        btnTrace.setMinWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
-        btnTrace.setPrefWidth(javafx.scene.layout.Region.USE_PREF_SIZE);
-
-        HBox icBox = new HBox(6, lblT0, txtT0, lblX0, txtX0, btnTrace);
-        icBox.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(txtT0, Priority.ALWAYS);
-        HBox.setHgrow(txtX0, Priority.ALWAYS);
 
         // 10. Botão Limpar
         btnClear.setMaxWidth(Double.MAX_VALUE);
         btnClear.getStyleClass().addAll("btn", "btn-secondary");
+        
+        // Agrupando os controles de Condição Inicial
+        VBox initialConditionBox = new VBox(8, icGrid, btnTrace);
 
         // 11. Botões de Exportação lado a lado
         btnExport.setMaxWidth(Double.MAX_VALUE);
@@ -285,7 +291,7 @@ private final Button btnExport = new Button(I18n.get("btn.export_png"));
                 btnUpdate,
                 new Separator(),
                 lblOrbitTitle,
-                icBox,
+initialConditionBox,
                 btnClear,
                 exportBox,
                 btnAbout
